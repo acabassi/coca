@@ -37,3 +37,4 @@ rsconnect/
 
 # R project file
 .Rproj
+.Rproj.user
