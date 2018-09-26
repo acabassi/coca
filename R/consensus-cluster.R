@@ -29,7 +29,7 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km", dist
     else if(clMethod == "hc"){
       distances <- dist(data, method = distHC)
       hClustering <- hclust(distances, method = "average")
-      clusterLabels <- cutree(hClustering, K)
+      clLabels <- cutree(hClustering, K)
     }
 
     indicatorMatrix <- indicatorMatrix + crossprod(t(as.numeric(dataIndices%in%items)))
