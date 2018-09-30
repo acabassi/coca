@@ -4,9 +4,11 @@
 \alias{coca}
 \title{Cluster-Of-Clusters Analysis}
 \usage{
-coca(dataset, K, B = 1000, pItem = 0.8, hclustMethod = "average")
+coca(MOC, K, B = 1000, pItem = 0.8, hclustMethod = "average")
 }
 \arguments{
+\item{MOC}{N X C data matrix, where C is the total number of clusters considered.}
+
 \item{K}{number of clusters.}
 
 \item{B}{number of iterations of the Consensus Cluster step.}
@@ -14,8 +16,6 @@ coca(dataset, K, B = 1000, pItem = 0.8, hclustMethod = "average")
 \item{pItem}{proportion of items sampled at each iteration of the Consensus Cluster step.}
 
 \item{hclustMethod}{method to be used by the hclust function for the hierarchical clustering step.}
-
-\item{data}{N X C data matrix, where C is the total number of clusters considered.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to

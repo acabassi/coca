@@ -1,10 +1,11 @@
 Package: coca
-Title: This packages contains the R functions needed to perform Cluster-of-Clusters Analysis (COCA)
-Version: 0.0.0.9000
+Title: This package contains the R functions needed to perform Cluster-of-Clusters Analysis (COCA)
+Version: 0.0.1
 Authors@R: person("Alessandra", "Cabassi", email = "ac2051@cam.ac.uk", role = c("aut", "cre"))
 Description: This package contains the R functions needed to perform Cluster-Of-Clusers Analysis (COCA) and Consensus Clustering (CC).
 Depends: R (>= 3.4.3)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: stats, Matrix, cluster
 RoxygenNote: 6.0.1.9000
