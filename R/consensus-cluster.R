@@ -8,11 +8,18 @@
 #' @param B of iterations
 #' @param pItem proportion of items sampled at each iteration
 #' @param clMethod clustering method
+#' @param distHC distance used for hierarchical clustering
 #' @return The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to
 #' the proportion of times that items i and j have been clustered together.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering: a resampling-based method for
 #' class discovery and visualization of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
+#' @examples
+#' # Load one dataset with 300 observations, 2 variables, 6 clusters
+#' data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "coca"),
+#' row.names = 1))
+#' # Compute consensus clustering with K=6 clusters
+#' cm <- consensusCluster(data, 6)
 #' @export
 
 consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km", distHC = "euclidean"){
@@ -25,11 +32,11 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km", dist
     items <- sample(N, ceiling(N*0.8), replace = FALSE)
 
     if(clMethod == "km")
-      cl <- kmeans(data[items,], K, iter.max = 100)$cluster
+      cl <- stats::kmeans(data[items,], K, iter.max = 100)$cluster
     else if(clMethod == "hc"){
-      distances <- dist(data, method = distHC)
-      hClustering <- hclust(distances, method = "average")
-      clLabels <- cutree(hClustering, K)
+      distances <- stats::dist(data, method = distHC)
+      hClustering <- stats::hclust(distances, method = "average")
+      clLabels <- stats::cutree(hClustering, K)
     }
 
     indicatorMatrix <- indicatorMatrix + crossprod(t(as.numeric(dataIndices%in%items)))
