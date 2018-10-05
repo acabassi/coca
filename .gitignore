@@ -38,3 +38,6 @@ rsconnect/
 # R project file
 .Rproj
 .Rproj.user
+
+# Vignette cache
+vignettes/coca-vignette_cache/*
