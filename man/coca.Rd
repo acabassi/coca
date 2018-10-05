@@ -26,10 +26,35 @@ This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix where
 each row corresponds to a data point and the element in position (i,j) is equal to 1 if data point i belongs to cluster
 j, 0 otherwise.
 }
-\references{
-Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering: a resampling-based method for
-class discovery and visualization of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
+\examples{
+## Load data
+data <- list()
+data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+package = "coca"), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+package = "coca"), row.names = 1))
 
+## Set constants
+n_datasets <- 3
+n_clusters <- 6
+N <- 300
+true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
+package = "coca"), row.names = 1))
+
+## Fill label matrix with clusterings found with the k-means clustering algorithm
+labelMatrix <- array(NA, c(n_clusters, N, n_datasets))
+for(i in 1:n_datasets){
+  output <- kmeans(data[[i]], n_clusters)
+  for(k in 1:n_clusters){
+    labelMatrix[k,,i] <- (output$cluster==k)
+  }
+}
+# Convert label matrix from logic to numeric matrix
+labelMatrix <- labelMatrix*1
+}
+\references{
 The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours. Nature,
 487(7407), pp.61–70.
 }
