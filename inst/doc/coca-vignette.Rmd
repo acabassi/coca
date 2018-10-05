@@ -3,23 +3,26 @@ title: "R package coca"
 author: "Alessandra Cabassi"
 date: "`r Sys.Date()`"
 output: 
-  html_document:
-    toc: true
-    theme: united
+  knitr:::html_vignette
 vignette: >
   %\VignetteIndexEntry{R package klic}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-# Introduction
+The R package `coca` (**C**luster-**O**f-**C**lusters **A**nalysis) contains a collection of tools for integrative clustering of multiple data types. 
 
-The R package **coca** contains the functions needed to use COCA (**C**luster-**O**f-**C**lusters **A**nalysis), an integrative clustering method that was first introduced in a breast cancer study by The Cancer Genome Atlas in 2012 and quickly became a popular tool in cancer studies (see e.g. Hoadley et al. 2014 and Aure et al. 2017). It is based on \emph{Consensus Clustering} (Monti et al., 2013), an algorithm that was initially developed to assess the stability of the clusters obtained with any clustering algorithm. 
+The main functions are:
 
-# Building the matrix of clusters
+* `coca`.
+* `consensusCluster`.
+
+# COCA
+
+COCA is an integrative clustering method proposed by The Cancer Genome Atlas (TGCA) in 2012. Its functioning is explained in detail in Cabassi & Kirk (2018).
 
 ```{r preparation_coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
-### Load data
+### Load data ###
 data <- list()
 data[[1]] <- as.matrix(read.csv(system.file("extdata", 
                       "dataset1.csv", package = "coca"), row.names = 1))
@@ -28,14 +31,14 @@ data[[2]] <- as.matrix(read.csv(system.file("extdata",
 data[[3]] <- as.matrix(read.csv(system.file("extdata", 
                       "dataset3.csv", package = "coca"), row.names = 1))
 
-### Set constants
+### Set constants ###
 n_datasets <- 3
 n_clusters <- 6
 N <- 300
 true_labels <- as.matrix(read.csv(system.file("extdata",
                          "cluster_labels.csv", package = "coca"), row.names = 1))
 
-### Fill label matrix with clusterings found with the k-means clustering algorithm
+### Fill label matrix with clusterings found with the k-means clustering algorithm ###
 labelMatrix <- array(NA, c(n_clusters, N, n_datasets))
 for(i in 1:n_datasets){
   output <- kmeans(data[[i]], n_clusters)
@@ -49,10 +52,8 @@ labelMatrix <- labelMatrix*1
 
 `labelMatrix` is now a matrix that contains the binary labels of the data given by the k-means clustering algorithm for each dataset separately.
 
-# Cluster-Of-Clusters Analysis
-
 ```{r coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
-### COCA
+### COCA ###
 # Build MOC matrix
 MOC <- rbind(labelMatrix[,,1],labelMatrix[,,2], labelMatrix[,,3])
 # Use COCA to find global clustering
@@ -64,11 +65,7 @@ ari
 
 # References 
 
-Aure, M.R., Vitelli, V., Jernström, S., Kumar, S., Krohn, M., Due, E.U., Haukaas, T.H., Leivonen, S.K., Vollan, H.K.M., Lüders, T. and Rødland, E. (2017). Integrative clustering reveals a novel split in the luminal A subtype of breast cancer with impact on outcome. Breast Cancer Research, 19(1), p.44.
-
 Cabassi, A. and Kirk, P. D. W. (2018). Multiple kernel learning for integrative consensus clustering. In preparation.
-
-Hoadley, K.A., Yau, C., Wolf, D.M., Cherniack, A.D., Tamborero, D., Ng, S., Leiserson, M.D., Niu, B., McLellan, M.D., Uzunangelov, V. and Zhang, J., 2014. Multiplatform analysis of 12 cancer types reveals molecular classification within and across tissues of origin. Cell, 158(4), pp.929-944.
 
 Monti, S. et al. (2003). Consensus Clustering: A Resampling-Based Method for Class Discovery and Visualization of Gene. Machine Learning, 52(i), 91–118.
 
