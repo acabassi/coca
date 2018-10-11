@@ -9,13 +9,13 @@ coca(MOC, K, B = 1000, pItem = 0.8, hclustMethod = "average")
 \arguments{
 \item{MOC}{N X C data matrix, where C is the total number of clusters considered.}
 
-\item{K}{number of clusters.}
+\item{K}{Number of clusters.}
 
-\item{B}{number of iterations of the Consensus Cluster step.}
+\item{B}{Number of iterations of the Consensus Clustering step.}
 
-\item{pItem}{proportion of items sampled at each iteration of the Consensus Cluster step.}
+\item{pItem}{Proportion of items sampled at each iteration of the Consensus Cluster step.}
 
-\item{hclustMethod}{method to be used by the hclust function for the hierarchical clustering step.}
+\item{hclustMethod}{Agglomeration method to be used by the hclust function for the hierarchical clustering step. Can be "single", "complete", "average", etc. For more details please see ?hclust.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to

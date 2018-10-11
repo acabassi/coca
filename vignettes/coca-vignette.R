@@ -23,15 +23,19 @@ for(i in 1:n_datasets){
     labelMatrix[k,,i] <- (output$cluster==k)
   }
 }
+
 # Convert label matrix from logic to numeric matrix
 labelMatrix <- labelMatrix*1
 
-## ----coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE-----
-### COCA
 # Build MOC matrix
 MOC <- rbind(labelMatrix[,,1],labelMatrix[,,2], labelMatrix[,,3])
+
+## ----coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE-----
+### COCA
+
 # Use COCA to find global clustering
 coca <- coca(t(MOC), K = 6, hclustMethod = "average")
+
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
 ari

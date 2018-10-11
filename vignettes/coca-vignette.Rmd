@@ -1,5 +1,5 @@
 ---
-title: "R package coca"
+title: "Introduction to coca"
 author: "Alessandra Cabassi"
 date: "`r Sys.Date()`"
 output: 
@@ -17,6 +17,13 @@ vignette: >
 The R package **coca** contains the functions needed to use COCA (**C**luster-**O**f-**C**lusters **A**nalysis), an integrative clustering method that was first introduced in a breast cancer study by The Cancer Genome Atlas in 2012 and quickly became a popular tool in cancer studies (see e.g. Hoadley et al. 2014 and Aure et al. 2017). It is based on \emph{Consensus Clustering} (Monti et al., 2013), an algorithm that was initially developed to assess the stability of the clusters obtained with any clustering algorithm. 
 
 # Building the matrix of clusters
+
+The main goal of COCA is to summarise the clusterings found in different ’omics datasets, by identifying a “global" clustering across the datasets that is intended to be in good agreement with the clustering structures
+identified in each of the individual datasets.
+
+The first step of COCA is the construction of the Matrix-Of-Clusters (MOC). This is a binary matrix of size _N x K_, where _K_ is the sum of the number of clusters _Km_ in every dataset _Xm_. Therefore, to each column _j_ of this matrix corresponds a cluster _mk_ in dataset _Xm_. The _(i,j)_-th entry of the matrix of clusters is equal to one if data point _i_ belongs to cluster _mk_ in dataset _Xm_, and is equal to zero otherwise.For more details about how the matrix of clusters is built, please see Cabassi and Kirk (2018).
+
+In the example below, we assume to have three datasets with the same number of clusters, six. The clustering structure in each of those dataasets is found via k-means clustering. The resulting clusters are stored in three matrices of cluster labels, that are then collated together to get a matrix of clusters.
 
 ```{r preparation_coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 ### Load data
@@ -43,20 +50,25 @@ for(i in 1:n_datasets){
     labelMatrix[k,,i] <- (output$cluster==k)
   }
 }
+
 # Convert label matrix from logic to numeric matrix
 labelMatrix <- labelMatrix*1
-```
 
-`labelMatrix` is now a matrix that contains the binary labels of the data given by the k-means clustering algorithm for each dataset separately.
+# Build MOC matrix
+MOC <- rbind(labelMatrix[,,1],labelMatrix[,,2], labelMatrix[,,3])
+```
 
 # Cluster-Of-Clusters Analysis
 
+The MOC matrix is then used as input to consensus clustering (CC), an algotithm that was developed by Monti et al. (2003) to assess cluster stability when analysing a single dataset. The resulting consensus matrix is then used as
+the similarity matrix for a hierarchical clustering method (or any other distance-based clustering algorithm). These last two steps of the COCA algorithm are contained in the `coca()` function. 
+
 ```{r coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 ### COCA
-# Build MOC matrix
-MOC <- rbind(labelMatrix[,,1],labelMatrix[,,2], labelMatrix[,,3])
+
 # Use COCA to find global clustering
 coca <- coca(t(MOC), K = 6, hclustMethod = "average")
+
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
 ari

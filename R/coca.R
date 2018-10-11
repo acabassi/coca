@@ -5,10 +5,10 @@
 #' j, 0 otherwise.
 #'
 #' @param MOC N X C data matrix, where C is the total number of clusters considered.
-#' @param K number of clusters.
-#' @param B number of iterations of the Consensus Cluster step.
-#' @param pItem proportion of items sampled at each iteration of the Consensus Cluster step.
-#' @param hclustMethod method to be used by the hclust function for the hierarchical clustering step.
+#' @param K Number of clusters.
+#' @param B Number of iterations of the Consensus Clustering step.
+#' @param pItem Proportion of items sampled at each iteration of the Consensus Cluster step.
+#' @param hclustMethod Agglomeration method to be used by the hclust function for the hierarchical clustering step. Can be "single", "complete", "average", etc. For more details please see ?hclust.
 #' @return The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to
 #' the proportion of times that items i and j have been clustered together and a vector of cluster labels.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
