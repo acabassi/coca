@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Consensus clustering with k-means — consensusCluster • coca</title>
+<title>Build Matrix-Of-Clusters — buildMOC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="Consensus clustering with k-means — consensusCluster" />
+<meta property="og:title" content="Build Matrix-Of-Clusters — buildMOC" />
 
-<meta property="og:description" content="This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-of clusters. Contrarily to what was suggested in the original paper by Monti et al. (2003), here we consider the number
-clusters K to be fixed, for simplicity." />
+<meta property="og:description" content="This function creates a matrix of clusters, starting from a list of heterogeneous datasets." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,68 +109,61 @@ clusters K to be fixed, for simplicity." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Consensus clustering with k-means</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/klic/blob/master/R/consensus-cluster.R'><code>R/consensus-cluster.R</code></a></small>
-    <div class="hidden name"><code>consensusCluster.Rd</code></div>
+    <h1>Build Matrix-Of-Clusters</h1>
+    <small class="dont-index">Source: <a href='http://github.com/acabassi/klic/blob/master/R/build-moc.R'><code>R/build-moc.R</code></a></small>
+    <div class="hidden name"><code>buildMOC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-of clusters. Contrarily to what was suggested in the original paper by Monti et al. (2003), here we consider the number
-clusters K to be fixed, for simplicity.</p>
+    <p>This function creates a matrix of clusters, starting from a list of heterogeneous datasets.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>consensusCluster</span>(<span class='no'>data</span>, <span class='no'>K</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>pItem</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>clMethod</span> <span class='kw'>=</span> <span class='st'>"km"</span>,
-  <span class='kw'>distHC</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>)</pre>
+    <pre class="usage"><span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='no'>M</span>, <span class='no'>K</span>, <span class='no'>methods</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>N X P data matrix</p></td>
+      <td><p>List of M datasets, each of size N X P_m, m = 1, ..., M.</p></td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td><p>number of datasets.</p></td>
     </tr>
     <tr>
       <th>K</th>
-      <td><p>number of clusters</p></td>
+      <td><p>Vector containing the number of clusters in each dataset. If given an integer
+instead of a vector it is assumed that each dataset has the same number of clusters</p></td>
     </tr>
     <tr>
-      <th>B</th>
-      <td><p>of iterations</p></td>
+      <th>methods</th>
+      <td><p>A vector of strings containing the names of the clustering methods to be
+used to cluster the observations in each dataset</p></td>
     </tr>
     <tr>
-      <th>pItem</th>
-      <td><p>proportion of items sampled at each iteration</p></td>
-    </tr>
-    <tr>
-      <th>clMethod</th>
-      <td><p>clustering method</p></td>
-    </tr>
-    <tr>
-      <th>distHC</th>
-      <td><p>distance used for hierarchical clustering</p></td>
+      <th>full</th>
+      <td><p>Boolean. If TRUE, if there are any missing observations in one or more datasets,
+the corresponding cluster labels will be estimated through generalised linear models on the
+basis of the available labels.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to
-the proportion of times that items i and j have been clustered together.</p>
+    <p>The output is the Matrix-Of-Clusters (MOC). It is a binary matrix of size N x sum(K)
+where element (n,k) contains a 1 if observation n belongs to the corresponding cluster,
+0 otherwise. It also returns a vector called datasetIndicator of length sum(K) in which
+each element is the number of the dataset to which the cluster belongs.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering: a resampling-based method for
-class discovery and visualization of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
+breast tumours. Nature, 487(7407), pp.61–70.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load one dataset with 300 observations, 2 variables, 6 clusters</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>),
-<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='co'># Compute consensus clustering with K=6 clusters</span>
-<span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>consensusCluster</span>(<span class='no'>data</span>, <span class='fl'>6</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -182,9 +173,7 @@ class discovery and visualization of gene expression microarray data. Machine le
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
     <h2>Author</h2>
     

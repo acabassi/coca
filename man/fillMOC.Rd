@@ -4,21 +4,30 @@
 \alias{fillMOC}
 \title{Fill Matrix-Of-Clusters}
 \usage{
-fillMOC(clLabels)
+fillMOC(clLabels, computeAccuracy = FALSE, verbose = FALSE)
 }
 \arguments{
-\item{clLabels}{N X M matrix containing cluster labels. Element (n,m) contains the cluster label for element}
+\item{clLabels}{N X M matrix containing cluster labels. Element (n,m) contains the cluster label
+for element data point n in cluster m.}
+
+\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the performance of the
+predictive model used to estimate the corresponding missing label is computer.}
+
+\item{verbose}{Boolean. If TRUE, for each NA, the size of the matrix used to estimate its values is printed
+to screen}
 }
 \value{
-The output is the same matrix of clusters, where NAs have been replaced by their estimates, where possible.
+The output is the same matrix of clusters, where NAs have been replaced by their estimates,
+where possible. If `computeAccuracy` is TRUE, then also an object called `accuracy` is returned,
+where each
 }
 \description{
 This function fills in a matrix of clusters that contains NAs, by estimating the missing cluster labels
 based on the available ones.
 }
 \references{
-The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours. Nature,
-487(7407), pp.61–70.
+The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours.
+Nature, 487(7407), pp.61–70.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

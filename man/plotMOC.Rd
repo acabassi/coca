@@ -4,8 +4,8 @@
 \alias{plotMOC}
 \title{Plot Matrix-Of-Clusters}
 \usage{
-plotMOC(moc, datasetIndicator, datasetNames, annotations = NA, clr = FALSE,
-  clc = FALSE, fileName = "moc.pdf")
+plotMOC(moc, datasetIndicator, datasetNames, annotations = NA,
+  clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf")
 }
 \arguments{
 \item{moc}{Matrix-Of-Clusters of size N x sumK.}
@@ -23,6 +23,8 @@ number of different annotations.}
 
 \item{clc}{Cluster columns. Default is FALSE.}
 
+\item{save}{Boolean. If TRUE, plot is saved as a pdf file.}
+
 \item{fileName}{File name. Default is "moc.pdf".}
 }
 \description{
@@ -30,8 +32,7 @@ This function creates a matrix of clusters, starting from a list of heterogeneou
 }
 \references{
 The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast
-tumours. Nature,
-487(7407), pp.61–70.
+tumours. Nature, 487(7407), pp.61–70.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}
