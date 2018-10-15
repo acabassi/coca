@@ -66,7 +66,6 @@ buildMOC = function(data, M, K, methods, full = FALSE){
       # Find cluster labels
       newClusterLabels <-  kmeans(data[[i]], K[i])$cluster
       clLabels[names(newClusterLabels),i] <- newClusterLabels
-      print(sum(is.na(clLabels[,i])))
 
       # Store them in moc matrix
       for(j in unique(newClusterLabels)){
@@ -79,26 +78,31 @@ buildMOC = function(data, M, K, methods, full = FALSE){
       }
 
      }
-    # else if(method_i == "hclust"){
-    #
-    #   # Compute distances between data points in dataset i
-    #   d <- stats::as.dist(1 - cor(data[[i]], method = "pearson"))
-    #
-    #   # Find clusters through hierarchical clustering
-    #   hCl <- stats::hclust(d, method = "average")
-    #
-    #   # Extract cluster labels
-    #   clLabels[,i] <-  stats::cutree(hCl, j)
-    #
-    #   # Store them in moc matrix
-    #   for(j in 1:K[i]){
-    #     count_k <- count_k + 1
-    #     moc[rownames(data[[i]]),count_k] = (clLabels == j)*1
-    #   }
-    #
-    # }else{
-    #   stop("Clustering method name not recognised.")
-    # }
+    else if(method_i == "hclust"){
+
+      # Compute distances between data points in dataset i
+      d <- stats::as.dist(1 - cor(t(data[[i]]), method = "pearson"))
+
+      # Find clusters through hierarchical clustering
+      hCl <- stats::hclust(d, method = "average")
+
+      # Extract cluster labels
+      newClusterLabels <-  stats::cutree(hCl, K[i])
+      clLabels[names(newClusterLabels),i] <- newClusterLabels
+
+      # Store them in moc matrix
+      for(j in unique(newClusterLabels)){
+        count_k <- count_k + 1
+        bin <- rep(NA, N)
+        names(bin) <- rownames(moc)
+        bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
+        moc[,count_k] = bin
+        datasetIndicator[count_k] <- i
+      }
+
+    }else{
+      stop("Clustering method name not recognised.")
+    }
   }
 
   if(count_k != Ktot){
