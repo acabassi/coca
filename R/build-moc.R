@@ -81,7 +81,7 @@ buildMOC = function(data, M, K, methods, full = FALSE){
     else if(method_i == "hclust"){
 
       # Compute distances between data points in dataset i
-      d <- stats::as.dist(1 - cor(t(data[[i]]), method = "pearson"))
+      d <- stats::as.dist(1 - stats::cor(t(data[[i]]), method = "pearson"))
 
       # Find clusters through hierarchical clustering
       hCl <- stats::hclust(d, method = "average")

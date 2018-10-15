@@ -32,7 +32,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
   # If dataset names are not provided
   if(is.null(datasetNames)){
     # Dataset names = dataset indicators
-    datasetNames = as.string(datasetIndicator)
+    datasetNames = as.character(datasetIndicator)
   }
 
   # Make dataset names unique by adding a different number at the end of
@@ -50,7 +50,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
 
   # Plot!
   rownames(moc) <- datasetNames
-  if(save) pdf(fileName, width = 10, height = 5)
+  if(save) grDevices::pdf(fileName, width = 10, height = 5)
   pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,
           # legend_labels = c("0", table(datasetNames)),
@@ -60,7 +60,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
            annotation_col = annotations)
 
   if(save){
-    dev.off()
+    grDevices::dev.off()
     warning('After saving a pheatmap plot to file, you sometimes have to repeat the `dev.off()` command
             in order to shut down the plotting device completely.')
   }
