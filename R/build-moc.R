@@ -64,7 +64,7 @@ buildMOC = function(data, M, K, methods, full = FALSE){
     if(method_i == "kmeans"){
 
       # Find cluster labels
-      newClusterLabels <-  kmeans(data[[i]], K[i])$cluster
+      newClusterLabels <-  stats::kmeans(data[[i]], K[i])$cluster
       clLabels[names(newClusterLabels),i] <- newClusterLabels
 
       # Store them in moc matrix
