@@ -7,8 +7,9 @@
 #' @param K Vector containing the number of clusters in each dataset. If given an integer
 #' instead of a vector it is assumed that each dataset has the same number of clusters
 #' @param methods A vector of strings containing the names of the clustering methods to be
-#' used to cluster the observations in each dataset
-#' @param full Boolean. If TRUE, if there are any missing observations in one or more datasets,
+#' used to cluster the observations in each dataset. Each can be either "kmeans" or "hclust".
+#' If the vector is of length one, the same clustering method is applied to all the datasets.
+#' @param fill Boolean. If TRUE, if there are any missing observations in one or more datasets,
 #' the corresponding cluster labels will be estimated through generalised linear models on the
 #' basis of the available labels.
 #' @return The output is the Matrix-Of-Clusters (MOC). It is a binary matrix of size N x sum(K)
@@ -20,99 +21,117 @@
 #' breast tumours. Nature, 487(7407), pp.61–70.
 #' @export
 
-buildMOC = function(data, M, K, methods, full = FALSE){
+buildMOC = function(data, M, K, methods, fill = FALSE){
 
-  ### Match data ###
-  obsNames <- rownames(data[[1]])
-  for(i in 2:M){
-      obsNames <- unique(c(obsNames, rownames(data[[i]])))
-  }
-  N <- length(obsNames)
-
-  ### Sum number of clusters for each dataset ###
-  if(length(K)==M){
-    Ktot = sum(K)
-  }else if(length(K)==1){
-    Ktot = K*M
-    K = rep(K, M)
-  }else{
-    stop("K must be either a vector of length M or a scalar.")
-  }
-
-  # Initalise empty matrices
-  moc = matrix(NA, N, Ktot) # Binary matrix
-  clLabels = matrix(NA, N, M) # Matrix containing cluster numbers
-  datasetIndicator <- rep(NA, Ktot)
-  # (it is equivalent to the matrix of clusters, but will be used to fill in NAs more quickly)
-
-  rownames(moc) <- obsNames
-  rownames(clLabels) <- obsNames
-
-  count_k <- 0
-
-  if(length(methods)==1)
-    methods = rep(methods, M)
-  # Should add another check here, on the length of vector methods
-
-  # For each dataset
-  for(i in 1:M){
-
-    # Choose clustering algorithm
-    method_i <- methods[i]
-
-    # If it is k-means
-    if(method_i == "kmeans"){
-
-      # Find cluster labels
-      newClusterLabels <-  stats::kmeans(data[[i]], K[i])$cluster
-      clLabels[names(newClusterLabels),i] <- newClusterLabels
-
-      # Store them in moc matrix
-      for(j in unique(newClusterLabels)){
-        count_k <- count_k + 1
-        bin <- rep(NA, N)
-        names(bin) <- rownames(moc)
-        bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
-        moc[,count_k] = bin
-        datasetIndicator[count_k] <- i
-      }
-
-     }
-    else if(method_i == "hclust"){
-
-      # Compute distances between data points in dataset i
-      d <- stats::as.dist(1 - stats::cor(t(data[[i]]), method = "pearson"))
-
-      # Find clusters through hierarchical clustering
-      hCl <- stats::hclust(d, method = "average")
-
-      # Extract cluster labels
-      newClusterLabels <-  stats::cutree(hCl, K[i])
-      clLabels[names(newClusterLabels),i] <- newClusterLabels
-
-      # Store them in moc matrix
-      for(j in unique(newClusterLabels)){
-        count_k <- count_k + 1
-        bin <- rep(NA, N)
-        names(bin) <- rownames(moc)
-        bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
-        moc[,count_k] = bin
-        datasetIndicator[count_k] <- i
-      }
-
+    ### Match data ###
+    obsNames <- rownames(data[[1]])
+    if(is.null(obsNames)){
+        N <- dim(data[[1]])[1]
+        for(i in 1:M){
+            if(is.null(dim(data[[i]])[1]) | !(dim(data[[i]])[1])== N)
+                stop("If datasets are not provided with rownames, then they need to
+  have all the same number of rows (and the elements must be in
+  the same order in each dataset), otherwise it is impossible
+  to match observations from different dataset into the same
+  matrix of clusters.")
+            obsNames <- paste("Obs.", 1:N, sep = " ")
+            rownames(data[[i]]) <- obsNames
+        }
     }else{
-      stop("Clustering method name not recognised.")
+        for(i in 2:M){
+            obsNames <- unique(c(obsNames, rownames(data[[i]])))
+        }
+        N <- length(obsNames)
     }
-  }
 
-  if(count_k != Ktot){
-    stop("Something went wrong: matrix of clusters has not been filled properly.")
-  }
+    ### Sum number of clusters for each dataset ###
+    if(length(K)==M){
+        Ktot = sum(K)
+    }else if(length(K)==1){
+        Ktot = K*M
+        K = rep(K, M)
+    }else{
+        stop("K must be either a vector of length M or a scalar.")
+    }
 
-  number_nas = sum(is.na(moc))
+    # Initalise empty matrices
+    moc = matrix(NA, N, Ktot) # Binary matrix
+    clLabels = matrix(NA, N, M) # Matrix containing cluster numbers
+    datasetIndicator <- rep(NA, Ktot)
+    # (it is equivalent to the matrix of clusters, but will be used to fill in NAs more quickly)
 
-  # Should return also dataset indicator
-  output <- list(moc = moc, datasetIndicator = datasetIndicator,
-                 number_nas = number_nas, clLabels = clLabels)
-  return(output)
+    rownames(moc) <- obsNames
+    rownames(clLabels) <- obsNames
+
+    count_k <- 0
+
+    if(length(methods)==1)
+    methods = rep(methods, M)
+    # Should add another check here, on the length of vector methods
+
+    # For each dataset
+    for(i in 1:M){
+
+        # Choose clustering algorithm
+        method_i <- methods[i]
+
+        # If it is k-means
+        if(method_i == "kmeans"){
+
+            # Find cluster labels
+            newClusterLabels <-  stats::kmeans(data[[i]], K[i])$cluster
+            clLabels[names(newClusterLabels),i] <- newClusterLabels
+
+            # Store them in moc matrix
+            for(j in unique(newClusterLabels)){
+                count_k <- count_k + 1
+                bin <- rep(NA, N)
+                names(bin) <- rownames(moc)
+                bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
+                moc[,count_k] = bin
+                datasetIndicator[count_k] <- i
+            }
+        }
+        else if(method_i == "hclust"){
+
+            # Compute distances between data points in dataset i
+            d <- stats::as.dist(1 - stats::cor(t(data[[i]]), method = "pearson"))
+
+            # Find clusters through hierarchical clustering
+            hCl <- stats::hclust(d, method = "average")
+
+            # Extract cluster labels
+            newClusterLabels <-  stats::cutree(hCl, K[i])
+            clLabels[names(newClusterLabels),i] <- newClusterLabels
+
+            # Store them in moc matrix
+            for(j in unique(newClusterLabels)){
+                count_k <- count_k + 1
+                bin <- rep(NA, N)
+                names(bin) <- rownames(moc)
+                bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
+                moc[,count_k] = bin
+                datasetIndicator[count_k] <- i
+            }
+
+        }else{
+            stop("Clustering method name not recognised.")
+        }
+    }
+
+    if(count_k != Ktot){
+        stop("Something went wrong: matrix of clusters has not been filled properly.")
+    }
+
+    number_nas = sum(is.na(moc))
+
+    if(fill){
+        clLabels <- fillMOC(clLabels)
+        moc <- expandMOC(clLabels)
+    }
+
+    # Should return also dataset indicator
+    output <- list(moc = moc, datasetIndicator = datasetIndicator,
+                   number_nas = number_nas, clLabels = clLabels)
+    return(output)
 }
