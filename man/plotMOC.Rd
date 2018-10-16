@@ -4,7 +4,7 @@
 \alias{plotMOC}
 \title{Plot Matrix-Of-Clusters}
 \usage{
-plotMOC(moc, datasetIndicator, datasetNames, annotations = NA,
+plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NA,
   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf")
 }
 \arguments{
@@ -16,8 +16,8 @@ plotMOC(moc, datasetIndicator, datasetNames, annotations = NA,
 labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
 Default is NULL.}
 
-\item{annotations}{Vector or matrix of annotations of size N x a where a is the
-number of different annotations.}
+\item{annotations}{Dataframe containing annotations. Number of rows must be N. If the annotations
+are integers, use `as.factor()` for a better visual result.}
 
 \item{clr}{Cluster rows. Default is FALSE.}
 

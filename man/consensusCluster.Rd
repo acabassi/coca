@@ -26,8 +26,7 @@ the proportion of times that items i and j have been clustered together.
 }
 \description{
 This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-of clusters. Contrarily to what was suggested in the original paper by Monti et al. (2003), here we consider the number
-clusters K to be fixed, for simplicity.
+of clusters. We consider the number clusters K to be fixed, for simplicity.
 }
 \examples{
 # Load one dataset with 300 observations, 2 variables, 6 clusters

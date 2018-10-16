@@ -4,7 +4,7 @@
 \alias{buildMOC}
 \title{Build Matrix-Of-Clusters}
 \usage{
-buildMOC(data, M, K, methods, full = FALSE)
+buildMOC(data, M, K, methods, fill = FALSE)
 }
 \arguments{
 \item{data}{List of M datasets, each of size N X P_m, m = 1, ..., M.}
@@ -15,9 +15,10 @@ buildMOC(data, M, K, methods, full = FALSE)
 instead of a vector it is assumed that each dataset has the same number of clusters}
 
 \item{methods}{A vector of strings containing the names of the clustering methods to be
-used to cluster the observations in each dataset}
+used to cluster the observations in each dataset. Each can be either "kmeans" or "hclust".
+If the vector is of length one, the same clustering method is applied to all the datasets.}
 
-\item{full}{Boolean. If TRUE, if there are any missing observations in one or more datasets,
+\item{fill}{Boolean. If TRUE, if there are any missing observations in one or more datasets,
 the corresponding cluster labels will be estimated through generalised linear models on the
 basis of the available labels.}
 }
