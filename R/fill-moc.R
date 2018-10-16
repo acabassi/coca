@@ -82,7 +82,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
             ### Assess predictive performance through 5-fold CV
             # Divide observations into 5 groups
             if(computeAccuracy & length(table(X$response))>1){
-              folds <- make5folds(Xfit$response)
+              folds <- stratifiedSamplingForCV(Xfit$response)
               accuracy_l <- rep(NA, 5)
               for(l in 1:5){
                 XfitCV <- Xfit[-which(folds==l),]
@@ -114,7 +114,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
   return(output)
 }
 
-#' Make five folds
+#' Divide data into 5 subsets using stratified sampling
 #'
 #' This function is used to do stratified subsampling based on the
 #' number of observations in each group in the response
@@ -123,7 +123,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
 #' @return The function returns a vector of labels to assign each observation to a different fold
 #' @author Alessandra Cabassi  \email{ac2051@cam.ac.uk}
 #'
-make5folds <- function(response){
+stratifiedSamplingForCV <- function(response){
   fold_labels <- rep(NA, length(response))
   for(g in unique(response)){
     indices_g <- which(response==g)
