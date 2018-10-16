@@ -1,8 +1,7 @@
 #' Consensus clustering with k-means
 #'
 #' This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-#' of clusters. Contrarily to what was suggested in the original paper by Monti et al. (2003), here we consider the number
-#' clusters K to be fixed, for simplicity.
+#' of clusters. We consider the number clusters K to be fixed, for simplicity.
 #' @param data N X P data matrix
 #' @param K number of clusters
 #' @param B of iterations
