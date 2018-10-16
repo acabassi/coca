@@ -7,8 +7,8 @@
 #' @param datasetNames Vector containing the names of the datasets to which each column of
 #' labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
 #' Default is NULL.
-#' @param annotations Vector or matrix of annotations of size N x a where a is the
-#' number of different annotations.
+#' @param annotations Dataframe containing annotations. Number of rows must be N. If the annotations
+#' are integers, use `as.factor()` for a better visual result.
 #' @param clr Cluster rows. Default is FALSE.
 #' @param clc Cluster columns. Default is FALSE.
 #' @param save Boolean. If TRUE, plot is saved as a pdf file.
@@ -18,7 +18,7 @@
 #' tumours. Nature, 487(7407), pp.61–70.
 #' @export
 #'
-plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
+plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NA,
                    clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf"){
 
   moc = t(moc)
@@ -34,6 +34,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
     # Dataset names = dataset indicators
     datasetNames = as.character(datasetIndicator)
   }
+  M = length(table(datasetNames))
 
   # Make dataset names unique by adding a different number at the end of
   # the dataset name for each cluster
@@ -50,10 +51,17 @@ plotMOC = function(moc, datasetIndicator, datasetNames, annotations = NA,
 
   # Plot!
   rownames(moc) <- datasetNames
+  if(!is.na(annotations)){
+      rownames(annotations) <- colnames(moc)
+  }
+
   if(save) grDevices::pdf(fileName, width = 10, height = 5)
+
   pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,
-          # legend_labels = c("0", table(datasetNames)),
+           # legend_labels = c("0", table(datasetNames)),
+           ## TO DO: cambiare nome a datasetNames e mettere qui datasetNames come ricevuti
+           # in input
            color =  c("white", (RColorBrewer::brewer.pal(n = max(3,M), name = "Set3"))),
            cluster_rows = clr, clustering_distance_rows = "binary",
            cluster_cols = clc, clustering_distance_cols = "binary",
