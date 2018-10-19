@@ -4,7 +4,7 @@
 \alias{plotMOC}
 \title{Plot Matrix-Of-Clusters}
 \usage{
-plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NA,
+plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf")
 }
 \arguments{

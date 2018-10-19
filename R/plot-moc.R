@@ -18,59 +18,59 @@
 #' tumours. Nature, 487(7407), pp.61–70.
 #' @export
 #'
-plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NA,
+plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
                    clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf"){
 
-  moc = t(moc)
+    moc = t(moc)
 
-  # Get number of datasets
-  M = length(table(datasetNames))
+    # Get number of datasets
+    M = length(table(datasetNames))
 
-  # Get sum of the number of clusters in each dataset
-  sumK = dim(moc)[1]
+    # Get sum of the number of clusters in each dataset
+    sumK = dim(moc)[1]
 
-  # If dataset names are not provided
-  if(is.null(datasetNames)){
-    # Dataset names = dataset indicators
-    datasetNames = as.character(datasetIndicator)
-  }
-  M = length(table(datasetNames))
+    # If dataset names are not provided
+    if(is.null(datasetNames)){
 
-  # Make dataset names unique by adding a different number at the end of
-  # the dataset name for each cluster
-  for(i in 1:sumK){
-    nClustersLeft <- sum(datasetNames == datasetNames[i])
-      datasetNames[i] = paste(datasetNames[i], nClustersLeft, sep = " ")
-  }
+        # Dataset names = dataset indicators
+        datasetNames = as.character(datasetIndicator)
+    }
 
-  # We want every dataset to have a different colour :)
-  for(i in 1:sumK){
-    moc[i,] <- moc[i,]*datasetIndicator[i]
-  }
+    M = length(table(datasetNames))
 
+    # Make dataset names unique by adding a different number at the end of
+    # the dataset name for each cluster
+    datasetNamesLong <- c()
+    for(i in 1:sumK){
 
-  # Plot!
-  rownames(moc) <- datasetNames
-  if(!is.na(annotations)){
-      rownames(annotations) <- colnames(moc)
-  }
+        nClustersLeft <- sum(datasetNames == datasetNames[i])
+        datasetNamesLong <- c(datasetNamesLong, paste(datasetNames[i], nClustersLeft, sep = " "))
+    }
 
-  if(save) grDevices::pdf(fileName, width = 10, height = 5)
+    # We want every dataset to have a different colour :)
+    for(i in 1:sumK){
+        moc[i,] <- moc[i,]*datasetIndicator[i]
+    }
 
-  pheatmap::pheatmap(moc,  legend = TRUE,
+    # Plot!
+    rownames(moc) <- datasetNamesLong
+    # if(!is.null(annotations) && is.null(rownames(annotations))){
+    #     rownames(annotations) <- colnames(moc)
+    # }
+
+    if(save) grDevices::pdf(fileName, width = 10, height = 5)
+
+    pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,
-           # legend_labels = c("0", table(datasetNames)),
-           ## TO DO: cambiare nome a datasetNames e mettere qui datasetNames come ricevuti
-           # in input
+           legend_labels = c("", unique(datasetNames)),
            color =  c("white", (RColorBrewer::brewer.pal(n = max(3,M), name = "Set3"))),
            cluster_rows = clr, clustering_distance_rows = "binary",
            cluster_cols = clc, clustering_distance_cols = "binary",
            annotation_col = annotations)
 
-  if(save){
-    grDevices::dev.off()
-    warning('After saving a pheatmap plot to file, you sometimes have to repeat the `dev.off()` command
-            in order to shut down the plotting device completely.')
-  }
-
+    if(save){
+        grDevices::dev.off()
+        warning('After saving a pheatmap plot to file, you sometimes have to repeat the
+                `dev.off()` command in order to shut down the plotting device completely.')
+    }
 }
