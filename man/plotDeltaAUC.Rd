@@ -7,12 +7,14 @@
 plotDeltaAUC(deltaAUC, chosenK = NULL, fileName)
 }
 \arguments{
+\item{deltaAUC}{Vector of the difference between the area under the curve between
+each value K of the number of clusters and K-1. For the smallest value considered (usually
+two) this is simply the area under the curve for that value of cluster number.}
+
 \item{chosenK}{Chosen number of clusters. If specified, a vertical line is plotted in
 correspondance of the indicated value. Default is NULL.}
 
 \item{fileName}{name of the png file}
-
-\item{areaUnderTheCurve}{vector of the average silhouette for K from 2 to some value maxK}
 }
 \description{
 Plot area under the curve for different values of K

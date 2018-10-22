@@ -5,7 +5,7 @@
 \title{Choose K that maximises the silhouette from a set of kernel matrices and clusterings}
 \usage{
 maximiseSilhouette(kernelMatrix, clLabels, maxK, savePNG = FALSE,
-  fileName = "silhouette")
+  fileName = "silhouette", isDistance = FALSE)
 }
 \arguments{
 \item{kernelMatrix}{N X N X (maxK-1) array of kernel matrices.}
@@ -17,6 +17,9 @@ maximiseSilhouette(kernelMatrix, clLabels, maxK, savePNG = FALSE,
 \item{savePNG}{If TRUE, a plot of the silhouette is saved in the working folder. Defaults to FALSE.}
 
 \item{fileName}{If savePNG is TRUE, this is the name of the png file.}
+
+\item{isDistance}{Boolean. If TRUE, the kernel matrices are interpreted as matrices of distances, otherwise as
+matrices of similarities.}
 }
 \value{
 The function returns a list containing `silh`, a vector of length maxK-1 such that
@@ -27,7 +30,8 @@ silhouette is maximised.
 Choose K that maximises the silhouette from a set of kernel matrices and clusterings
 }
 \examples{
-data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "klic"), row.names = 1))
+data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
 
 cm_2cl <- consensusCluster(data, 2)
 cm_3cl <- consensusCluster(data, 3)

@@ -4,19 +4,27 @@
 \alias{chooseKusingAUC}
 \title{Choose number of clusters based on AUC}
 \usage{
-chooseKusingAUC(areaUnderTheCurve, savePNG, fileName)
+chooseKusingAUC(areaUnderTheCurve, savePNG = FALSE,
+  fileName = "deltaAUC.png")
 }
 \arguments{
 \item{areaUnderTheCurve}{Vector of length maxK-1 containing the area
 under the curve of the empirical distribution function of the
 consensus matrices obtained with K varying from 2 to maxK.}
+
+\item{savePNG}{Boolean. If TRUE, a plot of the area under the curve
+for each value of K is saved as a png file. The file is saved in a
+subdirectory of the working directory, called `delta-auc`. Default is FALSE.}
+
+\item{fileName}{If `savePNG` is TRUE, this is the name of the png file.
+Default is "deltaAUC.png".}
 }
 \value{
 This function returns a list containing `deltaAUC`, a vector of
-        length maxK-1 where element i is  the area under the curve for
-        K = i+1 minus the area under the curve for K = i (for i = 2 this
-        is simply the area under the curve for K = i), and `K` the lowest
-        among the values of K that are chosen by the algorithm.
+length maxK-1 where element i is  the area under the curve for
+K = i+1 minus the area under the curve for K = i (for i = 2 this
+is simply the area under the curve for K = i), and `K` the lowest
+among the values of K that are chosen by the algorithm.
 }
 \description{
 This function allows to choose the number of clusters in a dataset
@@ -24,4 +32,11 @@ based on the area under the curve of the empirical distribution
 function of a consensus matrix, calculated for different (consecutive)
 cluster numbers, as explained in the article by Monti et al. (2003),
 Section 3.3.1.
+}
+\examples{
+## Assuming that we want to choose among any value of K (number of clusters)
+## between 2 and 10 and that the area under the curve is as follows:
+areaUnderTheCurve <- c(0.05, 0.15, 0.4, 0.5, 0.55, 0.56, 0.57, 0.58, 0.59)
+
+K <- chooseKusingAUC(areaUnderTheCurve)$K
 }
