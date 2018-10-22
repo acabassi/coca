@@ -15,6 +15,27 @@
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours.
 #' Nature, 487(7407), pp.61–70.
+#' @examples
+#' ## Load data
+#' data <- list()
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#' package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#' package = "coca"), row.names = 1))
+#'
+#' ## Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#'
+#' ## Extract matrix of clusters
+#' clLabels <- outputBuildMOC$clLabels
+#'
+#' ## Impute missing values
+#' outputFillMOC <- fillMOC(clLabels)
+#'
+#' ## Replace matrix of cluster labels with new (full) one
+#' clLabels <- outputFillMOC$fullClLabels
 #' @export
 
 fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){

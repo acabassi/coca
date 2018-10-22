@@ -41,24 +41,18 @@
 #' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
 #' package = "coca"), row.names = 1))
 #'
-#' ## Set constants
-#' n_datasets <- 3
-#' n_clusters <- 6
-#' N <- 300
-#' true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
-#' package = "coca"), row.names = 1))
+#' ## Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
 #'
-#' ## Fill label matrix with clusterings found with the k-means clustering
-#' ## algorithm
-#' labelMatrix <- array(NA, c(n_clusters, N, n_datasets))
-#' for(i in 1:n_datasets){
-#'   output <- kmeans(data[[i]], n_clusters)
-#'   for(k in 1:n_clusters){
-#'     labelMatrix[k,,i] <- (output$cluster==k)
-#'   }
-#' }
-#' # Convert label matrix from logic to numeric matrix
-#' labelMatrix <- labelMatrix*1
+#' ## Extract matrix of clusters
+#' moc <- outputBuildMOC$moc
+#'
+#' ## Do Cluster-Of-Clusters Analysis
+#' outputCOCA <- coca(moc, K = 6)
+#'
+#' ## Extract cluster labels
+#' clusterLabels <- outputCOCA$clusterLabels
+#'
 #' @export
 
 coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
