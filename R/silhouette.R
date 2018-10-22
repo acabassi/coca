@@ -27,12 +27,15 @@ plotSilhouette = function(sil, chosenK = NULL, fileName){
 #' @param maxK Maximum number of clusters considered.
 #' @param savePNG If TRUE, a plot of the silhouette is saved in the working folder. Defaults to FALSE.
 #' @param fileName If savePNG is TRUE, this is the name of the png file.
+#' @param isDistance Boolean. If TRUE, the kernel matrices are interpreted as matrices of distances, otherwise as
+#' matrices of similarities.
 #' @return The function returns a list containing `silh`, a vector of length maxK-1 such that
 #' silh[i] is the silhouette for K = i+1, and `K`, the lowest number of clusters for which the
 #' silhouette is maximised.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @examples
-#' data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "klic"), row.names = 1))
+#' data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
 #'
 #' cm_2cl <- consensusCluster(data, 2)
 #' cm_3cl <- consensusCluster(data, 3)
@@ -65,15 +68,23 @@ plotSilhouette = function(sil, chosenK = NULL, fileName){
 #' print(maxSil$k)
 #' @export
 maximiseSilhouette = function(kernelMatrix, clLabels, maxK,
-                              savePNG = FALSE, fileName = "silhouette"){
+                              savePNG = FALSE, fileName = "silhouette", isDistance = FALSE){
 
   # Initialise vector of average silhouette
   sil <- rep(5, maxK-1)
 
   for(i in 2:maxK){
 
-    # Use the kernel matrix as distance matrix
-    DM <- stats::as.dist(1 - kernelMatrix[,,i-1], diag = FALSE, upper = FALSE)
+
+    if(isDistance){
+        DM <- stats::as.dist(kernelMatrix[,,i-1], diag = FALSE, upper = FALSE)
+    }else{
+        # Use the kernel matrix as distance matrix
+        DM <- stats::as.dist(1 - kernelMatrix[,,i-1], diag = FALSE, upper = FALSE)
+    }
+
+      # print(DM[1:5,1:5])
+      # print(clLabels[i-1,1:5])
 
     # Calculate the average silhouette over all the points
     sil[i-1]<- mean(cluster::silhouette(clLabels[i-1,], DM)[,'sil_width'])
