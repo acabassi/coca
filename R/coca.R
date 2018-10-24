@@ -7,30 +7,30 @@
 #' j, 0 otherwise.
 #'
 #' @param moc N X C data matrix, where C is the total number of clusters
-#'        considered.
+#' considered.
 #' @param K Number of clusters.
 #' @param maxK Maximum number of clusters considered for the final
-#'        clustering if K is not known. Default is 6.
+#' clustering if K is not known. Default is 6.
 #' @param B Number of iterations of the Consensus Clustering step.
 #' @param pItem Proportion of items sampled at each iteration of the
-#'        Consensus Cluster step.
+#' Consensus Cluster step.
 #' @param hclustMethod Agglomeration method to be used by the hclust
-#'        function for the hierarchical clustering step. Can be "single",
-#'        "complete", "average", etc. For more details please see ?hclust.
+#' function for the hierarchical clustering step. Can be "single",
+#' "complete", "average", etc. For more details please see ?hclust.
 #' @param choiceKmethod Method used to choose the number of clusters if
-#'        K is NULL, can be either 'AUC' (area under the curve, work in
-#'        progress) or 'silhouette'. Default is 'silhouette'.
+#' K is NULL, can be either 'AUC' (area under the curve, work in
+#' progress) or 'silhouette'. Default is 'silhouette'.
 #' @param verbose Boolean.
 #' @param savePNG = FALSE
 #' @param fileName = 'silhouette'
 #' @return The output is a consensus matrix, that is a symmetric matrix
-#'         where the element in position (i,j) corresponds to
-#'         the proportion of times that items i and j have been clustered
-#'         together and a vector of cluster labels.
+#' where the element in position (i,j) corresponds to
+#' the proportion of times that items i and j have been clustered
+#' together and a vector of cluster labels.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular
-#'             portraits of human breast tumours. Nature,
-#'             487(7407), pp.61–70.
+#' portraits of human breast tumours. Nature,
+#' 487(7407), pp.61–70.
 #' @examples
 #' ## Load data
 #' data <- list()
