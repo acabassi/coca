@@ -20,6 +20,12 @@
 #' @param choiceKmethod Method used to choose the number of clusters if
 #' K is NULL, can be either 'AUC' (area under the curve, work in
 #' progress) or 'silhouette'. Default is 'silhouette'.
+#' @param ccClMethod Clustering method to be used by the Consensus Clustering algorithm (CC).
+#' Can be either 'km' or 'hc'. Default is 'km'.
+#' @param ccDistHC Distance to be used by the hiearchical clustering algorithm inside CC.
+#'  Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation),
+#'  or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
+#'  "canberra", "binary" or "minkowski"). Default is "euclidean".
 #' @param verbose Boolean.
 #' @param savePNG = FALSE
 #' @param fileName = 'silhouette'
@@ -57,6 +63,7 @@
 
 coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
                 hclustMethod = 'average', choiceKmethod = 'silhouette',
+                ccClMethod = 'km', ccDistHC = 'euclidean',
                 savePNG = FALSE, fileName = 'silhouette', verbose = FALSE){
 
     # Intialise output list
@@ -72,7 +79,8 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
         for(i in 2:maxK){
 
             ### Step 1. Compute the consensus matrix ###
-            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem)
+            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem,
+                                                       clMethod = ccClMethod, distHC = ccDistHC)
             ### Step 2. Use hierarchical clustering on the consensus matrix ###
             distances <- stats::as.dist(1 - consensusMatrix[,,i-1])
             hClustering <- stats::hclust(distances, method = hclustMethod)
