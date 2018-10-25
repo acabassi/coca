@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cluster-Of-Clusters Analysis — coca • coca</title>
+<title>Build Matrix-Of-Clusters — buildMOC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -29,17 +29,19 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
-<meta property="og:title" content="Cluster-Of-Clusters Analysis — coca" />
 
-<meta property="og:description" content="This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
-where each column is a clustering of the data,
-each row corresponds to a data point and the element in position (i,j)
-is equal to 1 if data point i belongs to cluster
-j, 0 otherwise." />
+<meta property="og:title" content="Build Matrix-Of-Clusters — buildMOC" />
+
+<meta property="og:description" content="This function creates a matrix of clusters starting from a list of heterogeneous datasets." />
 <meta name="twitter:card" content="summary" />
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -65,7 +67,7 @@ j, 0 otherwise." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9004</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9004</span>
       </span>
     </div>
 
@@ -96,12 +98,18 @@ j, 0 otherwise." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/acabassi/klic">
+  <a href="http://github.com/acabassi/coca">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -113,102 +121,86 @@ j, 0 otherwise." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cluster-Of-Clusters Analysis</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/klic/blob/master/R/coca.R'><code>R/coca.R</code></a></small>
-    <div class="hidden name"><code>coca.Rd</code></div>
+    <h1>Build Matrix-Of-Clusters</h1>
+    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/build-moc.R'><code>R/build-moc.R</code></a></small>
+    <div class="hidden name"><code>buildMOC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
-where each column is a clustering of the data,
-each row corresponds to a data point and the element in position (i,j)
-is equal to 1 if data point i belongs to cluster
-j, 0 otherwise.</p>
+    <p>This function creates a matrix of clusters starting from a list of heterogeneous datasets.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>coca</span>(<span class='no'>moc</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxK</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>pItem</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>hclustMethod</span> <span class='kw'>=</span> <span class='st'>"average"</span>, <span class='kw'>choiceKmethod</span> <span class='kw'>=</span> <span class='st'>"silhouette"</span>,
-  <span class='kw'>ccClMethod</span> <span class='kw'>=</span> <span class='st'>"km"</span>, <span class='kw'>ccDistHC</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>, <span class='kw'>savePNG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fileName</span> <span class='kw'>=</span> <span class='st'>"silhouette"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='no'>M</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxK</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>methods</span> <span class='kw'>=</span> <span class='st'>"hclust"</span>,
+  <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>savePNG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>moc</th>
-      <td><p>N X C data matrix, where C is the total number of clusters
-considered.</p></td>
+      <th>data</th>
+      <td><p>List of M datasets, each of size N X P_m, where m = 1, ..., M.</p></td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td><p>Number of datasets.</p></td>
     </tr>
     <tr>
       <th>K</th>
-      <td><p>Number of clusters.</p></td>
+      <td><p>Vector containing the number of clusters in each dataset. If given an integer
+instead of a vector it is assumed that each dataset has the same number of clusters.
+If NULL, it is assumed that the true cluster numbers are not known, therefore they will be
+estimated using the silhouette method.</p></td>
     </tr>
     <tr>
       <th>maxK</th>
-      <td><p>Maximum number of clusters considered for the final
-clustering if K is not known. Default is 6.</p></td>
+      <td><p>Vector of maximum cluster numbers to be considered for each dataset
+if K is NULL. If given an integer instead of a vector it is assumed that for each dataset
+the same maximum number of clusters must be considered. Default is 10.</p></td>
     </tr>
     <tr>
-      <th>B</th>
-      <td><p>Number of iterations of the Consensus Clustering step.</p></td>
+      <th>methods</th>
+      <td><p>Vector of strings containing the names of the clustering methods to be
+used to cluster the observations in each dataset. Each can be either "kmeans" or "hclust".
+If the vector is of length one, the same clustering method is applied to all the datasets.</p></td>
     </tr>
     <tr>
-      <th>pItem</th>
-      <td><p>Proportion of items sampled at each iteration of the
-Consensus Cluster step.</p></td>
-    </tr>
-    <tr>
-      <th>hclustMethod</th>
-      <td><p>Agglomeration method to be used by the hclust
-function for the hierarchical clustering step. Can be "single",
-"complete", "average", etc. For more details please see ?hclust.</p></td>
-    </tr>
-    <tr>
-      <th>choiceKmethod</th>
-      <td><p>Method used to choose the number of clusters if
-K is NULL, can be either 'AUC' (area under the curve, work in
-progress) or 'silhouette'. Default is 'silhouette'.</p></td>
-    </tr>
-    <tr>
-      <th>ccClMethod</th>
-      <td><p>Clustering method to be used by the Consensus Clustering algorithm (CC).
-Can be either 'km' or 'hc'. Default is 'km'.</p></td>
-    </tr>
-    <tr>
-      <th>ccDistHC</th>
-      <td><p>Distance to be used by the hiearchical clustering algorithm inside CC.
-Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation),
-or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
-"canberra", "binary" or "minkowski"). Default is "euclidean".</p></td>
+      <th>fill</th>
+      <td><p>Boolean. If TRUE, if there are any missing observations in one or more datasets,
+the corresponding cluster labels will be estimated through generalised linear models on the
+basis of the available labels.</p></td>
     </tr>
     <tr>
       <th>savePNG</th>
-      <td><p>= FALSE</p></td>
-    </tr>
-    <tr>
-      <th>fileName</th>
-      <td><p>= 'silhouette'</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Boolean.</p></td>
+      <td><p>Boolean. If TRUE, plots of the silhouette for each datasets are saved as
+png files.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a consensus matrix, that is a symmetric matrix
-where the element in position (i,j) corresponds to
-the proportion of times that items i and j have been clustered
-together and a vector of cluster labels.</p>
+    <p>The output is a list containing:
+* The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
+where element `(n,k)` contains a 1 if observation n belongs to the corresponding cluster,
+0 otherwise.
+* A vector called `datasetIndicator` of length `sum(K)` in which
+each element is the number of the dataset to which the cluster belongs.
+* `number_nas`, the total number of NAs in the matrix of clusters. (If the MOC has been
+filled with imputed values, `number_nas` indicated the number of NAs in the original MOC.)
+* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is in compact form,
+i.e. each column corresponds to a dataset, each row represents an observation,
+ and its values indicate the cluster labels.
+* `K`, vector of cluster numbers in each dataset. If these are provided as input,
+this is the same as the input (expanded to a vector if the input is an integer). If the
+cluster numbers are not provided as input, this vector contains the cluster numbers
+chosen via silhouette for each dataset.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular
-portraits of human breast tumours. Nature,
-487(7407), pp.61–70.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
+breast tumours. Nature, 487(7407), pp.61–70.</p>
+<p>Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -222,16 +214,10 @@ portraits of human breast tumours. Nature,
 <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
 
 <span class='co'>## Extract matrix of clusters</span>
-<span class='no'>moc</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span>
-
-<span class='co'>## Do Cluster-Of-Clusters Analysis</span>
-<span class='no'>outputCOCA</span> <span class='kw'>&lt;-</span> <span class='fu'>coca</span>(<span class='no'>moc</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
-
-<span class='co'>## Extract cluster labels</span>
-<span class='no'>clusterLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputCOCA</span>$<span class='no'>clusterLabels</span></div></pre>
+<span class='no'>matrixOfClusters</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -265,6 +251,23 @@ Alessandra Cabassi <a href='mailto:ac2051@cam.ac.uk'>ac2051@cam.ac.uk</a>
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'API_KEY',
+    indexName: 'INDEX_NAME',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

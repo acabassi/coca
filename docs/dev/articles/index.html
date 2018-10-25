@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • coca</title>
+<title>Articles • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -29,10 +29,16 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
-<meta property="og:title" content="Function reference" />
 
+<meta property="og:title" content="Articles" />
 
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,7 +52,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -58,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9004</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9004</span>
       </span>
     </div>
 
@@ -89,12 +95,18 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/acabassi/klic">
+  <a href="http://github.com/acabassi/coca">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -104,108 +116,19 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+      <h1>Articles</h1>
     </div>
 
-    <table class="ref-index">
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="buildMOC.html">buildMOC()</a></code> </p>
-        </td>
-        <td><p>Build Matrix-Of-Clusters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="chooseKusingAUC.html">chooseKusingAUC()</a></code> </p>
-        </td>
-        <td><p>Choose number of clusters based on AUC</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="coca.html">coca()</a></code> </p>
-        </td>
-        <td><p>Cluster-Of-Clusters Analysis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="computeAUC.html">computeAUC()</a></code> </p>
-        </td>
-        <td><p>Compute Area Under the Curve (AUC)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="consensusCluster.html">consensusCluster()</a></code> </p>
-        </td>
-        <td><p>Consensus clustering with k-means</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expandMOC.html">expandMOC()</a></code> </p>
-        </td>
-        <td><p>Expand matrix of clusters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fillMOC.html">fillMOC()</a></code> </p>
-        </td>
-        <td><p>Fill Matrix-Of-Clusters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="maximiseSilhouette.html">maximiseSilhouette()</a></code> </p>
-        </td>
-        <td><p>Choose K that maximises the silhouette from a set of kernel matrices and clusterings</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotDeltaAUC.html">plotDeltaAUC()</a></code> </p>
-        </td>
-        <td><p>Plot area under the curve</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotMOC.html">plotMOC()</a></code> </p>
-        </td>
-        <td><p>Plot Matrix-Of-Clusters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotSilhouette.html">plotSilhouette()</a></code> </p>
-        </td>
-        <td><p>Plot silhouette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stratifiedSamplingForCV.html">stratifiedSamplingForCV()</a></code> </p>
-        </td>
-        <td><p>Divide data into 5 subsets using stratified sampling</p></td>
-      </tr>
-    </tbody>
-    </table>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <ul>
+        <li><a href="coca-vignette.html">Introduction to coca</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -222,6 +145,23 @@
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'API_KEY',
+    indexName: 'INDEX_NAME',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

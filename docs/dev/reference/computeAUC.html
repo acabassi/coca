@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Consensus clustering with k-means — consensusCluster • coca</title>
+<title>Compute Area Under the Curve (AUC) — computeAUC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -29,14 +29,21 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
-<meta property="og:title" content="Consensus clustering with k-means — consensusCluster" />
 
-<meta property="og:description" content="This function allows to perform consensus clustering using the k-means clustering algorithm,
-for a fixed number of clusters. We consider the number of clusters K to be fixed." />
+<meta property="og:title" content="Compute Area Under the Curve (AUC) — computeAUC" />
+
+<meta property="og:description" content="This function allows to compute the area under the curve of the
+empirical distribution function of a consensus matrix
+as described in Monti et al. (2003), Section 3.3.1." />
 <meta name="twitter:card" content="summary" />
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -62,7 +69,7 @@ for a fixed number of clusters. We consider the number of clusters K to be fixed
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9004</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9004</span>
       </span>
     </div>
 
@@ -93,12 +100,18 @@ for a fixed number of clusters. We consider the number of clusters K to be fixed
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/acabassi/klic">
+  <a href="http://github.com/acabassi/coca">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -110,57 +123,34 @@ for a fixed number of clusters. We consider the number of clusters K to be fixed
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Consensus clustering with k-means</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/klic/blob/master/R/consensus-cluster.R'><code>R/consensus-cluster.R</code></a></small>
-    <div class="hidden name"><code>consensusCluster.Rd</code></div>
+    <h1>Compute Area Under the Curve (AUC)</h1>
+    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/auc.R'><code>R/auc.R</code></a></small>
+    <div class="hidden name"><code>computeAUC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to perform consensus clustering using the k-means clustering algorithm,
-for a fixed number of clusters. We consider the number of clusters K to be fixed.</p>
+    <p>This function allows to compute the area under the curve of the
+empirical distribution function of a consensus matrix
+as described in Monti et al. (2003), Section 3.3.1.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>consensusCluster</span>(<span class='no'>data</span>, <span class='no'>K</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>pItem</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>clMethod</span> <span class='kw'>=</span> <span class='st'>"km"</span>,
-  <span class='kw'>distHC</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>)</pre>
+    <pre class="usage"><span class='fu'>computeAUC</span>(<span class='no'>consensusMatrix</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>N X P data matrix</p></td>
-    </tr>
-    <tr>
-      <th>K</th>
-      <td><p>number of clusters</p></td>
-    </tr>
-    <tr>
-      <th>B</th>
-      <td><p>of iterations</p></td>
-    </tr>
-    <tr>
-      <th>pItem</th>
-      <td><p>proportion of items sampled at each iteration</p></td>
-    </tr>
-    <tr>
-      <th>clMethod</th>
-      <td><p>clustering method</p></td>
-    </tr>
-    <tr>
-      <th>distHC</th>
-      <td><p>Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
-correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
-stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski").</p></td>
+      <th>consensusMatrix</th>
+      <td><p>Consensus matrix, output of the `coca::consensusCluster`
+function</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a consensus matrix, that is a symmetric matrix where the element in
-position (i,j) corresponds to the proportion of times that items i and j have been clustered
-together.</p>
+    <p>This function returns the area under the curve.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -169,13 +159,6 @@ a resampling-based method for class discovery and visualization of gene expressi
 data. Machine learning, 52(1-2), pp.91-118.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Load one dataset with 300 observations, 2 variables, 6 clusters</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>),
-<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-
-<span class='co'>## Compute consensus clustering with K=6 clusters</span>
-<span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>consensusCluster</span>(<span class='no'>data</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -185,9 +168,7 @@ data. Machine learning, 52(1-2), pp.91-118.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
     <h2>Author</h2>
     
@@ -209,6 +190,23 @@ Alessandra Cabassi <a href='mailto:ac2051@cam.ac.uk'>ac2051@cam.ac.uk</a>
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'API_KEY',
+    indexName: 'INDEX_NAME',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>
