@@ -19,6 +19,32 @@ length sum(K)
 \description{
 Expand matrix of cluster labels into matrix of clusters
 }
+\examples{
+## Load data
+data <- list()
+data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+package = "coca"), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+package = "coca"), row.names = 1))
+
+## Build matrix of clusters
+outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+
+## Extract matrix of clusters
+clLabels <- outputBuildMOC$clLabels
+
+## Impute missing values
+outputFillMOC <- fillMOC(clLabels)
+
+## Replace matrix of cluster labels with new (full) one
+clLabels <- outputFillMOC$fullClLabels
+
+## Expand matrix of cluster labels into matrix of clusters
+outputExpandMOC <- expandMOC(clLabels)
+clLabels <- outputExpandMOC$clLabels
+}
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}
 }

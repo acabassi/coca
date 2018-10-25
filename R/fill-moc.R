@@ -15,106 +15,151 @@
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours.
 #' Nature, 487(7407), pp.61–70.
+#' @examples
+#' ## Load data
+#' data <- list()
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#' package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#' package = "coca"), row.names = 1))
+#'
+#' ## Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#'
+#' ## Extract matrix of clusters
+#' clLabels <- outputBuildMOC$clLabels
+#'
+#' ## Impute missing values
+#' outputFillMOC <- fillMOC(clLabels)
+#'
+#' ## Replace matrix of cluster labels with new (full) one
+#' clLabels <- outputFillMOC$fullClLabels
 #' @export
 
 fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
 
-  N <- dim(clLabels)[1] # Number of datapoints
-  M <- dim(clLabels)[2] # Number of datasets
+    N <- dim(clLabels)[1] # Number of datapoints
+    M <- dim(clLabels)[2] # Number of datasets
 
-  # clLabels <- matrix(as.character(clLabels), nrow = N, ncol = M, byrow = TRUE)
-  clLabels <- as.data.frame(clLabels)
+    # clLabels <- matrix(as.character(clLabels), nrow = N, ncol = M, byrow = TRUE)
+    clLabels <- as.data.frame(clLabels)
 
-  # Initialise matrix of cluster labels with imputed values
-  fullClLabels <- clLabels
+    # Initialise matrix of cluster labels with imputed values
+    fullClLabels <- clLabels
 
-  if(computeAccuracy){
-    # Initialise matrix containing accuracy for each element of the matrix clLabels
-    accuracy <- matrix(NA, N, M)
-  }
-  n_rows <- n_columns <- matrix(NA, N, M)
-
-  # For each data point
-  for(i in 1:N){
-
-    # For each dataset
-    for(j in 1:M){
-
-      # Check if label is missing
-      if(is.na(clLabels[[j]][i])){
-
-        if(verbose)
-          print(paste("Element", i, j, "is NA", sep =" "))
-
-          # Build design matrix
-          X <- data.frame(response = as.factor(clLabels[[j]]))
-          count <- 1
-            for(l in 1:M){
-              if(!is.na(clLabels[[l]][i])){
-                X <- cbind(X, clLabels[[l]])
-                count <- count + 1
-                names(X)[count] <- names(clLabels)[l]
-              }
-            }
-
-          if(!is.null(X)){
-
-            # Fit glm
-            remove_rows <- unique(c(which(rowSums(is.na(clLabels))>0),i))
-
-            Xfit <- X[-remove_rows,]
-            n_rows[i,j] <- dim(Xfit)[1]
-            n_columns[i,j] <- dim(Xfit)[2]-1
-
-            glm_i <- nnet::multinom(response ~ ., data=Xfit)
-
-            # Predict labels
-            Xpredict <- X[i,]
-            prediction <- stats::predict(glm_i, newdata = Xpredict, type = "class")
-
-
-            if(verbose) {
-              print(paste("Predicted value for element (", i, " , ", j, ") is: ", prediction, sep = ""))
-              print(paste("Matrix used to estimate element (", i, " , ", j, ") is of size ", dim(Xfit)[1],
-                          " x ", dim(Xfit)[2]-1, sep = ""))
-            }
-
-            ### Assess predictive performance through 5-fold CV
-            # Divide observations into 5 groups
-            if(computeAccuracy & length(table(X$response))>1){
-              folds <- make5folds(Xfit$response)
-              accuracy_l <- rep(NA, 5)
-              for(l in 1:5){
-                XfitCV <- Xfit[-which(folds==l),]
-                glm_l <- nnet::multinom(response ~ ., data = XfitCV)
-                XpredCV <- Xfit[which(folds==l),]
-                predictions_l <- stats::predict(glm_l, newdata = XpredCV, type ="class")
-                accuracy_l[l] <- caret::postResample(predictions_l, XpredCV$response)[[1]]
-              }
-              accuracy[i,j] <- mean(accuracy_l)
-            }
-            if(verbose)
-              print(paste("Prediction accuracy for element (", i, " , ", j, ") is", accuracy[i,j], sep = ""))
-
-            fullClLabels[i,j] <- prediction
-        }else{
-          warning(paste("It was not possible to estimate the cluster label for datapoint", i,"
-                        dataset ",j, sep = ""))
-        }
-      }
+    if(computeAccuracy){
+        # Initialise matrix containing accuracy for each element of the matrix clLabels
+        accuracy <- matrix(NA, N, M)
+        accuracy_random <- matrix(NA, N, M)
     }
-  }
+    n_rows <- n_columns <- matrix(NA, N, M)
 
-  if(computeAccuracy){
-    output <- list(fullClLabels = fullClLabels, nRows = n_rows, nColumns = n_columns, accuracy = accuracy)
-  }else{
-    output <- list(fullClLabels = fullClLabels, nRows = n_rows, nColumns = n_columns)
-  }
+    # For each data point
+    for(i in 1:N){
 
-  return(output)
+        # For each dataset
+        for(j in 1:M){
+
+            # Check if label is missing
+            if(is.na(clLabels[[j]][i])){
+
+                if(verbose)
+                    print(paste("Element", i, j, "is NA", sep =" "))
+
+                    # Build design matrix
+                    X <- data.frame(response = as.factor(clLabels[[j]]))
+                    count <- 1
+
+                    for(l in 1:M){
+
+                        if(!is.na(clLabels[[l]][i])){
+                            X <- cbind(X, clLabels[[l]])
+                            count <- count + 1
+                            names(X)[count] <- names(clLabels)[l]
+                        }
+                    }
+
+                if(!is.null(X)){
+
+                    # Fit glm
+                    remove_rows <- unique(c(which(rowSums(is.na(clLabels))>0),i))
+
+                    Xfit <- X[-remove_rows,]
+                    n_rows[i,j] <- dim(Xfit)[1]
+                    n_columns[i,j] <- dim(Xfit)[2]-1
+
+                    glm_i <- nnet::multinom(response ~ ., data=Xfit)
+
+                    # Predict labels
+                    Xpredict <- X[i,]
+                    prediction <- stats::predict(glm_i, newdata = Xpredict, type = "class")
+                    if(verbose) {
+                        print(paste("Predicted value for element (", i, " , ",
+                                    j, ") is: ", prediction, sep = ""))
+                        print(paste("Matrix used to estimate element (", i, " , ",
+                                    j, ") is of size ", dim(Xfit)[1], " x ", dim(Xfit)[2]-1,
+                                    sep = ""))
+                    }
+
+                    ### Assess predictive performance through 5-fold CV
+                    # Divide observations into 5 groups
+                    if(computeAccuracy & length(table(X$response))>1){
+
+                        folds <- stratifiedSamplingForCV(Xfit$response)
+                        accuracy_l <- rep(NA, 5)
+                        accuracy_random_l <- rep(NA, 5)
+                        misclassRate_l <- rep(NA, 5)
+
+                        for(l in 1:5){
+
+                            XfitCV <- Xfit[-which(folds==l),]
+                            glm_l <- nnet::multinom(response ~ ., data = XfitCV)
+                            XpredCV <- Xfit[which(folds==l),]
+                            predictions_l <- stats::predict(glm_l, newdata = XpredCV,
+                                                            type ="class")
+
+                            accuracy_l[l] <- caret::postResample(predictions_l,
+                                                                 XpredCV$response)[[1]]
+
+                            random_predictions_l <- sample(XfitCV$response, size = length(predictions_l),
+                                                           replace = FALSE)
+                            accuracy_random_l[l] <- caret::postResample(random_predictions_l,
+                                                                 XpredCV$response)[[1]]
+                        }
+
+                        accuracy[i,j] <- mean(accuracy_l)
+                        accuracy_random[i,j] <- mean(accuracy_random_l)
+                    }
+
+                    if(verbose)
+
+                        print(paste("Prediction accuracy for element (", i, " , ", j, ") is",
+                          accuracy[i,j], sep = ""))
+                        print(paste("Random accuracy for element (", i, " , ", j, ") is",
+                                accuracy_random[i,j], sep = ""))
+
+                    fullClLabels[i,j] <- prediction
+                }else{
+                    warning(paste("It was not possible to estimate the cluster label for
+                                datapoint ", i," dataset ",j, sep = ""))
+                }
+            }
+        }
+    }
+
+    if(computeAccuracy){
+        output <- list(fullClLabels = fullClLabels, nRows = n_rows, nColumns = n_columns,
+                   accuracy = accuracy, accuracy_random = accuracy_random)
+    }else{
+        output <- list(fullClLabels = fullClLabels, nRows = n_rows, nColumns = n_columns)
+    }
+
+    return(output)
 }
 
-#' Make five folds
+#' Divide data into 5 subsets using stratified sampling
 #'
 #' This function is used to do stratified subsampling based on the
 #' number of observations in each group in the response
@@ -123,18 +168,24 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
 #' @return The function returns a vector of labels to assign each observation to a different fold
 #' @author Alessandra Cabassi  \email{ac2051@cam.ac.uk}
 #'
-make5folds <- function(response){
-  fold_labels <- rep(NA, length(response))
-  for(g in unique(response)){
-    indices_g <- which(response==g)
-    n_g <- length(indices_g)
-    n_g_per_fold <- floor(n_g)/5
-    for(h in 1:4){
-      indices_g_fold_h <- sample(indices_g, n_g_per_fold)
-      fold_labels[indices_g_fold_h] <- h
-      indices_g <- indices_g[which(!(indices_g %in% indices_g_fold_h))]
+stratifiedSamplingForCV <- function(response){
+
+    fold_labels <- rep(NA, length(response))
+
+    for(g in unique(response)){
+
+        indices_g <- which(response==g)
+        n_g <- length(indices_g)
+        n_g_per_fold <- floor(n_g)/5
+
+        for(h in 1:4){
+            indices_g_fold_h <- sample(indices_g, n_g_per_fold)
+            fold_labels[indices_g_fold_h] <- h
+            indices_g <- indices_g[which(!(indices_g %in% indices_g_fold_h))]
+        }
+
+        fold_labels[indices_g] <- 5
     }
-    fold_labels[indices_g] <- 5
-  }
-  return(fold_labels)
+
+    return(fold_labels)
 }

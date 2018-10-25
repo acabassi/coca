@@ -14,18 +14,19 @@ vignette: >
 
 # Introduction
 
-The R package **coca** contains the functions needed to use COCA (**C**luster-**O**f-**C**lusters **A**nalysis), an integrative clustering method that was first introduced in a breast cancer study by The Cancer Genome Atlas in 2012 and quickly became a popular tool in cancer studies (see e.g. Hoadley et al. 2014 and Aure et al. 2017). It is based on \emph{Consensus Clustering} (Monti et al., 2013), an algorithm that was initially developed to assess the stability of the clusters obtained with any clustering algorithm. 
+The R package **coca** contains the functions needed to use COCA (**C**luster-**O**f-**C**lusters **A**nalysis), an integrative clustering method that was first introduced in a breast cancer study by The Cancer Genome Atlas in 2012 and quickly became a popular tool in cancer studies (see e.g. Hoadley et al. 2014 and Aure et al. 2017). It is based on \emph{Consensus Clustering} (Monti et al., 2013), an algorithm that was initially developed to assess the stability of clusters obtained with any clustering algorithm. 
+
+The main goal of COCA is to summarise clusterings found in different ’omics datasets, by identifying a “global" clustering across the datasets that is intended to be in good agreement with the clustering structures
+identified in each of the individual datasets.
 
 # Building the matrix of clusters
 
-The main goal of COCA is to summarise the clusterings found in different ’omics datasets, by identifying a “global" clustering across the datasets that is intended to be in good agreement with the clustering structures
-identified in each of the individual datasets.
-
 The first step of COCA is the construction of the Matrix-Of-Clusters (MOC). This is a binary matrix of size _N x K_, where _K_ is the sum of the number of clusters _Km_ in every dataset _Xm_. Therefore, to each column _j_ of this matrix corresponds a cluster _mk_ in dataset _Xm_. The _(i,j)_-th entry of the matrix of clusters is equal to one if data point _i_ belongs to cluster _mk_ in dataset _Xm_, and is equal to zero otherwise.For more details about how the matrix of clusters is built, please see Cabassi and Kirk (2018).
 
-In the example below, we assume to have three datasets with the same number of clusters, six. The clustering structure in each of those dataasets is found via k-means clustering. The resulting clusters are stored in three matrices of cluster labels, that are then collated together to get a matrix of clusters.
+The function that can be used to build a matrix of clusters starting from a list of heterogeneous datasets (referring to the same observations) is `buildMOC`.
+In the example below, we assume to have three datasets with the same number of clusters, six. The clustering structure in each of those dataasets is found via k-means clustering. 
 
-```{r preparation_coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+```{r build_coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 ### Load data
 data <- list()
 data[[1]] <- as.matrix(read.csv(system.file("extdata", 
@@ -35,43 +36,87 @@ data[[2]] <- as.matrix(read.csv(system.file("extdata",
 data[[3]] <- as.matrix(read.csv(system.file("extdata", 
                       "dataset3.csv", package = "coca"), row.names = 1))
 
-### Set constants
-n_datasets <- 3
-n_clusters <- 6
-N <- 300
-true_labels <- as.matrix(read.csv(system.file("extdata",
-                         "cluster_labels.csv", package = "coca"), row.names = 1))
+### Build matrix of clusters
+outputBuildMOC <- buildMOC(data, M = 3, K = 6)
 
-### Fill label matrix with clusterings found with the k-means clustering algorithm
-labelMatrix <- array(NA, c(n_clusters, N, n_datasets))
-for(i in 1:n_datasets){
-  output <- kmeans(data[[i]], n_clusters)
-  for(k in 1:n_clusters){
-    labelMatrix[k,,i] <- (output$cluster==k)
-  }
-}
-
-# Convert label matrix from logic to numeric matrix
-labelMatrix <- labelMatrix*1
-
-# Build MOC matrix
-MOC <- rbind(labelMatrix[,,1],labelMatrix[,,2], labelMatrix[,,3])
+### Extract matrix of clusters and dataset indicator vector
+moc <- outputBuildMOC$moc
+datasetIndicator <- outputBuildMOC$datasetIndicator
 ```
+
+The package also contains a function that can be used to plot the resulting Matrix-Of-Clusters, `plotMOC`. Here we use as annotations the true cluster labels, but in real applications annotations can be any dataframe with
+one element for each row of the matrix of clusters (the row names must correspond!). Please be aware that each 
+column of the dataframe that contains categorical variables must be defined with `as.factor()` if you want 
+each category to have a different colour (otherwise they will be treaded as continuous variables and each 
+category will have a different shade of the same colour).
+
+```{r plot_moc, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+
+### Prepare annotations
+true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
+                package = "coca"), row.names = 1))
+annotations <- data.frame(true_labels = as.factor(true_labels))
+
+### Plot matrix of clusters
+plotMOC(moc, datasetIndicator, annotations = annotations)
+```
+
+Here the datasets don't have names, so they have been assigned integer numbers. If available, you can specify 
+cluster names; this will make the row names easier to interpret.
+
+```{r plot_moc_with_names, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+
+### Prepare annotations
+true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
+                package = "coca"), row.names = 1))
+annotations <- data.frame(true_labels = as.factor(true_labels))
+
+### Set dataset names 
+datasetNames <- c(rep("A", 6), rep("B", 6), rep("C", 6))
+
+### Plot matrix of clusters
+plotMOC(moc, datasetIndicator, datasetNames = datasetNames, 
+        annotations = annotations)
+```
+
+As you can see, the first part of each row name corresponds to the dataset, the second one to the cluster index. Moreover, each colour in the main matrix corresponds to one dataset (here dataset A is green, dataset B is yellow, and so on).   
 
 # Cluster-Of-Clusters Analysis
 
-The MOC matrix is then used as input to consensus clustering (CC), an algotithm that was developed by Monti et al. (2003) to assess cluster stability when analysing a single dataset. The resulting consensus matrix is then used as
-the similarity matrix for a hierarchical clustering method (or any other distance-based clustering algorithm). These last two steps of the COCA algorithm are contained in the `coca()` function. 
+The MOC matrix is then used as input to consensus clustering (CC), an algorithm that was developed by Monti et al. (2003) to assess cluster stability when analysing a single dataset. The resulting consensus matrix is then used as the similarity matrix for a hierarchical clustering method (or any other distance-based clustering algorithm). These last two steps of the COCA algorithm are contained in the `coca()` function. 
 
 ```{r coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 ### COCA
 
 # Use COCA to find global clustering
-coca <- coca(t(MOC), K = 6, hclustMethod = "average")
+coca <- coca(moc, K = 6, hclustMethod = "average")
 
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
 ari
+
+### Plot the matrix of clusters with the newly found cluster labels
+annotations$coca <- as.factor(coca$clusterLabels)
+plotMOC(moc, datasetIndicator, datasetNames = datasetNames, 
+        annotations = annotations)
+```
+
+Again, if the number of clusters is not know a priori, the user can delegate the choice of K to the `coca()` function. There are two methods available here: the silhouette, where the distance between data points _i_ and _j_ is defined as _1_ minus the _(i,j)_-th kernel entry in the final kernel matrix, and the delta area under the curve, which is the method suggested by Monti et al. (2003). Please note that the properties of the latter 
+have not been assessed yet. 
+
+```{r coca_unknownK, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+
+# Use COCA to find global clustering and chooose the number of clusters
+coca <- coca(moc, maxK = 10, hclustMethod = "average")
+
+# Compare clustering to the true labels
+ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
+ari
+
+### Plot the matrix of clusters with the newly found cluster labels
+annotations$coca <- as.factor(coca$clusterLabels)
+plotMOC(moc, datasetIndicator, datasetNames = datasetNames, 
+        annotations = annotations)
 ```
 
 # References 

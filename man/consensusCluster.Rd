@@ -18,27 +18,31 @@ consensusCluster(data, K, B = 100, pItem = 0.8, clMethod = "km",
 
 \item{clMethod}{clustering method}
 
-\item{distHC}{distance used for hierarchical clustering}
+\item{distHC}{Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
+correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
+stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski").}
 }
 \value{
-The output is a consensus matrix, that is a symmetric matrix where the element in position (i,j) corresponds to
-the proportion of times that items i and j have been clustered together.
+The output is a consensus matrix, that is a symmetric matrix where the element in
+position (i,j) corresponds to the proportion of times that items i and j have been clustered
+together.
 }
 \description{
-This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-of clusters. Contrarily to what was suggested in the original paper by Monti et al. (2003), here we consider the number
-clusters K to be fixed, for simplicity.
+This function allows to perform consensus clustering using the k-means clustering algorithm,
+for a fixed number of clusters. We consider the number of clusters K to be fixed.
 }
 \examples{
-# Load one dataset with 300 observations, 2 variables, 6 clusters
+## Load one dataset with 300 observations, 2 variables, 6 clusters
 data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "coca"),
 row.names = 1))
-# Compute consensus clustering with K=6 clusters
-cm <- consensusCluster(data, 6)
+
+## Compute consensus clustering with K=6 clusters
+cm <- consensusCluster(data, K = 6)
 }
 \references{
-Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering: a resampling-based method for
-class discovery and visualization of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
+Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
+a resampling-based method for class discovery and visualization of gene expression microarray
+data. Machine learning, 52(1-2), pp.91-118.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}
