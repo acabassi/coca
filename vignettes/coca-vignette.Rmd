@@ -104,7 +104,7 @@ plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 Again, if the number of clusters is not know a priori, the user can delegate the choice of K to the `coca()` function. There are two methods available here: the silhouette, where the distance between data points _i_ and _j_ is defined as _1_ minus the _(i,j)_-th kernel entry in the final kernel matrix, and the delta area under the curve, which is the method suggested by Monti et al. (2003). Please note that the properties of the latter 
 have not been assessed yet. 
 
-```{r coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+```{r coca_unknownK, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 
 # Use COCA to find global clustering and chooose the number of clusters
 coca <- coca(moc, maxK = 10, hclustMethod = "average")

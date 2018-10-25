@@ -6,7 +6,8 @@
 \usage{
 coca(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
   hclustMethod = "average", choiceKmethod = "silhouette",
-  savePNG = FALSE, fileName = "silhouette", verbose = FALSE)
+  ccClMethod = "km", ccDistHC = "euclidean", savePNG = FALSE,
+  fileName = "silhouette", verbose = FALSE)
 }
 \arguments{
 \item{moc}{N X C data matrix, where C is the total number of clusters
@@ -30,6 +31,14 @@ function for the hierarchical clustering step. Can be "single",
 K is NULL, can be either 'AUC' (area under the curve, work in
 progress) or 'silhouette'. Default is 'silhouette'.}
 
+\item{ccClMethod}{Clustering method to be used by the Consensus Clustering algorithm (CC).
+Can be either 'km' or 'hc'. Default is 'km'.}
+
+\item{ccDistHC}{Distance to be used by the hiearchical clustering algorithm inside CC.
+Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation),
+or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
+"canberra", "binary" or "minkowski"). Default is "euclidean".}
+
 \item{savePNG}{= FALSE}
 
 \item{fileName}{= 'silhouette'}
@@ -38,9 +47,9 @@ progress) or 'silhouette'. Default is 'silhouette'.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix
-        where the element in position (i,j) corresponds to
-        the proportion of times that items i and j have been clustered
-        together and a vector of cluster labels.
+where the element in position (i,j) corresponds to
+the proportion of times that items i and j have been clustered
+together and a vector of cluster labels.
 }
 \description{
 This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
@@ -74,8 +83,8 @@ clusterLabels <- outputCOCA$clusterLabels
 }
 \references{
 The Cancer Genome Atlas, 2012. Comprehensive molecular
-            portraits of human breast tumours. Nature,
-            487(7407), pp.61–70.
+portraits of human breast tumours. Nature,
+487(7407), pp.61–70.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}
