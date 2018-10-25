@@ -1,19 +1,22 @@
 #' Consensus clustering with k-means
 #'
-#' This function allows to perform consensus clustering using the k-means clustering algorithm, for a fixed number
-#' of clusters. We consider the number clusters K to be fixed, for simplicity.
+#' This function allows to perform consensus clustering using the k-means clustering algorithm,
+#' for a fixed number of clusters. We consider the number of clusters K to be fixed.
 #' @param data N X P data matrix
 #' @param K number of clusters
 #' @param B of iterations
 #' @param pItem proportion of items sampled at each iteration
 #' @param clMethod clustering method
-#' @param distHC distance used for hierarchical clustering
+#' @param distHC Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
+#' correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
+#' stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski").
 #' @return The output is a consensus matrix, that is a symmetric matrix where the element in
 #' position (i,j) corresponds to the proportion of times that items i and j have been clustered
 #' together.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-#' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering: a resampling-based method for
-#' class discovery and visualization of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
+#' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
+#' a resampling-based method for class discovery and visualization of gene expression microarray
+#' data. Machine learning, 52(1-2), pp.91-118.
 #' @examples
 #' ## Load one dataset with 300 observations, 2 variables, 6 clusters
 #' data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "coca"),
@@ -42,17 +45,26 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
     nUniqueDataPoints <- nrow(uniqueData)
     if(nUniqueDataPoints>K){
         # If the chosen clustering method is k-means
-        if(clMethod == "km")
+        if(clMethod == "km"){
             # Apply k-means to the subsample and extract cluster labels
             cl <- stats::kmeans(data[items,], K, iter.max = 1000)$cluster
-
+        }
         # If the chosen clustering method is hierarchical clustering
         else if(clMethod == "hc"){
-            # Calculate pairwise distances between observations
-            distances <- stats::dist(data, method = distHC)
+            if(distHC == 'pearson' | distHC == 'spearman'){
+                pearsonCor <- stats::cor(t(data[items,]), method = distHC)
+                distances <- stats::as.dist(1-pearsonCor)
+            }else{
+                # Calculate pairwise distances between observations
+                distances <- stats::dist(data[items,], method = distHC)
+            }
+
             # Apply hierarchical clustering to the subsample
             hClustering <- stats::hclust(distances, method = "average")
-            clLabels <- stats::cutree(hClustering, K)
+            cl <- stats::cutree(hClustering, K)
+        }else{
+            stop('Clustering algorithm name not recognised. Please choose either `km` (for k-means
+  clustering or `hc` for hierarchical clustering.')
         }
 
         # Update matrix containing counts of number of times each pair has been sampled together
@@ -61,7 +73,8 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
         # For each cluster
         for(k in 1:K){
             # Update counts of number of times each pair has been put in the same cluster
-            coClusteringMatrix[items,items] <- coClusteringMatrix[items,items] + crossprod(t(as.numeric(cl==k)))
+            coClusteringMatrix[items,items] <- coClusteringMatrix[items,items] +
+                crossprod(t(as.numeric(cl==k)))
         }
     }
   }
@@ -74,7 +87,6 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
       warning(paste("Consensus matrix is empty for K =", K, "because there are less than", K,
               "distinct data points", sep = ""))
   }
-
   return(consensusMatrix)
 
 }
