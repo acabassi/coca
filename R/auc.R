@@ -93,13 +93,14 @@ chooseKusingAUC = function(areaUnderTheCurve, savePNG = FALSE, fileName = "delta
 
     #Fill in vector deltaAUC according to Equation 7 in Monti et al. (2003)
     for(i in 2:(maxK-1)){
-        deltaAUC[i] <- areaUnderTheCurve[i]-maxAUC
+        deltaAUC[i] <- (areaUnderTheCurve[i]-maxAUC)/maxAUC
         maxAUC <- max(areaUnderTheCurve[i], maxAUC)
     }
 
     # Choose the value K such that deltaAUC[K+1] - deltaAUC[K]
     # is smallest (not its absolute value)
-    K <- which.min(deltaAUC[2:(maxK-1)]-deltaAUC[1:(maxK-2)]) +1
+    # K <- which.min(deltaAUC[2:(maxK-1)]-deltaAUC[1:(maxK-2)]) +1
+    K <-  max(which(deltaAUC>0.025))+1
 
     if(savePNG) plotDeltaAUC(deltaAUC, K, fileName)
 
