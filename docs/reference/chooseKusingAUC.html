@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot area under the curve — plotDeltaAUC • coca</title>
+<title>Choose number of clusters based on AUC — chooseKusingAUC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,12 +30,16 @@
 
 
 
-<meta property="og:title" content="Plot area under the curve — plotDeltaAUC" />
+<meta property="og:title" content="Choose number of clusters based on AUC — chooseKusingAUC" />
 
-<meta property="og:description" content="Plot area under the curve for different values of K" />
+<meta property="og:description" content="This function allows to choose the number of clusters in a dataset
+based on the area under the curve of the empirical distribution
+function of a consensus matrix, calculated for different (consecutive)
+cluster numbers, as explained in the article by Monti et al. (2003),
+Section 3.3.1." />
 <meta name="twitter:card" content="summary" />
 
-<meta name="robots" content="noindex">
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -61,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9005</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9005</span>
       </span>
     </div>
 
@@ -109,50 +113,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot area under the curve</h1>
+    <h1>Choose number of clusters based on AUC</h1>
     <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/auc.R'><code>R/auc.R</code></a></small>
-    <div class="hidden name"><code>plotDeltaAUC.Rd</code></div>
+    <div class="hidden name"><code>chooseKusingAUC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plot area under the curve for different values of K</p>
+    <p>This function allows to choose the number of clusters in a dataset
+based on the area under the curve of the empirical distribution
+function of a consensus matrix, calculated for different (consecutive)
+cluster numbers, as explained in the article by Monti et al. (2003),
+Section 3.3.1.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>plotDeltaAUC</span>(<span class='no'>deltaAUC</span>, <span class='kw'>chosenK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>fileName</span>)</pre>
+    <pre class="usage"><span class='fu'>chooseKusingAUC</span>(<span class='no'>areaUnderTheCurve</span>, <span class='kw'>savePNG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fileName</span> <span class='kw'>=</span> <span class='st'>"deltaAUC.png"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>deltaAUC</th>
-      <td><p>Vector of the difference between the area under the curve between
-each value K of the number of clusters and K-1. For the smallest value considered (usually
-two) this is simply the area under the curve for that value of cluster number.</p></td>
+      <th>areaUnderTheCurve</th>
+      <td><p>Vector of length maxK-1 containing the area
+under the curve of the empirical distribution function of the
+consensus matrices obtained with K varying from 2 to maxK.</p></td>
     </tr>
     <tr>
-      <th>chosenK</th>
-      <td><p>Chosen number of clusters. If specified, a vertical line is plotted in
-correspondance of the indicated value. Default is NULL.</p></td>
+      <th>savePNG</th>
+      <td><p>Boolean. If TRUE, a plot of the area under the curve
+for each value of K is saved as a png file. The file is saved in a
+subdirectory of the working directory, called `delta-auc`. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>name of the png file</p></td>
+      <td><p>If `savePNG` is TRUE, this is the name of the png file.
+Default is "deltaAUC.png".</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>This function returns a list containing `deltaAUC`, a vector of
+length maxK-1 where element i is  the area under the curve for
+K = i+1 minus the area under the curve for K = i (for i = 2 this
+is simply the area under the curve for K = i), and `K` the lowest
+among the values of K that are chosen by the algorithm.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>## Assuming that we want to choose among any value of K (number of clusters)</span>
+<span class='co'>## between 2 and 10 and that the area under the curve is as follows:</span>
+<span class='no'>areaUnderTheCurve</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.15</span>, <span class='fl'>0.4</span>, <span class='fl'>0.5</span>, <span class='fl'>0.55</span>, <span class='fl'>0.56</span>, <span class='fl'>0.57</span>, <span class='fl'>0.58</span>, <span class='fl'>0.59</span>)
+
+<span class='no'>K</span> <span class='kw'>&lt;-</span> <span class='fu'>chooseKusingAUC</span>(<span class='no'>areaUnderTheCurve</span>)$<span class='no'>K</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
-
-    <h2>Author</h2>
-    
-Alessandra Cabassi <a href='mailto:ac2051@cam.ac.uk'>ac2051@cam.ac.uk</a>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

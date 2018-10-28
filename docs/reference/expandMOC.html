@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Area Under the Curve (AUC) — computeAUC • coca</title>
+<title>Expand matrix of clusters — expandMOC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,14 +30,12 @@
 
 
 
-<meta property="og:title" content="Compute Area Under the Curve (AUC) — computeAUC" />
+<meta property="og:title" content="Expand matrix of clusters — expandMOC" />
 
-<meta property="og:description" content="This function allows to compute the area under the curve of the
-empirical distribution function of a consensus matrix
-as described in Monti et al. (2003), Section 3.3.1." />
+<meta property="og:description" content="Expand matrix of cluster labels into matrix of clusters" />
 <meta name="twitter:card" content="summary" />
 
-<meta name="robots" content="noindex">
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -63,7 +61,7 @@ as described in Monti et al. (2003), Section 3.3.1." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9005</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9005</span>
       </span>
     </div>
 
@@ -111,42 +109,64 @@ as described in Monti et al. (2003), Section 3.3.1." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Area Under the Curve (AUC)</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/auc.R'><code>R/auc.R</code></a></small>
-    <div class="hidden name"><code>computeAUC.Rd</code></div>
+    <h1>Expand matrix of clusters</h1>
+    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/expand-moc.R'><code>R/expand-moc.R</code></a></small>
+    <div class="hidden name"><code>expandMOC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to compute the area under the curve of the
-empirical distribution function of a consensus matrix
-as described in Monti et al. (2003), Section 3.3.1.</p>
+    <p>Expand matrix of cluster labels into matrix of clusters</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>computeAUC</span>(<span class='no'>consensusMatrix</span>)</pre>
+    <pre class="usage"><span class='fu'>expandMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>datasetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>consensusMatrix</th>
-      <td><p>Consensus matrix, output of the `coca::consensusCluster`
-function</p></td>
+      <th>clLabels</th>
+      <td><p>Matrix of cluster labels of size N x M</p></td>
+    </tr>
+    <tr>
+      <th>datasetNames</th>
+      <td><p>Vector of cluster names of length M. Default is null</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>This function returns the area under the curve.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
-a resampling-based method for class discovery and visualization of gene expression microarray
-data. Machine learning, 52(1-2), pp.91-118.</p>
+    <p>The output is a list containing the matrix of clusters `moc`, a vector containing
+the dataset indicator `datasetIndicator` and a vector of expanded `datasetNames` of
+length sum(K)</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>## Load data</span>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>()
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+
+<span class='co'>## Build matrix of clusters</span>
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
+
+<span class='co'>## Extract matrix of clusters</span>
+<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>clLabels</span>
+
+<span class='co'>## Impute missing values</span>
+<span class='no'>outputFillMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fillMOC.html'>fillMOC</a></span>(<span class='no'>clLabels</span>)
+
+<span class='co'>## Replace matrix of cluster labels with new (full) one</span>
+<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputFillMOC</span>$<span class='no'>fullClLabels</span>
+
+<span class='co'>## Expand matrix of cluster labels into matrix of clusters</span>
+<span class='no'>outputExpandMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>expandMOC</span>(<span class='no'>clLabels</span>)
+<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputExpandMOC</span>$<span class='no'>clLabels</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -154,9 +174,9 @@ data. Machine learning, 52(1-2), pp.91-118.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

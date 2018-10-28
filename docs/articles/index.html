@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot area under the curve — plotDeltaAUC • coca</title>
+<title>Articles • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="Plot area under the curve — plotDeltaAUC" />
+<meta property="og:title" content="Articles" />
 
-<meta property="og:description" content="Plot area under the curve for different values of K" />
-<meta name="twitter:card" content="summary" />
 
-<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,7 +46,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9005</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9005</span>
       </span>
     </div>
 
@@ -109,51 +106,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot area under the curve</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/auc.R'><code>R/auc.R</code></a></small>
-    <div class="hidden name"><code>plotDeltaAUC.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>Plot area under the curve for different values of K</p>
-    
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="coca-vignette.html">Introduction to coca</a></li>
+      </ul>
     </div>
-
-    <pre class="usage"><span class='fu'>plotDeltaAUC</span>(<span class='no'>deltaAUC</span>, <span class='kw'>chosenK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>fileName</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>deltaAUC</th>
-      <td><p>Vector of the difference between the area under the curve between
-each value K of the number of clusters and K-1. For the smallest value considered (usually
-two) this is simply the area under the curve for that value of cluster number.</p></td>
-    </tr>
-    <tr>
-      <th>chosenK</th>
-      <td><p>Chosen number of clusters. If specified, a vertical line is plotted in
-correspondance of the indicated value. Default is NULL.</p></td>
-    </tr>
-    <tr>
-      <th>fileName</th>
-      <td><p>name of the png file</p></td>
-    </tr>
-    </table>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-                </ul>
-
-    <h2>Author</h2>
-    
-Alessandra Cabassi <a href='mailto:ac2051@cam.ac.uk'>ac2051@cam.ac.uk</a>
-
   </div>
 </div>
 

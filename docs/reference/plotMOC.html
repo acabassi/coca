@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fill Matrix-Of-Clusters — fillMOC • coca</title>
+<title>Plot Matrix-Of-Clusters — plotMOC • coca</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,13 +30,13 @@
 
 
 
-<meta property="og:title" content="Fill Matrix-Of-Clusters — fillMOC" />
+<meta property="og:title" content="Plot Matrix-Of-Clusters — plotMOC" />
 
-<meta property="og:description" content="This function fills in a matrix of clusters that contains NAs, by estimating the missing cluster labels
-based on the available ones." />
+<meta property="og:description" content="This function creates a matrix of clusters, starting from a list of heterogeneous
+datasets." />
 <meta name="twitter:card" content="summary" />
 
-<meta name="robots" content="noindex">
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -62,7 +62,7 @@ based on the available ones." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.0.1.9005</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9005</span>
       </span>
     </div>
 
@@ -110,50 +110,72 @@ based on the available ones." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fill Matrix-Of-Clusters</h1>
-    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/fill-moc.R'><code>R/fill-moc.R</code></a></small>
-    <div class="hidden name"><code>fillMOC.Rd</code></div>
+    <h1>Plot Matrix-Of-Clusters</h1>
+    <small class="dont-index">Source: <a href='http://github.com/acabassi/coca/blob/master/R/plot-moc.R'><code>R/plot-moc.R</code></a></small>
+    <div class="hidden name"><code>plotMOC.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function fills in a matrix of clusters that contains NAs, by estimating the missing cluster labels
-based on the available ones.</p>
+    <p>This function creates a matrix of clusters, starting from a list of heterogeneous
+datasets.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>plotMOC</span>(<span class='no'>moc</span>, <span class='no'>datasetIndicator</span>, <span class='kw'>datasetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>clr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>clc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>save</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fileName</span> <span class='kw'>=</span> <span class='st'>"moc.pdf"</span>,
+  <span class='kw'>showObsNames</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>clLabels</th>
-      <td><p>N X M matrix containing cluster labels. Element (n,m) contains the cluster label
-for element data point n in cluster m.</p></td>
+      <th>moc</th>
+      <td><p>Matrix-Of-Clusters of size N x sumK.</p></td>
     </tr>
     <tr>
-      <th>computeAccuracy</th>
-      <td><p>Boolean. If TRUE, for each missing element, the performance of the
-predictive model used to estimate the corresponding missing label is computer.</p></td>
+      <th>datasetIndicator</th>
+      <td><p>Vector containing</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>Boolean. If TRUE, for each NA, the size of the matrix used to estimate its values is printed
-to screen</p></td>
+      <th>datasetNames</th>
+      <td><p>Vector containing the names of the datasets to which each column
+of labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
+Default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>annotations</th>
+      <td><p>Dataframe containing annotations. Number of rows must be N.
+If the annotations are integers, use `as.factor()` for a better visual result.</p></td>
+    </tr>
+    <tr>
+      <th>clr</th>
+      <td><p>Cluster rows. Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>clc</th>
+      <td><p>Cluster columns. Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>save</th>
+      <td><p>Boolean. If TRUE, plot is saved as a pdf file.</p></td>
+    </tr>
+    <tr>
+      <th>fileName</th>
+      <td><p>File name for the plot if save is TRUE. Default is "moc.pdf".</p></td>
+    </tr>
+    <tr>
+      <th>showObsNames</th>
+      <td><p>Boolean. If TRUE, the plot will also include the column names
+(i.e. name of each observation). Default is FALSE, since there are usually too
+many columns.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The output is the same matrix of clusters, where NAs have been replaced by their estimates,
-where possible. If `computeAccuracy` is TRUE, then also an object called `accuracy` is returned,
-where each</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast tumours.
-Nature, 487(7407), pp.61–70.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of
+human breast tumours. Nature, 487(7407), pp.61–70.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -169,22 +191,24 @@ Nature, 487(7407), pp.61–70.</p>
 <span class='co'>## Build matrix of clusters</span>
 <span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
 
-<span class='co'>## Extract matrix of clusters</span>
-<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>clLabels</span>
+<span class='co'>## Extract matrix of clusters and dataset indicator vector</span>
+<span class='no'>moc</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span>
+<span class='no'>datasetIndicator</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>datasetIndicator</span>
 
-<span class='co'>## Impute missing values</span>
-<span class='no'>outputFillMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>)
+<span class='co'>## Prepare annotations</span>
+<span class='no'>true_labels</span> <span class='kw'>&lt;-</span> <span class='fu'>as.matrix</span>(<span class='fu'>read.csv</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"cluster_labels.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>annotations</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>true_labels</span> <span class='kw'>=</span> <span class='fu'>as.factor</span>(<span class='no'>true_labels</span>))
 
-<span class='co'>## Replace matrix of cluster labels with new (full) one</span>
-<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputFillMOC</span>$<span class='no'>fullClLabels</span></div></pre>
+<span class='co'>## Plot matrix of clusters</span>
+<span class='fu'>plotMOC</span>(<span class='no'>moc</span>, <span class='no'>datasetIndicator</span>, <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='no'>annotations</span>)</div><div class='img'><img src='plotMOC-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
