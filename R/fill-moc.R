@@ -1,14 +1,17 @@
 #' Fill Matrix-Of-Clusters
 #'
 #' This function fills in a matrix of clusters that contains NAs, by estimating the missing cluster labels
-#' based on the available ones.
+#' based on the available ones or based on the other datasets.
 #'
 #' @param clLabels N X M matrix containing cluster labels. Element (n,m) contains the cluster label
 #' for element data point n in cluster m.
 #' @param computeAccuracy Boolean. If TRUE, for each missing element, the performance of the
 #' predictive model used to estimate the corresponding missing label is computer.
-#' @param verbose Boolean. If TRUE, for each NA, the size of the matrix used to estimate its values is printed
-#' to screen
+#' @param verbose Boolean. If TRUE, for each NA, the size of the matrix used to estimate its values is
+#' printed to screen
+#' @param fullData Boolean. If TRUE, the full data matrices are used to estimate the missing cluster
+#' labels (instead of just using the cluster labels of the corresponding datasets).
+#' @param data List of M datasets to be used for the label imputation if fullData is TRUE.
 #' @return The output is the same matrix of clusters, where NAs have been replaced by their estimates,
 #' where possible. If `computeAccuracy` is TRUE, then also an object called `accuracy` is returned,
 #' where each
@@ -19,11 +22,11 @@
 #' ## Load data
 #' data <- list()
 #' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
-#' package = "coca"), row.names = 1))
+#'                        package = "coca"), row.names = 1))
 #' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
-#' package = "coca"), row.names = 1))
+#'                        package = "coca"), row.names = 1))
 #' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
-#' package = "coca"), row.names = 1))
+#'                        package = "coca"), row.names = 1))
 #'
 #' ## Build matrix of clusters
 #' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
@@ -32,16 +35,23 @@
 #' clLabels <- outputBuildMOC$clLabels
 #'
 #' ## Impute missing values
-#' outputFillMOC <- fillMOC(clLabels)
+#' outputFillMOC1 <- fillMOC(clLabels)
 #'
-#' ## Replace matrix of cluster labels with new (full) one
-#' clLabels <- outputFillMOC$fullClLabels
+#' ## Extract full matrix of cluster labels
+#' clLabels1 <- outputFillMOC1$fullClLabels
+#'
+#' ## Impute missing values using full datasets
+#' outputFillMOC2 <- fillMOC(clLabels, fullData = TRUE, data = data)
+#'
+#' ## Extract full matrix of cluster labels
+#' clLabels2 <- outputFillMOC2$fullClLabels
 #' @export
 
-fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
+fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
+                    fullData = FALSE, data = NULL){
 
-    N <- dim(clLabels)[1] # Number of datapoints
-    M <- dim(clLabels)[2] # Number of datasets
+    N <- dim(clLabels)[1] # Number of data points
+    M <- dim(clLabels)[2] # Number of data sets
 
     # clLabels <- matrix(as.character(clLabels), nrow = N, ncol = M, byrow = TRUE)
     clLabels <- as.data.frame(clLabels)
@@ -72,29 +82,62 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
                     X <- data.frame(response = as.factor(clLabels[[j]]))
                     count <- 1
 
-                    for(l in 1:M){
+                        for(l in 1:M){
 
-                        if(!is.na(clLabels[[l]][i])){
-                            X <- cbind(X, clLabels[[l]])
-                            count <- count + 1
-                            names(X)[count] <- names(clLabels)[l]
+                            if(!is.na(clLabels[[l]][i])){
+                                if(fullData){
+                                    # Append columns to dataframe
+                                    X <- cbind(X, data[[l]])
+                                    # Assign names to new columns of dataframe
+                                    oldCount <- count
+                                    count <- count + dim(data[[l]])[2]
+                                    names(X)[(oldCount+1):count] <- colnames(data[[l]])
+                                }else{
+                                    # Append columns to dataframe
+                                    X <- cbind(X, clLabels[[l]])
+                                    # Assign names to new columns of dataframe
+                                    count <- count + 1
+                                    names(X)[count] <- names(clLabels)[l]
+                                }
+                            }
                         }
-                    }
+
 
                 if(!is.null(X)){
 
-                    # Fit glm
+                    # Remove data points that have NAs
                     remove_rows <- unique(c(which(rowSums(is.na(clLabels))>0),i))
+                    # TODO This should be done earlier!!!
 
+                    # Create dataframe used to build the model
                     Xfit <- X[-remove_rows,]
+                    # Create dataframe used to estimate missing label
+                    Xpredict <- X[i,]
+
+                    # Save number of rows and columns in desing matrix used to build the model
                     n_rows[i,j] <- dim(Xfit)[1]
                     n_columns[i,j] <- dim(Xfit)[2]-1
 
-                    glm_i <- nnet::multinom(response ~ ., data=Xfit)
 
-                    # Predict labels
-                    Xpredict <- X[i,]
-                    prediction <- stats::predict(glm_i, newdata = Xpredict, type = "class")
+                    # If full datasets are available
+                    if(fullData){
+                        # Fit glm
+                        glm_i <- glmnet::cv.glmnet(Xfit, response, alpha = 1,
+                                        nfolds = 5, family = "multinomial")
+                        # alpha = 1: LASSO
+
+                        # Predict labels
+                        prediction <- glmnet::predict.cv.glmnet(glm_i, Xpredict)
+
+                    # Otherwise, use only cluster labels
+                    }else{
+                        # Fit glm
+                        glm_i <- nnet::multinom(response ~ ., data=Xfit)
+
+                        # Predict labels
+                        prediction <- stats::predict(glm_i, newdata = Xpredict, type = "class")
+                    }
+
                     if(verbose) {
                         print(paste("Predicted value for element (", i, " , ",
                                     j, ") is: ", prediction, sep = ""))
@@ -115,30 +158,43 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE){
                         for(l in 1:5){
 
                             XfitCV <- Xfit[-which(folds==l),]
-                            glm_l <- nnet::multinom(response ~ ., data = XfitCV)
                             XpredCV <- Xfit[which(folds==l),]
-                            predictions_l <- stats::predict(glm_l, newdata = XpredCV,
-                                                            type ="class")
 
+                            if(fullData){
+                                ### TODO
+                                # glm_l <- glmnet::cv.glmnet(XfitCV, response, alpha = 1,
+                                        # nfolds = 5, family = "multinomial")
+                                # predictions_l <- glmnet::predict.cv.glmnet(glm_l, XpredCV)
+                            }else{
+                                glm_l <- nnet::multinom(response ~ ., data = XfitCV)
+                                predictions_l <- stats::predict(glm_l, newdata = XpredCV,
+                                                                type ="class")
+                            }
+
+                            # Compute predictive accuracy
                             accuracy_l[l] <- caret::postResample(predictions_l,
                                                                  XpredCV$response)[[1]]
 
+                            # Also generate random prediction
                             random_predictions_l <- sample(XfitCV$response, size = length(predictions_l),
                                                            replace = FALSE)
+                            # Compute predictive accuracy for random prediction
                             accuracy_random_l[l] <- caret::postResample(random_predictions_l,
                                                                  XpredCV$response)[[1]]
                         }
 
+                        # Compute average accuracy
                         accuracy[i,j] <- mean(accuracy_l)
+                        # Compute average accuracy of random prediction
                         accuracy_random[i,j] <- mean(accuracy_random_l)
                     }
 
-                    if(verbose)
-
+                    if(verbose){
                         print(paste("Prediction accuracy for element (", i, " , ", j, ") is",
-                          accuracy[i,j], sep = ""))
+                                    accuracy[i,j], sep = ""))
                         print(paste("Random accuracy for element (", i, " , ", j, ") is",
-                                accuracy_random[i,j], sep = ""))
+                                    accuracy_random[i,j], sep = ""))
+                    }
 
                     fullClLabels[i,j] <- prediction
                 }else{
