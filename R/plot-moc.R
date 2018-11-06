@@ -12,8 +12,8 @@
 #' If the annotations are integers, use `as.factor()` for a better visual result.
 #' @param clr Cluster rows. Default is FALSE.
 #' @param clc Cluster columns. Default is FALSE.
-#' @param save Boolean. If TRUE, plot is saved as a pdf file.
-#' @param fileName File name for the plot if save is TRUE. Default is "moc.pdf".
+#' @param save Boolean. If TRUE, plot is saved as a png file.
+#' @param fileName File name for the plot if save is TRUE. Default is "moc.png".
 #' @param showObsNames Boolean. If TRUE, the plot will also include the column names
 #' (i.e. name of each observation). Default is FALSE, since there are usually too
 #' many columns.
@@ -48,7 +48,7 @@
 #' @export
 #'
 plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
-                   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf",
+                   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
                    showObsNames = FALSE){
 
     moc = t(moc)
@@ -89,7 +89,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
     #     rownames(annotations) <- colnames(moc)
     # }
 
-    if(save) grDevices::pdf(fileName, width = 10, height = 6)
+    if(save) grDevices::png(fileName, width = 1000, height = 600)
 
     pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,

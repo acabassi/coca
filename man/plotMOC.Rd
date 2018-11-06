@@ -5,7 +5,7 @@
 \title{Plot Matrix-Of-Clusters}
 \usage{
 plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
-  clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.pdf",
+  clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
   showObsNames = FALSE)
 }
 \arguments{
@@ -24,9 +24,9 @@ If the annotations are integers, use `as.factor()` for a better visual result.}
 
 \item{clc}{Cluster columns. Default is FALSE.}
 
-\item{save}{Boolean. If TRUE, plot is saved as a pdf file.}
+\item{save}{Boolean. If TRUE, plot is saved as a png file.}
 
-\item{fileName}{File name for the plot if save is TRUE. Default is "moc.pdf".}
+\item{fileName}{File name for the plot if save is TRUE. Default is "moc.png".}
 
 \item{showObsNames}{Boolean. If TRUE, the plot will also include the column names
 (i.e. name of each observation). Default is FALSE, since there are usually too
