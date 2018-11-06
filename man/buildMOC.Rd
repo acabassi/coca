@@ -22,7 +22,7 @@ if K is NULL. If given an integer instead of a vector it is assumed that for eac
 the same maximum number of clusters must be considered. Default is 10.}
 
 \item{methods}{Vector of strings containing the names of the clustering methods to be
-used to cluster the observations in each dataset. Each can be either "kmeans" or "hclust".
+used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
 If the vector is of length one, the same clustering method is applied to all the datasets.}
 
 \item{fill}{Boolean. If TRUE, if there are any missing observations in one or more datasets,

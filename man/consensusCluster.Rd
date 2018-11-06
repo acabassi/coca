@@ -4,19 +4,22 @@
 \alias{consensusCluster}
 \title{Consensus clustering with k-means}
 \usage{
-consensusCluster(data, K, B = 100, pItem = 0.8, clMethod = "km",
+consensusCluster(data, K, B = 100, pItem = 0.8, clMethod = "hc",
   distHC = "euclidean")
 }
 \arguments{
 \item{data}{N X P data matrix}
 
-\item{K}{number of clusters}
+\item{K}{Number of clusters.}
 
-\item{B}{of iterations}
+\item{B}{Number of iterations.}
 
-\item{pItem}{proportion of items sampled at each iteration}
+\item{pItem}{Proportion of items sampled at each iteration.}
 
-\item{clMethod}{clustering method}
+\item{clMethod}{Clustering algorithm. Can be "hc" for hierarchical clustering, "km"
+for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
+if the data contain at least one covariate that is a factor, the default clustering
+algorithm is "pam".}
 
 \item{distHC}{Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
 correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
