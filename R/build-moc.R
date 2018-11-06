@@ -12,7 +12,7 @@
 #' if K is NULL. If given an integer instead of a vector it is assumed that for each dataset
 #' the same maximum number of clusters must be considered. Default is 10.
 #' @param methods Vector of strings containing the names of the clustering methods to be
-#' used to cluster the observations in each dataset. Each can be either "kmeans" or "hclust".
+#' used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
 #' If the vector is of length one, the same clustering method is applied to all the datasets.
 #' @param fill Boolean. If TRUE, if there are any missing observations in one or more datasets,
 #' the corresponding cluster labels will be estimated through generalised linear models on the
@@ -85,9 +85,11 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
         N <- length(obsNames)
     }
 
-    if(length(methods)==1)
+    if(length(methods)==1){
         methods = rep(methods, M)
-    # Should add another check here, on the length of vector methods
+    }else if(length(methods)!=M){
+        stop("The lenght of vector 'methods' must be either 1 (same clustering algorithm applied to all datasets) or M.")
+    }
 
     ###### Choose cluster numbers ######
     if(is.null(K)){
@@ -132,12 +134,21 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
                 }
 
             # If clustering algorithm is none of the above, stop.
-            }else{
+            }else if(method_i == "pam"){
+
+                for(j in 2:maxK_i){
+                    ### Step 1. Compute the distance matrix ###
+                    distanceMatrix[,,j-1] <- as.matrix(cluster::daisy(data[[i]], metric = "gower"))
+                    ### Step 2. Use k-means clustering to find cluster labels ###
+                    tempClLabels[j-1,] <- cluster::pam(data[[i]], j)$clustering
+                }
+            }
+            else{
                 stop("Clustering method name not recognised.")
             }
 
             K[i] <- maximiseSilhouette(distanceMatrix, tempClLabels, maxK_i, savePNG,
-                                       fileName = paste("chooseK",i,".png",sep=""),
+                                       fileName = paste("buildMOC_dataset",i,sep=""),
                                        isDistance = TRUE)$K
         }
     }
@@ -213,6 +224,23 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
             }
 
         # If clustering algorithm is none of the above, stop.
+        }else if(method_i == "pam"){
+
+            # Find cluster labels
+
+            newClusterLabels <-  cluster::pam(data[[i]], K[i])$clustering
+            clLabels[names(newClusterLabels),i] <- newClusterLabels
+
+            # Store them in moc matrix
+            for(j in unique(newClusterLabels)){
+                count_k <- count_k + 1
+                bin <- rep(NA, N)
+                names(bin) <- rownames(moc)
+                bin[names(newClusterLabels)] <- (newClusterLabels == j)*1
+                moc[,count_k] = bin
+                datasetIndicator[count_k] <- i
+            }
+
         }else{
             stop("Clustering method name must be either kmeans or hclust.")
         }
