@@ -5,7 +5,7 @@
 \title{Fill Matrix-Of-Clusters}
 \usage{
 fillMOC(clLabels, computeAccuracy = FALSE, verbose = FALSE,
-  fullData = TRUE, data = NULL)
+  fullData = FALSE, data = NULL)
 }
 \arguments{
 \item{clLabels}{N X M matrix containing cluster labels. Element (n,m) contains the cluster
@@ -54,7 +54,7 @@ clLabels <- outputBuildMOC$clLabels
 # outputFillMOC1 <- fillMOC(clLabels)
 
 ## Extract full matrix of cluster labels
-clLabels1 <- outputFillMOC1$fullClLabels
+# clLabels1 <- outputFillMOC1$fullClLabels
 
 ## Impute missing values using full datasets
 outputFillMOC2 <- fillMOC(clLabels, fullData = TRUE, data = data)

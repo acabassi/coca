@@ -41,7 +41,7 @@
 #' # outputFillMOC1 <- fillMOC(clLabels)
 #'
 #' ## Extract full matrix of cluster labels
-#' clLabels1 <- outputFillMOC1$fullClLabels
+#' # clLabels1 <- outputFillMOC1$fullClLabels
 #'
 #' ## Impute missing values using full datasets
 #' outputFillMOC2 <- fillMOC(clLabels, fullData = TRUE, data = data)
@@ -51,7 +51,7 @@
 #' @export
 
 fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
-                    fullData = TRUE, data = NULL){
+                    fullData = FALSE, data = NULL){
 
     N <- dim(clLabels)[1] # Number of data points
     M <- dim(clLabels)[2] # Number of data sets
