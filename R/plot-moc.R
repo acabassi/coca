@@ -89,7 +89,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
     #     rownames(annotations) <- colnames(moc)
     # }
 
-    if(save) grDevices::pdf(fileName, width = 10, height = 5)
+    if(save) grDevices::pdf(fileName, width = 10, height = 6)
 
     pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,
@@ -97,7 +97,8 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
            color =  c("white", (RColorBrewer::brewer.pal(n = max(3,M), name = "Set3"))),
            cluster_rows = clr, clustering_distance_rows = "binary",
            cluster_cols = clc, clustering_distance_cols = "binary",
-           annotation_col = annotations, show_colnames = showObsNames)
+           annotation_col = annotations, show_colnames = showObsNames,
+           drop_levels = FALSE, na_col = "seashell2")
 
     if(save){
         grDevices::dev.off()

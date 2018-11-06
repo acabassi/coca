@@ -17,6 +17,10 @@
 #' @param fill Boolean. If TRUE, if there are any missing observations in one or more datasets,
 #' the corresponding cluster labels will be estimated through generalised linear models on the
 #' basis of the available labels.
+#' @param computeAccuracy Boolean. If TRUE, for each missing element, the performance of the
+#' predictive model used to estimate the corresponding missing label is computer.
+#' @param fullData Boolean. If TRUE, the full data matrices are used to estimate the missing
+#' cluster labels (instead of just using the cluster labels of the corresponding datasets).
 #' @param savePNG Boolean. If TRUE, plots of the silhouette for each datasets are saved as
 #' png files.
 #' @return The output is a list containing:
@@ -57,7 +61,8 @@
 #' @export
 
 buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
-                    fill = FALSE, savePNG = FALSE){
+                    fill = FALSE, computeAccuracy = FALSE,
+                    fullData = FALSE, savePNG = FALSE){
 
     ###### Match data ######
     obsNames <- rownames(data[[1]])
@@ -209,7 +214,7 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
 
         # If clustering algorithm is none of the above, stop.
         }else{
-            stop("Clustering method name not recognised.")
+            stop("Clustering method name must be either kmeans or hclust.")
         }
     }
 
@@ -222,14 +227,31 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
 
     # If required
     if(fill){
+        if(fullData){
+            dataFill = data
+        }else{
+            dataFill = NULL
+        }
         # Fill matrix of cluster labels by imputing missing labels based on the available ones
-        clLabels <- fillMOC(clLabels)
+        fillMOCoutput <- fillMOC(clLabels, computeAccuracy = computeAccuracy, fullData = fullData,
+                            data = dataFill)
+
+        # Replace matrix of cluster labels
+        clLabels <- fillMOCoutput$clLabels
+
         # Expand matrix of cluster labels and overwrite matrix-of-clusters
-        moc <- expandMOC(clLabels)
+        moc <- expandMOC(fillMOCoutput$clLabels)
     }
 
-    output <- list(moc = moc, datasetIndicator = datasetIndicator,
-                   number_nas = number_nas, clLabels = clLabels,
-                   K = K)
+    if(fill){
+        output <- list(moc = moc, datasetIndicator = datasetIndicator,
+                       number_nas = number_nas, clLabels = clLabels,
+                       K = K, fillMOCoutput = fillMOCoutput)
+    }else{
+        output <- list(moc = moc, datasetIndicator = datasetIndicator,
+                       number_nas = number_nas, clLabels = clLabels,
+                       K = K)
+    }
+
     return(output)
 }

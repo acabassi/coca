@@ -26,7 +26,7 @@
 #' clLabels <- outputBuildMOC$clLabels
 #'
 #' ## Impute missing values
-#' outputFillMOC <- fillMOC(clLabels)
+#' outputFillMOC <- fillMOC(clLabels, fullData = TRUE, data = data)
 #'
 #' ## Replace matrix of cluster labels with new (full) one
 #' clLabels <- outputFillMOC$fullClLabels

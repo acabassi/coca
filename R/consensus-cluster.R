@@ -41,6 +41,7 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
     # Sample a proportion pItem of the observations without replacement
     items <- sample(N, ceiling(N*pItem), replace = FALSE)
 
+    # If there are more unique data points than clusters
     uniqueData <- unique(data[items,])
     nUniqueDataPoints <- nrow(uniqueData)
     if(nUniqueDataPoints>K){

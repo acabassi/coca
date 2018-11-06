@@ -80,7 +80,8 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
 
             ### Step 1. Compute the consensus matrix ###
             consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem,
-                                                       clMethod = ccClMethod, distHC = ccDistHC)
+                                                       clMethod = ccClMethod,
+                                                       distHC = ccDistHC)
             ### Step 2. Use hierarchical clustering on the consensus matrix ###
             distances <- stats::as.dist(1 - consensusMatrix[,,i-1])
             hClustering <- stats::hclust(distances, method = hclustMethod)
@@ -113,7 +114,7 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
 
     ### Step 1. Compute the consensus matrix ###
     output$consensusMatrix <- consensusCluster(moc, K, B, pItem)
-    # TO DO: if the consensus matrix has been calculated before in order to choose
+    # TODO: if the consensus matrix has been calculated before in order to choose
     # the number of clusters, it is a waste of time to do it again here.
 
     ### Step 2. Use hierarchical clustering on the consensus matrix ###

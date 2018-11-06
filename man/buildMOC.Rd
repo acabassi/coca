@@ -4,8 +4,8 @@
 \alias{buildMOC}
 \title{Build Matrix-Of-Clusters}
 \usage{
-buildMOC(data, M, K = NULL, maxK = 10, methods = "hclust",
-  fill = FALSE, savePNG = FALSE)
+buildMOC(data, M, K = NULL, maxK = 10, methods = "hclust", fill = FALSE,
+  computeAccuracy = FALSE, fullData = FALSE, savePNG = FALSE)
 }
 \arguments{
 \item{data}{List of M datasets, each of size N X P_m, where m = 1, ..., M.}
@@ -28,6 +28,12 @@ If the vector is of length one, the same clustering method is applied to all the
 \item{fill}{Boolean. If TRUE, if there are any missing observations in one or more datasets,
 the corresponding cluster labels will be estimated through generalised linear models on the
 basis of the available labels.}
+
+\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the performance of the
+predictive model used to estimate the corresponding missing label is computer.}
+
+\item{fullData}{Boolean. If TRUE, the full data matrices are used to estimate the missing
+cluster labels (instead of just using the cluster labels of the corresponding datasets).}
 
 \item{savePNG}{Boolean. If TRUE, plots of the silhouette for each datasets are saved as
 png files.}
