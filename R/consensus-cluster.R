@@ -3,10 +3,13 @@
 #' This function allows to perform consensus clustering using the k-means clustering algorithm,
 #' for a fixed number of clusters. We consider the number of clusters K to be fixed.
 #' @param data N X P data matrix
-#' @param K number of clusters
-#' @param B of iterations
-#' @param pItem proportion of items sampled at each iteration
-#' @param clMethod clustering method
+#' @param K Number of clusters.
+#' @param B Number of iterations.
+#' @param pItem Proportion of items sampled at each iteration.
+#' @param clMethod Clustering algorithm. Can be "hc" for hierarchical clustering, "km"
+#' for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
+#' if the data contain at least one covariate that is a factor, the default clustering
+#' algorithm is "pam".
 #' @param distHC Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
 #' correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
 #' stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski").
@@ -26,15 +29,24 @@
 #' cm <- consensusCluster(data, K = 6)
 #' @export
 
-consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
+consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "hc",
                             distHC = "euclidean"){
 
   # Save number of observations
   N <- dim(data)[1]
+  # Save number of covariates
+  P <- dim(data)[2]
+
   # Create vector of data indices that will be used to update the co-clustering matrix
   dataIndices <- c(1:N)
   # Initialise empty co-clustering matrix and an auxiliar
   coClusteringMatrix <- indicatorMatrix <- matrix(0, N, N)
+
+  # Check wheter there are factors among the covariates
+  containsFactors <- 0
+  for(i in 1:P){
+    containsFactors <- as.numeric(is.factor(data[,i]))+containsFactors
+  }
 
   # For each step of the algorithm
   for(b in 1:B){
@@ -45,8 +57,14 @@ consensusCluster = function(data, K, B = 100, pItem = 0.8, clMethod = "km",
     uniqueData <- unique(data[items,])
     nUniqueDataPoints <- nrow(uniqueData)
     if(nUniqueDataPoints>K){
+        # If the chosen clustering method is PAM or there is at least one
+        # covariate that is a factor
+        if(clMethod == "pam" | containsFactors){
+            # Apply pam to the subsample and extract cluster labels
+            cl <- cluster::pam(data[items,], K)$clustering
+        }
         # If the chosen clustering method is k-means
-        if(clMethod == "km"){
+        else if(clMethod == "km"){
             # Apply k-means to the subsample and extract cluster labels
             cl <- stats::kmeans(data[items,], K, iter.max = 1000)$cluster
         }
