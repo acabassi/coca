@@ -4,7 +4,8 @@
 #' datasets.
 #'
 #' @param moc Matrix-Of-Clusters of size N x sumK.
-#' @param datasetIndicator Vector containing
+#' @param datasetIndicator Vector containing integers indicating which rows correspond to
+#' some clustering of the same dataset.
 #' @param datasetNames Vector containing the names of the datasets to which each column
 #' of labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
 #' Default is NULL.
@@ -31,7 +32,7 @@
 #' package = "coca"), row.names = 1))
 #'
 #' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
 #' ## Extract matrix of clusters and dataset indicator vector
 #' moc <- outputBuildMOC$moc
@@ -89,12 +90,20 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
     #     rownames(annotations) <- colnames(moc)
     # }
 
+
+    if(M==2){
+        mycols <- c("white", (RColorBrewer::brewer.pal(n = 2, name = "RdBu")))
+        mycols <- mycols[c(1,2,4)]
+    }else{
+        mycols <- c("white", (RColorBrewer::brewer.pal(n = max(3,M), name = "Set3")))
+    }
+
     if(save) grDevices::png(fileName, width = 1000, height = 600)
 
     pheatmap::pheatmap(moc,  legend = TRUE,
            legend_breaks = 0:M,
            legend_labels = c("", unique(datasetNames)),
-           color =  c("white", (RColorBrewer::brewer.pal(n = max(3,M), name = "Set3"))),
+           color =  mycols,
            cluster_rows = clr, clustering_distance_rows = "binary",
            cluster_cols = clc, clustering_distance_cols = "binary",
            annotation_col = annotations, show_colnames = showObsNames,

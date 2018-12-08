@@ -7,7 +7,8 @@
 coca(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
   hclustMethod = "average", choiceKmethod = "silhouette",
   ccClMethod = "km", ccDistHC = "euclidean", savePNG = FALSE,
-  fileName = "silhouette", verbose = FALSE)
+  fileName = "coca", verbose = FALSE, widestGap = FALSE,
+  dunns = FALSE, dunn2s = FALSE, returnAllMatrices = FALSE)
 }
 \arguments{
 \item{moc}{N X C data matrix, where C is the total number of clusters
@@ -39,11 +40,22 @@ Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman corr
 or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
 "canberra", "binary" or "minkowski"). Default is "euclidean".}
 
-\item{savePNG}{= FALSE}
+\item{savePNG}{Boolean. Save plots as PNG files. Default is FALSE.}
 
-\item{fileName}{= 'silhouette'}
+\item{fileName}{File name prefix.}
 
 \item{verbose}{Boolean.}
+
+\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose best number
+of clusters. Default is FALSE.}
+
+\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best number
+of clusters. Default is FALSE.}
+
+\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to choose best number
+of clusters. Default is FALSE.}
+
+\item{returnAllMatrices}{Boolean. If TRUE, return all consensus matrices.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix
@@ -69,7 +81,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
 package = "coca"), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
 ## Extract matrix of clusters
 moc <- outputBuildMOC$moc

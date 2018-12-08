@@ -4,8 +4,8 @@
 \alias{consensusCluster}
 \title{Consensus clustering with k-means}
 \usage{
-consensusCluster(data, K, B = 100, pItem = 0.8, clMethod = "hc",
-  distHC = "euclidean")
+consensusCluster(data = NULL, K = 2, B = 100, pItem = 0.8,
+  clMethod = "hc", dist = "euclidean")
 }
 \arguments{
 \item{data}{N X P data matrix}
@@ -21,9 +21,10 @@ for k-means clustering, or "pam" for partitioning around medoids. Default is "hc
 if the data contain at least one covariate that is a factor, the default clustering
 algorithm is "pam".}
 
-\item{distHC}{Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
-correlation), "spearman" (for 1- Spearman correlation), or any of the distances provided in
-stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski").}
+\item{dist}{Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
+correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
+stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
+or a matrix containing the distances between the observations.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix where the element in

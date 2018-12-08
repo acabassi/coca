@@ -27,8 +27,15 @@
 #'  or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
 #'  "canberra", "binary" or "minkowski"). Default is "euclidean".
 #' @param verbose Boolean.
-#' @param savePNG = FALSE
-#' @param fileName = 'silhouette'
+#' @param savePNG Boolean. Save plots as PNG files. Default is FALSE.
+#' @param fileName File name prefix.
+#' @param widestGap Boolean. If TRUE, compute also widest gap index to choose best number
+#' of clusters. Default is FALSE.
+#' @param dunns Boolean. If TRUE, compute also Dunn's index to choose best number
+#' of clusters. Default is FALSE.
+#' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to choose best number
+#' of clusters. Default is FALSE.
+#' @param returnAllMatrices Boolean. If TRUE, return all consensus matrices.
 #' @return The output is a consensus matrix, that is a symmetric matrix
 #' where the element in position (i,j) corresponds to
 #' the proportion of times that items i and j have been clustered
@@ -48,7 +55,7 @@
 #' package = "coca"), row.names = 1))
 #'
 #' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
 #' ## Extract matrix of clusters
 #' moc <- outputBuildMOC$moc
@@ -64,7 +71,9 @@
 coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
                 hclustMethod = 'average', choiceKmethod = 'silhouette',
                 ccClMethod = 'km', ccDistHC = 'euclidean',
-                savePNG = FALSE, fileName = 'silhouette', verbose = FALSE){
+                savePNG = FALSE, fileName = 'coca', verbose = FALSE,
+                widestGap = FALSE, dunns = FALSE, dunn2s = FALSE,
+                returnAllMatrices = FALSE){
 
     # Intialise output list
     output = list()
@@ -81,14 +90,16 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
             ### Step 1. Compute the consensus matrix ###
             consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem,
                                                        clMethod = ccClMethod,
-                                                       distHC = ccDistHC)
+                                                       dist = ccDistHC)
             ### Step 2. Use hierarchical clustering on the consensus matrix ###
             distances <- stats::as.dist(1 - consensusMatrix[,,i-1])
             hClustering <- stats::hclust(distances, method = hclustMethod)
             clLabels[i-1,] <- stats::cutree(hClustering, i)
         }
 
-        K <- maximiseSilhouette(consensusMatrix, clLabels, maxK, savePNG, fileName)$K
+        K <- maximiseSilhouette(consensusMatrix, clLabels, maxK, savePNG, fileName,
+                                widestGap = widestGap,
+                                dunns = dunns, dunn2s = dunn2s)$K
 
     }else if(is.null(K) & choiceKmethod == 'AUC'){
 
@@ -98,7 +109,9 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
         for(i in 2:maxK){
 
             ### Step 1. Compute the consensus matrix ###
-            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem)
+            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem,
+                                                       clMethod = ccClMethod,
+                                                       dist = ccDistHC)
             ### Step 2. Compute area under the curve ###
             areaUnderTheCurve[i-1] <- computeAUC(consensusMatrix[,,i-1])
         }
@@ -108,14 +121,20 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
     }else if(is.null(K)){
         stop("Method to choose number of clusters has not been recognised. Please make
              sure that it is either `silhouette` or `AUC`.")
+    }else{
+        consensusMatrix <- NULL
     }
 
     if(verbose) print(paste("K =", K, sep = " "))
 
     ### Step 1. Compute the consensus matrix ###
-    output$consensusMatrix <- consensusCluster(moc, K, B, pItem)
-    # TODO: if the consensus matrix has been calculated before in order to choose
-    # the number of clusters, it is a waste of time to do it again here.
+    if(!is.null(consensusMatrix)){
+        output$consensusMatrix <- consensusMatrix[,,K-1]
+    }else{
+        output$consensusMatrix <- consensusCluster(moc, K, B, pItem,
+                                                   clMethod = ccClMethod,
+                                                   dist = ccDistHC)
+    }
 
     ### Step 2. Use hierarchical clustering on the consensus matrix ###
     distances <- stats::as.dist(1 - output$consensusMatrix)
@@ -123,6 +142,9 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
     output$clusterLabels <- stats::cutree(hClustering, K)
 
     output$K <- K
+
+    if(returnAllMatrices)
+        output$consensusMatrices <- consensusMatrix
 
     return(output)
 
