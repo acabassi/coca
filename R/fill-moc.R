@@ -32,7 +32,7 @@
 #'                        package = "coca"), row.names = 1))
 #'
 #' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
 #' ## Extract matrix of clusters
 #' clLabels <- outputBuildMOC$clLabels

@@ -45,7 +45,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
                        package = "coca"), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
 ## Extract matrix of clusters
 clLabels <- outputBuildMOC$clLabels

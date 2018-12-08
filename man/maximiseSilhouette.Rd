@@ -5,7 +5,8 @@
 \title{Choose K that maximises the silhouette from a set of kernel matrices and clusterings}
 \usage{
 maximiseSilhouette(kernelMatrix, clLabels, maxK, savePNG = FALSE,
-  fileName = "silhouette", isDistance = FALSE)
+  fileName = "silhouette", isDistance = FALSE, widestGap = FALSE,
+  dunns = FALSE, dunn2s = FALSE)
 }
 \arguments{
 \item{kernelMatrix}{N X N X (maxK-1) array of kernel matrices.}
@@ -20,6 +21,14 @@ maximiseSilhouette(kernelMatrix, clLabels, maxK, savePNG = FALSE,
 
 \item{isDistance}{Boolean. If TRUE, the kernel matrices are interpreted as matrices of distances, otherwise as
 matrices of similarities.}
+
+\item{widestGap}{Boolean. If TRUE, also computes widest gap index (and plots it if savePNG is TRUE).}
+
+\item{dunns}{Boolean. If TRUE, also computes Dunn's index: minimum separation / maximum diameter (and plots it if
+savePNG is TRUE).}
+
+\item{dunn2s}{Boolean. If TRUE, also computes an alternative version of Dunn's index: minimum average dissimilarity
+between two cluster / maximum average within cluster dissimilarity (and plots it if savePNG is TRUE).}
 }
 \value{
 The function returns a list containing `silh`, a vector of length maxK-1 such that

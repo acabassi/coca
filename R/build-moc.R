@@ -14,6 +14,9 @@
 #' @param methods Vector of strings containing the names of the clustering methods to be
 #' used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
 #' If the vector is of length one, the same clustering method is applied to all the datasets.
+#' @param distances Distances to be used in the clustering step for each dataset. At the moment
+#' there is only the option to choose "cor" for 1-correlation. Otherwise the default distance
+#' for each method is used.
 #' @param fill Boolean. If TRUE, if there are any missing observations in one or more datasets,
 #' the corresponding cluster labels will be estimated through generalised linear models on the
 #' basis of the available labels.
@@ -23,6 +26,12 @@
 #' cluster labels (instead of just using the cluster labels of the corresponding datasets).
 #' @param savePNG Boolean. If TRUE, plots of the silhouette for each datasets are saved as
 #' png files.
+#' @param widestGap Boolean. If TRUE, compute also widest gap index to choose best number
+#' of clusters. Default is FALSE.
+#' @param dunns Boolean. If TRUE, compute also Dunn's index to choose best number
+#' of clusters. Default is FALSE.
+#' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to choose best number
+#' of clusters. Default is FALSE.
 #' @return The output is a list containing:
 #' * The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
 #' where element `(n,k)` contains a 1 if observation n belongs to the corresponding cluster,
@@ -41,7 +50,8 @@
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
 #' breast tumours. Nature, 487(7407), pp.61–70.
-#' @references Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.
+#' @references Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation
+#' of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.
 #' @examples
 #' ## Load data
 #' data <- list()
@@ -53,7 +63,7 @@
 #' package = "coca"), row.names = 1))
 #'
 #' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
 #' ## Extract matrix of clusters
 #' matrixOfClusters <- outputBuildMOC$moc
@@ -61,8 +71,10 @@
 #' @export
 
 buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
+                    distances = NULL,
                     fill = FALSE, computeAccuracy = FALSE,
-                    fullData = FALSE, savePNG = FALSE){
+                    fullData = FALSE, savePNG = FALSE,
+                    widestGap = FALSE, dunns = FALSE, dunn2s = FALSE){
 
     ###### Match data ######
     obsNames <- rownames(data[[1]])
@@ -91,6 +103,12 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
         stop("The lenght of vector 'methods' must be either 1 (same clustering algorithm applied to all datasets) or M.")
     }
 
+    if(length(distances)==1){
+        distances = rep(distances, M)
+    }else if(length(distances)!=M){
+        stop("The lenght of vector 'distances' must be either 1 (same clustering algorithm applied to all datasets) or M.")
+    }
+
     ###### Choose cluster numbers ######
     if(is.null(K)){
 
@@ -110,13 +128,14 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
 
             # Choose clustering algorithm
             method_i <- methods[i]
+            distance_i <- distances[i]
 
             # If clustering algorithm is kmeans
             if(method_i == "kmeans"){
 
                 for(j in 2:maxK_i){
                     ### Step 1. Compute the distance matrix ###
-                    distanceMatrix[,,j-1] <- as.matrix(stats::dist(data[[i]], method = "euclidean"))
+                    distanceMatrix[,,j-1] <- as.matrix(stats::dist(data[[i]], method = distance_i))
                     ### Step 2. Use k-means clustering to find cluster labels ###
                     tempClLabels[j-1,] <-  stats::kmeans(data[[i]], j)$cluster
                 }
@@ -126,9 +145,9 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
 
                 for(j in 2:maxK_i){
                     ### Step 1. Compute the distance matrix ###
-                    distanceMatrix[,,j-1] <- as.matrix(stats::dist(data[[i]], method = "euclidean"))
+                    distanceMatrix[,,j-1] <- as.matrix(stats::dist(data[[i]], method = distance_i))
                     ### Step 2. Use hierarchical clustering on the consensus matrix ###
-                    hClustering <- stats::hclust(stats::dist(data[[i]], method = "euclidean"),
+                    hClustering <- stats::hclust(stats::dist(data[[i]], method = distance_i),
                                                   method = "complete")
                     tempClLabels[j-1,] <- stats::cutree(hClustering, j)
                 }
@@ -138,18 +157,22 @@ buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
 
                 for(j in 2:maxK_i){
                     ### Step 1. Compute the distance matrix ###
-                    distanceMatrix[,,j-1] <- as.matrix(cluster::daisy(data[[i]], metric = "gower"))
+                    if(distance_i=="cor"){
+                        distanceMatrix[,,j-1] <- as.matrix(1-stats::cor(t(data[[i]])))
+                    }else{
+                        distanceMatrix[,,j-1] <- as.matrix(cluster::daisy(data[[i]], metric = distance_i))
+                    }
                     ### Step 2. Use k-means clustering to find cluster labels ###
-                    tempClLabels[j-1,] <- cluster::pam(data[[i]], j)$clustering
+                    tempClLabels[j-1,] <- cluster::pam(stats::as.dist(distanceMatrix[,,j-1]), j)$clustering
                 }
-            }
-            else{
+            }else{
                 stop("Clustering method name not recognised.")
             }
 
             K[i] <- maximiseSilhouette(distanceMatrix, tempClLabels, maxK_i, savePNG,
                                        fileName = paste("buildMOC_dataset",i,sep=""),
-                                       isDistance = TRUE)$K
+                                       isDistance = TRUE, widestGap = widestGap,
+                                       dunns = dunns, dunn2s = dunn2s)$K
         }
     }
 

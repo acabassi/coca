@@ -11,7 +11,8 @@ plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
 \arguments{
 \item{moc}{Matrix-Of-Clusters of size N x sumK.}
 
-\item{datasetIndicator}{Vector containing}
+\item{datasetIndicator}{Vector containing integers indicating which rows correspond to
+some clustering of the same dataset.}
 
 \item{datasetNames}{Vector containing the names of the datasets to which each column
 of labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
@@ -47,7 +48,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
 package = "coca"), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
 ## Extract matrix of clusters and dataset indicator vector
 moc <- outputBuildMOC$moc

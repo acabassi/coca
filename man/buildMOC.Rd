@@ -4,8 +4,10 @@
 \alias{buildMOC}
 \title{Build Matrix-Of-Clusters}
 \usage{
-buildMOC(data, M, K = NULL, maxK = 10, methods = "hclust", fill = FALSE,
-  computeAccuracy = FALSE, fullData = FALSE, savePNG = FALSE)
+buildMOC(data, M, K = NULL, maxK = 10, methods = "hclust",
+  distances = NULL, fill = FALSE, computeAccuracy = FALSE,
+  fullData = FALSE, savePNG = FALSE, widestGap = FALSE,
+  dunns = FALSE, dunn2s = FALSE)
 }
 \arguments{
 \item{data}{List of M datasets, each of size N X P_m, where m = 1, ..., M.}
@@ -25,6 +27,10 @@ the same maximum number of clusters must be considered. Default is 10.}
 used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
 If the vector is of length one, the same clustering method is applied to all the datasets.}
 
+\item{distances}{Distances to be used in the clustering step for each dataset. At the moment
+there is only the option to choose "cor" for 1-correlation. Otherwise the default distance
+for each method is used.}
+
 \item{fill}{Boolean. If TRUE, if there are any missing observations in one or more datasets,
 the corresponding cluster labels will be estimated through generalised linear models on the
 basis of the available labels.}
@@ -37,6 +43,15 @@ cluster labels (instead of just using the cluster labels of the corresponding da
 
 \item{savePNG}{Boolean. If TRUE, plots of the silhouette for each datasets are saved as
 png files.}
+
+\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose best number
+of clusters. Default is FALSE.}
+
+\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best number
+of clusters. Default is FALSE.}
+
+\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to choose best number
+of clusters. Default is FALSE.}
 }
 \value{
 The output is a list containing:
@@ -69,7 +84,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
 package = "coca"), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
 ## Extract matrix of clusters
 matrixOfClusters <- outputBuildMOC$moc
@@ -79,7 +94,8 @@ matrixOfClusters <- outputBuildMOC$moc
 The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
 breast tumours. Nature, 487(7407), pp.61–70.
 
-Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.
+Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation
+of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

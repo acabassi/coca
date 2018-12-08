@@ -7,14 +7,14 @@
 expandMOC(clLabels, datasetNames = NULL)
 }
 \arguments{
-\item{clLabels}{Matrix of cluster labels of size N x M}
+\item{clLabels}{Matrix of cluster labels of size N x M.}
 
-\item{datasetNames}{Vector of cluster names of length M. Default is null}
+\item{datasetNames}{Vector of cluster names of length M. Default is null.}
 }
 \value{
 The output is a list containing the matrix of clusters `moc`, a vector containing
 the dataset indicator `datasetIndicator` and a vector of expanded `datasetNames` of
-length sum(K)
+length sum(K).
 }
 \description{
 Expand matrix of cluster labels into matrix of clusters
@@ -30,7 +30,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
 package = "coca"), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6)
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
 ## Extract matrix of clusters
 clLabels <- outputBuildMOC$clLabels

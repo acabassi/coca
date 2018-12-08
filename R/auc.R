@@ -11,6 +11,7 @@
 #' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
 #' a resampling-based method for class discovery and visualization of gene expression microarray
 #' data. Machine learning, 52(1-2), pp.91-118.
+#' @export
 #'
 computeAUC = function(consensusMatrix){
 
