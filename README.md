@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/134583683.svg)](https://zenodo.org/badge/latestdoi/134583683)
+
 # R package for COCA: Cluster-of-Clusters Analysis
 
 ## Installing
