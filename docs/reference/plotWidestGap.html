@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Area Under the Curve (AUC) — computeAUC • coca</title>
+<title>Plot widest gap — plotWidestGap • coca</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="Compute Area Under the Curve (AUC) — computeAUC" />
+<meta property="og:title" content="Plot widest gap — plotWidestGap" />
 
-<meta property="og:description" content="This function allows to compute the area under the curve of the
-empirical distribution function of a consensus matrix
-as described in Monti et al. (2003), Section 3.3.1." />
+<meta property="og:description" content="Plot widest gap for different values of K." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,40 +121,36 @@ as described in Monti et al. (2003), Section 3.3.1." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Area Under the Curve (AUC)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acabassi/coca/blob/master/R/auc.R'><code>R/auc.R</code></a></small>
-    <div class="hidden name"><code>computeAUC.Rd</code></div>
+    <h1>Plot widest gap</h1>
+    <small class="dont-index">Source: <a href='https://github.com/acabassi/coca/blob/master/R/silhouette.R'><code>R/silhouette.R</code></a></small>
+    <div class="hidden name"><code>plotWidestGap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to compute the area under the curve of the
-empirical distribution function of a consensus matrix
-as described in Monti et al. (2003), Section 3.3.1.</p>
+    <p>Plot widest gap for different values of K.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>computeAUC</span>(<span class='no'>consensusMatrix</span>)</pre>
+    <pre class="usage"><span class='fu'>plotWidestGap</span>(<span class='no'>widestGap</span>, <span class='kw'>chosenK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>fileName</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>consensusMatrix</th>
-      <td><p>Consensus matrix, output of the `coca::consensusCluster`
-function</p></td>
+      <th>widestGap</th>
+      <td><p>Vector of widest gap values for K from 2 to some value maxK.</p></td>
+    </tr>
+    <tr>
+      <th>chosenK</th>
+      <td><p>Chosen number of clusters. If specified, a vertical line is plotted in
+correspondance of the indicated value. Default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>fileName</th>
+      <td><p>Name of the png file.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>This function returns the area under the curve.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
-a resampling-based method for class discovery and visualization of gene expression microarray
-data. Machine learning, 52(1-2), pp.91-118.</p>
     
 
   </div>
@@ -164,11 +158,7 @@ data. Machine learning, 52(1-2), pp.91-118.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-          </ul>
+                </ul>
 
     <h2>Author</h2>
     <p>Alessandra Cabassi <a href='mailto:ac2051@cam.ac.uk'>ac2051@cam.ac.uk</a></p>

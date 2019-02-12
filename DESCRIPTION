@@ -12,5 +12,5 @@ LazyData: true
 Imports: stats, Matrix, cluster, RColorBrewer, caret, nnet, pheatmap, glmnet, fpc
 Suggests: knitr, mclust, klic
 Remotes: acabassi/klic
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 6.1.1.9000
 VignetteBuilder: knitr
