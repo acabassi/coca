@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/134583683.svg)](https://zenodo.org/badge/latestdoi/134583683)
+[![DOI](https://zenodo.org/badge/150476075.svg)](https://zenodo.org/badge/latestdoi/150476075)
 
 # R package for COCA: Cluster-of-Clusters Analysis
 
