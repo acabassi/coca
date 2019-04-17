@@ -123,7 +123,7 @@ plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 
 Aure, M.R., Vitelli, V., Jernström, S., Kumar, S., Krohn, M., Due, E.U., Haukaas, T.H., Leivonen, S.K., Vollan, H.K.M., Lüders, T. and Rødland, E. (2017). Integrative clustering reveals a novel split in the luminal A subtype of breast cancer with impact on outcome. Breast Cancer Research, 19(1), p.44.
 
-Cabassi, A. and Kirk, P. D. W. (2018). Multiple kernel learning for integrative consensus clustering. In preparation.
+Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning for integrative consensus clustering of genomic datasets. arXiv preprint. arXiv:1904.07701.
 
 Hoadley, K.A., Yau, C., Wolf, D.M., Cherniack, A.D., Tamborero, D., Ng, S., Leiserson, M.D., Niu, B., McLellan, M.D., Uzunangelov, V. and Zhang, J., 2014. Multiplatform analysis of 12 cancer types reveals molecular classification within and across tissues of origin. Cell, 158(4), pp.929-944.
 

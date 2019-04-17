@@ -44,6 +44,8 @@
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular
 #' portraits of human breast tumours. Nature,
 #' 487(7407), pp.61–70.
+#' @references Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning for integrative
+#' consensus clustering of genomic datasets. arXiv preprint. arXiv:1904.07701.
 #' @examples
 #' ## Load data
 #' data <- list()
