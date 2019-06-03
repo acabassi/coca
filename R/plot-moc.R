@@ -18,6 +18,8 @@
 #' @param showObsNames Boolean. If TRUE, the plot will also include the column names
 #' (i.e. name of each observation). Default is FALSE, since there are usually too
 #' many columns.
+#' @param showClusterNames Boolean. If TRUE, plot cluster names next to corresponding row.
+#' Default is FALSE.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of
 #' human breast tumours. Nature, 487(7407), pp.61–70.
@@ -50,7 +52,7 @@
 #'
 plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
                    clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
-                   showObsNames = FALSE){
+                   showObsNames = FALSE, showClusterNames = FALSE){
 
     moc = t(moc)
 
@@ -107,7 +109,7 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
            cluster_rows = clr, clustering_distance_rows = "binary",
            cluster_cols = clc, clustering_distance_cols = "binary",
            annotation_col = annotations, show_colnames = showObsNames,
-           drop_levels = FALSE, na_col = "seashell2")
+           show_rownames = showClusterNames, drop_levels = FALSE, na_col = "seashell2")
 
     if(save){
         grDevices::dev.off()

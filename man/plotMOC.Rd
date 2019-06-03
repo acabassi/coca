@@ -6,7 +6,7 @@
 \usage{
 plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
-  showObsNames = FALSE)
+  showObsNames = FALSE, showClusterNames = FALSE)
 }
 \arguments{
 \item{moc}{Matrix-Of-Clusters of size N x sumK.}
@@ -32,6 +32,9 @@ If the annotations are integers, use `as.factor()` for a better visual result.}
 \item{showObsNames}{Boolean. If TRUE, the plot will also include the column names
 (i.e. name of each observation). Default is FALSE, since there are usually too
 many columns.}
+
+\item{showClusterNames}{Boolean. If TRUE, plot cluster names next to corresponding row.
+Default is FALSE.}
 }
 \description{
 This function creates a matrix of clusters, starting from a list of heterogeneous
