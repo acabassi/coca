@@ -6,7 +6,8 @@
 \usage{
 plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
-  showObsNames = FALSE, showClusterNames = FALSE)
+  showObsNames = FALSE, showClusterNames = FALSE,
+  annotation_colors = NA)
 }
 \arguments{
 \item{moc}{Matrix-Of-Clusters of size N x sumK.}
@@ -35,6 +36,8 @@ many columns.}
 
 \item{showClusterNames}{Boolean. If TRUE, plot cluster names next to corresponding row.
 Default is FALSE.}
+
+\item{annotation_colors}{Optional. See annotation_colors in pheatmap::pheatmap.}
 }
 \description{
 This function creates a matrix of clusters, starting from a list of heterogeneous
