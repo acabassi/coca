@@ -1,4 +1,4 @@
-#' Consensus clustering with k-means
+#' Consensus clustering
 #'
 #' This function allows to perform consensus clustering using the k-means clustering algorithm,
 #' for a fixed number of clusters. We consider the number of clusters K to be fixed.
@@ -10,6 +10,7 @@
 #' for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
 #' if the data contain at least one covariate that is a factor, the default clustering
 #' algorithm is "pam".
+#' @param hcMethod Hierarchical clustering method. Default is "average". For more details see ?hclust.
 #' @param dist Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
 #' correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
 #' stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
@@ -31,7 +32,7 @@
 #' @export
 
 consensusCluster = function(data = NULL, K = 2, B = 100, pItem = 0.8, clMethod = "hc",
-                            dist = "euclidean"){
+                            dist = "euclidean", hcMethod = "average"){
 
     containsFactors <- 0
     if(!is.null(data)){
@@ -110,7 +111,7 @@ consensusCluster = function(data = NULL, K = 2, B = 100, pItem = 0.8, clMethod =
             }
 
             # Apply hierarchical clustering to the subsample
-            hClustering <- stats::hclust(distances, method = "average")
+            hClustering <- stats::hclust(distances, method = hcMethod)
             cl <- stats::cutree(hClustering, K)
         }else{
             stop('Clustering algorithm name not recognised. Please choose either `km` (for k-means

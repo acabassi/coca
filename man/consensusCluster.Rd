@@ -2,10 +2,10 @@
 % Please edit documentation in R/consensus-cluster.R
 \name{consensusCluster}
 \alias{consensusCluster}
-\title{Consensus clustering with k-means}
+\title{Consensus clustering}
 \usage{
 consensusCluster(data = NULL, K = 2, B = 100, pItem = 0.8,
-  clMethod = "hc", dist = "euclidean")
+  clMethod = "hc", dist = "euclidean", hcMethod = "average")
 }
 \arguments{
 \item{data}{N X P data matrix}
@@ -25,6 +25,8 @@ algorithm is "pam".}
 correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
 stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
 or a matrix containing the distances between the observations.}
+
+\item{hcMethod}{Hierarchical clustering method. Default is "average". For more details see ?hclust.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix where the element in

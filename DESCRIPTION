@@ -1,6 +1,6 @@
 Package: coca
 Title: Cluster-of-Clusters Analysis
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: person("Alessandra", "Cabassi", email = "ac2051@cam.ac.uk", role = c("aut", "cre"))
 Description: This package contains the R functions needed to perform Cluster-Of-Clusers Analysis (COCA) and Consensus Clustering (CC).
 Depends: R (>= 3.3.2)
