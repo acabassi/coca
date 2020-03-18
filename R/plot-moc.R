@@ -112,7 +112,8 @@ plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NUL
            cluster_cols = clc, clustering_distance_cols = "binary",
            annotation_col = annotations, show_colnames = showObsNames,
            annotation_colors = annotation_colors,
-           show_rownames = showClusterNames, drop_levels = FALSE, na_col = "seashell2")
+           show_rownames = showClusterNames, drop_levels = FALSE, na_col = "seashell2",
+           border_color = NA)
 
     if(save){
         grDevices::dev.off()

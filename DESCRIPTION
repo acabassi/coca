@@ -2,7 +2,7 @@ Package: coca
 Title: Cluster-of-Clusters Analysis
 Version: 1.0.2
 Authors@R: person("Alessandra", "Cabassi", email = "ac2051@cam.ac.uk", role = c("aut", "cre"))
-Description: This package contains the R functions needed to perform Cluster-Of-Clusers Analysis (COCA)  and Consensus Clustering (CC). For further details please see Cabassi and Kirk (2019) <arXiv:1904.07701>.
+Description: This package contains the R functions needed to perform Cluster-Of-Clusters Analysis (COCA)  and Consensus Clustering (CC). For further details please see Cabassi and Kirk (2019) <arXiv:1904.07701>.
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 URL: http://github.com/acabassi/coca
@@ -10,7 +10,7 @@ BugReports: http://github.com/acabassi/coca/issues
 Encoding: UTF-8
 LazyData: true
 Imports: stats, Matrix, cluster, RColorBrewer, caret, nnet, pheatmap, glmnet, fpc
-Suggests: knitr, mclust, klic
+Suggests: knitr, mclust, klic, rmarkdown
 Remotes: acabassi/klic
 RoxygenNote: 7.0.2.9000
 VignetteBuilder: knitr
