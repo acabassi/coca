@@ -4,8 +4,16 @@
 \alias{consensusCluster}
 \title{Consensus clustering}
 \usage{
-consensusCluster(data = NULL, K = 2, B = 100, pItem = 0.8,
-  clMethod = "hc", dist = "euclidean", hcMethod = "average")
+consensusCluster(
+  data = NULL,
+  K = 2,
+  B = 100,
+  pItem = 0.8,
+  clMethod = "hc",
+  dist = "euclidean",
+  hcMethod = "average",
+  maxIterKM = 1000
+)
 }
 \arguments{
 \item{data}{N X P data matrix}
@@ -26,7 +34,10 @@ correlation), "spearman" (for 1- Spearman correlation), any of the distances pro
 stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
 or a matrix containing the distances between the observations.}
 
-\item{hcMethod}{Hierarchical clustering method. Default is "average". For more details see ?hclust.}
+\item{hcMethod}{Hierarchical clustering method. Default is "average". For more details see
+?hclust.}
+
+\item{maxIterKM}{Number of iterations for the k-means clustering algorithm.}
 }
 \value{
 The output is a consensus matrix, that is a symmetric matrix where the element in

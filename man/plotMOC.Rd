@@ -4,10 +4,19 @@
 \alias{plotMOC}
 \title{Plot Matrix-Of-Clusters}
 \usage{
-plotMOC(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
-  clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
-  showObsNames = FALSE, showClusterNames = FALSE,
-  annotation_colors = NA)
+plotMOC(
+  moc,
+  datasetIndicator,
+  datasetNames = NULL,
+  annotations = NULL,
+  clr = FALSE,
+  clc = FALSE,
+  save = FALSE,
+  fileName = "moc.png",
+  showObsNames = FALSE,
+  showClusterNames = FALSE,
+  annotation_colors = NA
+)
 }
 \arguments{
 \item{moc}{Matrix-Of-Clusters of size N x sumK.}

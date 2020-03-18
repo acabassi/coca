@@ -4,8 +4,7 @@
 \alias{chooseKusingAUC}
 \title{Choose number of clusters based on AUC}
 \usage{
-chooseKusingAUC(areaUnderTheCurve, savePNG = FALSE,
-  fileName = "deltaAUC.png")
+chooseKusingAUC(areaUnderTheCurve, savePNG = FALSE, fileName = "deltaAUC.png")
 }
 \arguments{
 \item{areaUnderTheCurve}{Vector of length maxK-1 containing the area

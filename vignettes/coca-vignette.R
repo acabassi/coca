@@ -15,7 +15,7 @@ outputBuildMOC <- coca::buildMOC(data, M = 3, K = 6, distances = "cor")
 moc <- outputBuildMOC$moc
 datasetIndicator <- outputBuildMOC$datasetIndicator
 
-## ----plot_moc, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE----
+## ----plot_moc, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE------
 
 ### Prepare annotations
 true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
@@ -39,7 +39,7 @@ datasetNames <- c(rep("A", 6), rep("B", 6), rep("C", 6))
 coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
         annotations = annotations)
 
-## ----coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE-----
+## ----coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE----------
 ### COCA
 
 # Use COCA to find global clustering

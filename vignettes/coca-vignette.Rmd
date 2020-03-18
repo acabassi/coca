@@ -143,6 +143,26 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
         annotations = annotations)
 ```
 
+# Clustering algorithms 
+
+The default clustering algorithm is k-means, as implemented in the `stats` package (documentation
+for the `kmeans()` function  can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kmeans)). The default
+maximum number of iterations is 1000. If you would like to increase it, you can use the `maxIterKM`
+argument of the `coca()` function. 
+
+Alternatively, one can select to use hierarchical clustering; this can be achieved by setting
+`ccClMethod = "hc"` (documentation for the `hclust()` function can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/hclust)). The distance 
+and agglomeration method used with hierarchical clustering can be selected via the `ccDistHC` and
+`hclustMethod` arguments of the `coca()` function respectively.
+
+# Warnings and error messages
+
+If you get one or more error messages saying `did not converge in 1000 iterations`, when using the
+`coca` function, it means that you are using the k-means clustering algorithm and that it did not
+converge within the maximum number of iterations (the default is 1000). If you would like to change
+the maximum number of iterations or use a different clustering algorithm, please see the previous
+section.
+
 # References
 
 Aure, M.R., Vitelli, V., Jernström, S., Kumar, S., Krohn, M., Due, E.U., Haukaas, T.H., Leivonen,

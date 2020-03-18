@@ -4,8 +4,13 @@
 \alias{fillMOC}
 \title{Fill Matrix-Of-Clusters}
 \usage{
-fillMOC(clLabels, computeAccuracy = FALSE, verbose = FALSE,
-  fullData = FALSE, data = NULL)
+fillMOC(
+  clLabels,
+  computeAccuracy = FALSE,
+  verbose = FALSE,
+  fullData = FALSE,
+  data = NULL
+)
 }
 \arguments{
 \item{clLabels}{N X M matrix containing cluster labels. Element (n,m) contains the cluster

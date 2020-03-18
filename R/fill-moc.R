@@ -147,7 +147,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
                                                        type.multinomial = "grouped")
 
                             # Predict labels
-                            prediction <- glmnet::predict.cv.glmnet(glm_i, newx = Xpredict,
+                            prediction <- stats::predict(glm_i, newx = Xpredict,
                                                   type = "class", s = "lambda.min")
                             prediction <- as.vector(prediction)
 
@@ -188,7 +188,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
                                                            # nfolds = 5,
                                                            family = "multinomial",
                                                            type.multinomial = "grouped")
-                                predictions_l <- glmnet::predict.cv.glmnet(glm_l, newx = XpredCV,
+                                predictions_l <- stats::predict(glm_l, newx = XpredCV,
                                                              type = "class", s = "lambda.min")
                                 predictions_l <- as.vector(predictions_l)
 
@@ -305,7 +305,7 @@ fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
 #                         ### TODO
 #                         # glm_l <- glmnet::cv.glmnet(XfitCV, response, alpha = 1,
 #                         # nfolds = 5, family = "multinomial")
-#                         # predictions_l <- glmnet::predict.cv.glmnet(glm_l, XpredCV)
+#                         # predictions_l <- predict.cv.glmnet(glm_l, XpredCV)
 #                     }else{
 #                         glm_l <- nnet::multinom(response ~ ., data = XfitCV)
 #                         predictions_l <- stats::predict(glm_l, newdata = XpredCV,

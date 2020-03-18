@@ -4,10 +4,21 @@
 \alias{buildMOC}
 \title{Build Matrix-Of-Clusters}
 \usage{
-buildMOC(data, M, K = NULL, maxK = 10, methods = "hclust",
-  distances = NULL, fill = FALSE, computeAccuracy = FALSE,
-  fullData = FALSE, savePNG = FALSE, widestGap = FALSE,
-  dunns = FALSE, dunn2s = FALSE)
+buildMOC(
+  data,
+  M,
+  K = NULL,
+  maxK = 10,
+  methods = "hclust",
+  distances = NULL,
+  fill = FALSE,
+  computeAccuracy = FALSE,
+  fullData = FALSE,
+  savePNG = FALSE,
+  widestGap = FALSE,
+  dunns = FALSE,
+  dunn2s = FALSE
+)
 }
 \arguments{
 \item{data}{List of M datasets, each of size N X P_m, where m = 1, ..., M.}

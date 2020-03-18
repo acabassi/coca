@@ -10,7 +10,9 @@
 #' for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
 #' if the data contain at least one covariate that is a factor, the default clustering
 #' algorithm is "pam".
-#' @param hcMethod Hierarchical clustering method. Default is "average". For more details see ?hclust.
+#' @param hcMethod Hierarchical clustering method. Default is "average". For more details see
+#' ?hclust.
+#' @param maxIterKM Number of iterations for the k-means clustering algorithm.
 #' @param dist Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
 #' correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
 #' stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
@@ -32,7 +34,7 @@
 #' @export
 
 consensusCluster = function(data = NULL, K = 2, B = 100, pItem = 0.8, clMethod = "hc",
-                            dist = "euclidean", hcMethod = "average"){
+                            dist = "euclidean", hcMethod = "average", maxIterKM = 1000){
 
     containsFactors <- 0
     if(!is.null(data)){
@@ -96,7 +98,7 @@ consensusCluster = function(data = NULL, K = 2, B = 100, pItem = 0.8, clMethod =
         # If the chosen clustering method is k-means
         else if(clMethod == "km" & !is.null(data)){
             # Apply k-means to the subsample and extract cluster labels
-            cl <- stats::kmeans(data[items,], K, iter.max = 1000)$cluster
+            cl <- stats::kmeans(data[items,], K, iter.max = maxIterKM)$cluster
         }
         # If the chosen clustering method is hierarchical clustering
         else if(clMethod == "hc"){

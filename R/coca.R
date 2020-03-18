@@ -1,44 +1,39 @@
 #' Cluster-Of-Clusters Analysis
 #'
-#' This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
-#' where each column is a clustering of the data,
-#' each row corresponds to a data point and the element in position (i,j)
-#' is equal to 1 if data point i belongs to cluster
-#' j, 0 otherwise.
+#' This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix where each column is a
+#' clustering of the data, each row corresponds to a data point and the element in position (i,j)
+#' is equal to 1 if data point i belongs to cluster j, 0 otherwise.
 #'
-#' @param moc N X C data matrix, where C is the total number of clusters
-#' considered.
+#' @param moc N X C data matrix, where C is the total number of clusters considered.
 #' @param K Number of clusters.
-#' @param maxK Maximum number of clusters considered for the final
-#' clustering if K is not known. Default is 6.
+#' @param maxK Maximum number of clusters considered for the final clustering if K is not known.
+#' Default is 6.
 #' @param B Number of iterations of the Consensus Clustering step.
-#' @param pItem Proportion of items sampled at each iteration of the
-#' Consensus Cluster step.
-#' @param hclustMethod Agglomeration method to be used by the hclust
-#' function for the hierarchical clustering step. Can be "single",
-#' "complete", "average", etc. For more details please see ?hclust.
-#' @param choiceKmethod Method used to choose the number of clusters if
-#' K is NULL, can be either 'AUC' (area under the curve, work in
-#' progress) or 'silhouette'. Default is 'silhouette'.
-#' @param ccClMethod Clustering method to be used by the Consensus Clustering algorithm (CC).
-#' Can be either 'km' or 'hc'. Default is 'km'.
-#' @param ccDistHC Distance to be used by the hiearchical clustering algorithm inside CC.
-#'  Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation),
-#'  or any of the distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan",
-#'  "canberra", "binary" or "minkowski"). Default is "euclidean".
+#' @param pItem Proportion of items sampled at each iteration of the Consensus Cluster step.
+#' @param hclustMethod Agglomeration method to be used by the hclust function for the hierarchical
+#' clustering step. Can be "single", "complete", "average", etc. For more details please see
+#' ?stats::hclust.
+#' @param choiceKmethod Method used to choose the number of clusters if K is NULL, can be either
+#' 'AUC' (area under the curve, work in progress) or 'silhouette'. Default is 'silhouette'.
+#' @param ccClMethod Clustering method to be used by the Consensus Clustering algorithm (CC). Can be
+#' either 'km' for k-means clustering or 'hc' for hiearchical clustering. Default is 'km'.
+#' @param ccDistHC Distance to be used by the hiearchical clustering algorithm inside CC. Can be
+#' "pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), or any of the
+#' distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra",
+#' "binary" or "minkowski"). Default is "euclidean".
+#' @param maxIterKM Number of iterations for the k-means clustering algorithm. Default is 1000.
 #' @param verbose Boolean.
 #' @param savePNG Boolean. Save plots as PNG files. Default is FALSE.
 #' @param fileName File name prefix.
-#' @param widestGap Boolean. If TRUE, compute also widest gap index to choose best number
-#' of clusters. Default is FALSE.
-#' @param dunns Boolean. If TRUE, compute also Dunn's index to choose best number
-#' of clusters. Default is FALSE.
-#' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to choose best number
-#' of clusters. Default is FALSE.
+#' @param widestGap Boolean. If TRUE, compute also widest gap index to choose best number of
+#' clusters. Default is FALSE.
+#' @param dunns Boolean. If TRUE, compute also Dunn's index to choose best number of clusters.
+#' Default is FALSE.
+#' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to choose best number of
+#' clusters. Default is FALSE.
 #' @param returnAllMatrices Boolean. If TRUE, return all consensus matrices.
-#' @return The output is a consensus matrix, that is a symmetric matrix
-#' where the element in position (i,j) corresponds to
-#' the proportion of times that items i and j have been clustered
+#' @return The output is a consensus matrix, that is a symmetric matrix where the element in
+#' position (i,j) corresponds to the proportion of times that items i and j have been clustered
 #' together and a vector of cluster labels.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular
@@ -70,12 +65,10 @@
 #'
 #' @export
 
-coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
-                hclustMethod = 'average', choiceKmethod = 'silhouette',
-                ccClMethod = 'km', ccDistHC = 'euclidean',
-                savePNG = FALSE, fileName = 'coca', verbose = FALSE,
-                widestGap = FALSE, dunns = FALSE, dunn2s = FALSE,
-                returnAllMatrices = FALSE){
+coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8, hclustMethod = 'average',
+                choiceKmethod = 'silhouette', ccClMethod = 'km', ccDistHC = 'euclidean',
+                maxIterKM = 1000, savePNG = FALSE, fileName = 'coca', verbose = FALSE,
+                widestGap = FALSE, dunns = FALSE, dunn2s = FALSE, returnAllMatrices = FALSE){
 
     # Intialise output list
     output = list()
@@ -100,8 +93,7 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
         }
 
         K <- maximiseSilhouette(consensusMatrix, clLabels, maxK, savePNG, fileName,
-                                widestGap = widestGap,
-                                dunns = dunns, dunn2s = dunn2s)$K
+                                widestGap = widestGap, dunns = dunns, dunn2s = dunn2s)$K
 
     }else if(is.null(K) & choiceKmethod == 'AUC'){
 
@@ -111,9 +103,8 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
         for(i in 2:maxK){
 
             ### Step 1. Compute the consensus matrix ###
-            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem,
-                                                       clMethod = ccClMethod,
-                                                       dist = ccDistHC)
+            consensusMatrix[,,i-1] <- consensusCluster(moc, i, B, pItem, clMethod = ccClMethod,
+                                                       dist = ccDistHC, maxIterKM = maxIterKM)
             ### Step 2. Compute area under the curve ###
             areaUnderTheCurve[i-1] <- computeAUC(consensusMatrix[,,i-1])
         }
@@ -133,8 +124,7 @@ coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8,
     if(!is.null(consensusMatrix)){
         output$consensusMatrix <- consensusMatrix[,,K-1]
     }else{
-        output$consensusMatrix <- consensusCluster(moc, K, B, pItem,
-                                                   clMethod = ccClMethod,
+        output$consensusMatrix <- consensusCluster(moc, K, B, pItem, clMethod = ccClMethod,
                                                    dist = ccDistHC)
     }
 

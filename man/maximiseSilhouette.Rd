@@ -4,9 +4,17 @@
 \alias{maximiseSilhouette}
 \title{Choose K that maximises the silhouette from a set of kernel matrices and clusterings}
 \usage{
-maximiseSilhouette(kernelMatrix, clLabels, maxK, savePNG = FALSE,
-  fileName = "silhouette", isDistance = FALSE, widestGap = FALSE,
-  dunns = FALSE, dunn2s = FALSE)
+maximiseSilhouette(
+  kernelMatrix,
+  clLabels,
+  maxK,
+  savePNG = FALSE,
+  fileName = "silhouette",
+  isDistance = FALSE,
+  widestGap = FALSE,
+  dunns = FALSE,
+  dunn2s = FALSE
+)
 }
 \arguments{
 \item{kernelMatrix}{N X N X (maxK-1) array of kernel matrices.}
