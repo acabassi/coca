@@ -33,7 +33,7 @@ computeAUC = function(consensusMatrix){
 #' correspondance of the indicated value. Default is NULL.
 #' @param fileName name of the png file
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-plotDeltaAUC = function(deltaAUC, chosenK = NULL, fileName){
+plotDeltaAUC = function(deltaAUC, chosenK = NULL, fileName) {
 
     maxK = length(deltaAUC) + 1
 

@@ -6,7 +6,7 @@
 #' correspondance of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-plotSilhouette = function(sil, chosenK = NULL, fileName){
+plotSilhouette = function(sil, chosenK = NULL, fileName) {
 
     maxK = length(sil) + 1
 
@@ -29,7 +29,7 @@ plotSilhouette = function(sil, chosenK = NULL, fileName){
 #' correspondance of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-plotWidestGap = function(widestGap, chosenK = NULL, fileName){
+plotWidestGap = function(widestGap, chosenK = NULL, fileName) {
 
     maxK = length(widestGap) + 1
 
@@ -52,7 +52,7 @@ plotWidestGap = function(widestGap, chosenK = NULL, fileName){
 #' correspondance of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-plotDunns = function(dunns, chosenK = NULL, fileName){
+plotDunns = function(dunns, chosenK = NULL, fileName) {
 
     maxK = length(dunns) + 1
 
@@ -75,7 +75,7 @@ plotDunns = function(dunns, chosenK = NULL, fileName){
 #' correspondance of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-plotDunn2s = function(dunns, chosenK = NULL, fileName){
+plotDunn2s = function(dunns, chosenK = NULL, fileName) {
 
     maxK = length(dunns) + 1
 
@@ -107,43 +107,16 @@ plotDunn2s = function(dunns, chosenK = NULL, fileName){
 #' silh[i] is the silhouette for K = i+1, and `K`, the lowest number of clusters for which the
 #' silhouette is maximised.
 #' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
-#' @examples
-#' data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
-#' package = "coca"), row.names = 1))
-#'
-#' cm_2cl <- consensusCluster(data, 2)
-#' cm_3cl <- consensusCluster(data, 3)
-#'
-#' km <- array(NA, c(300, 300, 2))
-#' km[,,1] <- klic::spectrumShift(cm_2cl, coeff = 1.1)
-#' km[,,2] <- klic::spectrumShift(cm_3cl, coeff = 1.1)
-#'
-#' clLabels <- array(NA, c(2,300))
-#'
-#' # Use kernel k-means to divide data into two clusters
-#' parameters_kkmeans <- list()
-#' parameters_kkmeans$cluster_count <- 2
-#' kkm <- klic::kkmeans(km[,,1], parameters_kkmeans) # km[,,1] because 2 is the first number we try
-#' clLabels[1,] <- kkm$clustering
-#'
-#' # Use kernel k-means to divide data into three clusters
-#' parameters_kkmeans$cluster_count <- 3
-#' kkm <- klic::kkmeans(km[,,2], parameters_kkmeans) # km[,,2] because 3 is the second number we try
-#'clLabels[2,] <- kkm$clustering
-#'
-#' # Call maximiseSilhouette function
-#' maxSil <- maximiseSilhouette(km, clLabels, maxK = 3)
-#' # The output of maximiseSilhouette contains:
-#' # * the values of the average silhoeutte for each number of clusters
-#' print(maxSil$silhouette)
-#' # * the number of clusters that maximises the average silhouette
-#' # (if more than one value for the number of clusters k maximises the silhouette,
-#' # all the such values are reported in the output)
-#' print(maxSil$k)
 #' @export
-maximiseSilhouette = function(kernelMatrix, clLabels, maxK,
-                              savePNG = FALSE, fileName = "silhouette", isDistance = FALSE,
-                              widestGap = FALSE, dunns = FALSE, dunn2s = FALSE){
+maximiseSilhouette = function(kernelMatrix,
+                              clLabels,
+                              maxK,
+                              savePNG = FALSE,
+                              fileName = "silhouette",
+                              isDistance = FALSE,
+                              widestGap = FALSE,
+                              dunns = FALSE,
+                              dunn2s = FALSE) {
 
     # Initialise vector of average silhouette
     sil <- rep(NA, maxK-1)

@@ -10,9 +10,9 @@
 #' Default is 6.
 #' @param B Number of iterations of the Consensus Clustering step.
 #' @param pItem Proportion of items sampled at each iteration of the Consensus Cluster step.
-#' @param hclustMethod Agglomeration method to be used by the hclust function for the hierarchical
-#' clustering step. Can be "single", "complete", "average", etc. For more details please see
-#' ?stats::hclust.
+#' @param hclustMethod Agglomeration method to be used by the hclust function to perform
+#' hierarchical clustering on the consensus matrix. Can be "single", "complete", "average", etc.
+#' For more details please see ?stats::hclust.
 #' @param choiceKmethod Method used to choose the number of clusters if K is NULL, can be either
 #' 'AUC' (area under the curve, work in progress) or 'silhouette'. Default is 'silhouette'.
 #' @param ccClMethod Clustering method to be used by the Consensus Clustering algorithm (CC). Can be
@@ -65,10 +65,23 @@
 #'
 #' @export
 
-coca = function(moc, K = NULL, maxK = 6, B = 1000, pItem = 0.8, hclustMethod = 'average',
-                choiceKmethod = 'silhouette', ccClMethod = 'km', ccDistHC = 'euclidean',
-                maxIterKM = 1000, savePNG = FALSE, fileName = 'coca', verbose = FALSE,
-                widestGap = FALSE, dunns = FALSE, dunn2s = FALSE, returnAllMatrices = FALSE){
+coca = function(moc,
+                K = NULL,
+                maxK = 6,
+                B = 1000,
+                pItem = 0.8,
+                hclustMethod = 'average',
+                choiceKmethod = 'silhouette',
+                ccClMethod = 'km',
+                ccDistHC = 'euclidean',
+                maxIterKM = 1000,
+                savePNG = FALSE,
+                fileName = 'coca',
+                verbose = FALSE,
+                widestGap = FALSE,
+                dunns = FALSE,
+                dunn2s = FALSE,
+                returnAllMatrices = FALSE) {
 
     # Intialise output list
     output = list()

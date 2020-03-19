@@ -82,7 +82,7 @@
       <h1>Introduction to coca</h1>
                         <h4 class="author">Alessandra Cabassi</h4>
             
-            <h4 class="date">2020-03-18</h4>
+            <h4 class="date">2020-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/acabassi/coca/blob/master/vignettes/coca-vignette.Rmd"><code>vignettes/coca-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>coca-vignette.Rmd</code></div>
@@ -125,7 +125,7 @@
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">### Plot matrix of clusters</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="coca-vignette_files/figure-html/plot_moc-1.png" width="700"></p>
+<p><img src="../docs/articles/coca-vignette_files/figure-html/plot_moc-1.png" width="700"></p>
 <p>Here the datasets don’t have names, so they have been assigned integer numbers. If available, you can specify cluster names; this will make the row names easier to interpret.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">### Prepare annotations</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">true_labels &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"cluster_labels.csv"</span>,</a>
@@ -138,7 +138,7 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">### Plot matrix of clusters</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">        <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="coca-vignette_files/figure-html/plot_moc_with_names-1.png" width="700"></p>
+<p><img src="../docs/articles/coca-vignette_files/figure-html/plot_moc_with_names-1.png" width="700"></p>
 <p>As you can see, the first part of each row name corresponds to the dataset, the second one to the cluster index. Moreover, each colour in the main matrix corresponds to one dataset (here dataset A is green, dataset B is yellow, and so on).</p>
 </div>
 <div id="cluster-of-clusters-analysis" class="section level1">
@@ -158,7 +158,7 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2">annotations<span class="op">$</span>coca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">        <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="coca-vignette_files/figure-html/coca-1.png" width="700"></p>
+<p><img src="../docs/articles/coca-vignette_files/figure-html/coca-1.png" width="700"></p>
 <p>Again, if the number of clusters is not know a priori, the user can delegate the choice of K to the <code><a href="../reference/coca.html">coca()</a></code> function. There are two methods available here: the silhouette, where the distance between data points <em>i</em> and <em>j</em> is defined as <em>1</em> minus the <em>(i,j)</em>-th kernel entry in the final kernel matrix, and the delta area under the curve, which is the method suggested by Monti et al. (2003). Please note that the properties of the latter have not been assessed yet.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Use COCA to find global clustering and chooose the number of clusters</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">coca &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coca.html">coca</a></span>(moc, <span class="dt">maxK =</span> <span class="dv">10</span>, <span class="dt">hclustMethod =</span> <span class="st">"average"</span>)</a>
@@ -171,7 +171,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2">annotations<span class="op">$</span>coca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">        <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="coca-vignette_files/figure-html/coca_unknownK-1.png" width="700"></p>
+<p><img src="../docs/articles/coca-vignette_files/figure-html/coca_unknownK-1.png" width="700"></p>
 </div>
 <div id="clustering-algorithms" class="section level1">
 <h1 class="hasAnchor">

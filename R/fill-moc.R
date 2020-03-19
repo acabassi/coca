@@ -50,8 +50,13 @@
 #' clLabels2 <- outputFillMOC2$fullClLabels
 #' @export
 
-fillMOC <- function(clLabels, computeAccuracy = FALSE, verbose = FALSE,
-                    fullData = FALSE, data = NULL){
+fillMOC <-
+    function(clLabels,
+             computeAccuracy = FALSE,
+             verbose = FALSE,
+             fullData = FALSE,
+             data = NULL) {
+
 
     N <- dim(clLabels)[1] # Number of data points
     M <- dim(clLabels)[2] # Number of data sets

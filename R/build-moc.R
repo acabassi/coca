@@ -70,11 +70,19 @@
 #'
 #' @export
 
-buildMOC = function(data, M, K = NULL, maxK = 10, methods = "hclust",
+buildMOC = function(data,
+                    M,
+                    K = NULL,
+                    maxK = 10,
+                    methods = "hclust",
                     distances = NULL,
-                    fill = FALSE, computeAccuracy = FALSE,
-                    fullData = FALSE, savePNG = FALSE,
-                    widestGap = FALSE, dunns = FALSE, dunn2s = FALSE){
+                    fill = FALSE,
+                    computeAccuracy = FALSE,
+                    fullData = FALSE,
+                    savePNG = FALSE,
+                    widestGap = FALSE,
+                    dunns = FALSE,
+                    dunn2s = FALSE) {
 
     ###### Match data ######
     obsNames <- rownames(data[[1]])

@@ -51,10 +51,18 @@
 #'
 #' @export
 #'
-plotMOC = function(moc, datasetIndicator, datasetNames = NULL, annotations = NULL,
-                   clr = FALSE, clc = FALSE, save = FALSE, fileName = "moc.png",
-                   showObsNames = FALSE, showClusterNames = FALSE,
-                   annotation_colors = NA){
+plotMOC = function(moc,
+                   datasetIndicator,
+                   datasetNames = NULL,
+                   annotations = NULL,
+                   clr = FALSE,
+                   clc = FALSE,
+                   save = FALSE,
+                   fileName = "moc.png",
+                   showObsNames = FALSE,
+                   showClusterNames = FALSE,
+                   annotation_colors = NA) {
+
 
     moc = t(moc)
 
