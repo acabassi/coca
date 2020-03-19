@@ -17,13 +17,14 @@ vignette: >
 The R package **coca** contains the functions needed to use COCA (**C**luster-**O**f-**C**lusters 
 **A**nalysis), an integrative clustering method that was first introduced in a breast cancer study
 by The Cancer Genome Atlas in 2012 and quickly became a popular tool in cancer studies (see e.g.
-Hoadley et al. 2014 and Aure et al. 2017). It is based on \emph{Consensus Clustering} (Monti et al.,
+Hoadley et al. 2014 and Aure et al. 2017). It is based on Consensus Clustering (Monti et al.,
 2013), an algorithm that was initially developed to assess the stability of clusters obtained with
 any clustering algorithm.
 
 The main goal of COCA is to summarise clusterings found in different ’omics datasets, by identifying
 a “global" clustering across the datasets that is intended to be in good agreement with the
-clustering structures identified in each of the individual datasets.
+clustering structures identified in each of the individual datasets. For further details about the
+algorithm, please see Cabassi and Kirk (2019).
 
 # Building the matrix of clusters
 
@@ -31,12 +32,12 @@ The first step of COCA is the construction of the Matrix-Of-Clusters (MOC). This
 of size _N x K_, where _K_ is the sum of the number of clusters _Km_ in every dataset _Xm_.
 Therefore, to each column _j_ of this matrix corresponds a cluster _mk_ in dataset _Xm_. The
 _(i,j)_-th entry of the matrix of clusters is equal to one if data point _i_ belongs to cluster _mk_
-in dataset _Xm_, and is equal to zero otherwise.For more details about how the matrix of clusters is
-built, please see Cabassi and Kirk (2019).
+in dataset _Xm_, and is equal to zero otherwise.
 
 The function that can be used to build a matrix of clusters starting from a list of heterogeneous
 datasets (referring to the same observations) is `buildMOC`.
-In the example below, we assume to have three datasets with the same number of clusters, six. The clustering structure in each of those dataasets is found via k-means clustering.
+In the example below, we assume to have three datasets with the same number of clusters, six. The
+clustering structure in each of those datasets is found via k-means clustering.
 
 ```{r build_coca, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 ### Load data
@@ -57,13 +58,15 @@ datasetIndicator <- outputBuildMOC$datasetIndicator
 ```
 
 The package also contains a function that can be used to plot the resulting Matrix-Of-Clusters,
-`plotMOC`. Here we use as annotations the true cluster labels, but in real applications annotations
-can be any dataframe with one element for each row of the matrix of clusters. Please note that the
-row names of the dataframe must be the same must correspond to the observation names in each
-dataset, otherwise the annotation cells will be left empty by the plotting function. Moreover, each
-column of the dataframe that contains categorical variables must be defined with `as.factor()` if
-you want each category to have a different colour (otherwise they will be treated as continuous
-variables and each category will have a different shade of the same colour).
+`plotMOC`. Here we use as annotations the true cluster labels, but, in real applications, the
+`annotations` argument can take as input any dataframe with one element for each row of the matrix
+of clusters. 
+
+Please note that the row names of the dataframe must be the same must correspond to the observation
+names in each dataset, otherwise the annotation cells will be left empty by the plotting function.
+Moreover, each column of the dataframe that contains categorical variables must be defined with
+`as.factor()` if you want each category to have a different colour (otherwise they will be treated
+as continuous variables and each category will have a different shade of the same colour).
 
 ```{r plot_moc, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
 
@@ -110,7 +113,7 @@ in the `coca()` function.
 ### COCA
 
 # Use COCA to find global clustering
-coca <- coca(moc, K = 6, hclustMethod = "average")
+coca <- coca::coca(moc, K = 6)
 
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
@@ -121,6 +124,12 @@ annotations$coca <- as.factor(coca$clusterLabels)
 coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
         annotations = annotations)
 ```
+
+Here, we have computed the Adjusted Rand Index (ARI) to check how similar the two partitions of the
+data are. The ARI goes from -1 to 1: values close to 1 indicate very high similarity between the two
+partitions, values close to 0 indicate that the observed amount of similarities between the two
+partitions is the expected similarity between two random partitions, while negative values indicate
+that the two partitions are less similar than what would be expected by chance.
 
 Again, if the number of clusters is not know a priori, the user can delegate the choice of K to the
 `coca()` function. There are two methods available here: the silhouette, where the distance between
@@ -145,19 +154,44 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 
 # Clustering algorithms 
 
-The default clustering algorithm is k-means, as implemented in the `stats` package (documentation
-for the `kmeans()` function  can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kmeans)). The default
-maximum number of iterations is 1000. If you would like to increase it, you can use the `maxIterKM`
-argument of the `coca()` function. 
+## Inside `buildMOC()`
 
-Alternatively, one can select to use hierarchical clustering; this can be achieved by setting
-`ccClMethod = "hc"` (documentation for the `hclust()` function can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/hclust)). The distance 
-and agglomeration method used with hierarchical clustering can be selected via the `ccDistHC` and
-`hclustMethod` arguments of the `coca()` function respectively.
+In the first step, where a different clustering is found in each dataset, inside the `buildMOC()`
+function, the clustering algorithms available are: 
 
-# Warnings and error messages
+* k-means clustering (`method="kmeans"`), for which the `kmeans()` function of the `stats` R package
+is used (see [this link](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kmeans)
+for the documentation);
+* hierarchical clustering (`method="hclust"`), for which the `hclust()` function of the `stats` R
+package is used (see
+[this link](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/hclust)
+for the documentation);
+* partitioning around medoids (`method="pam"`), for which the `pam()` function of the `cluster` R
+package is used (see 
+[this link](https://www.rdocumentation.org/packages/cluster/versions/2.1.0/topics/pam) for the
+documentation).
 
-If you get one or more error messages saying `did not converge in 1000 iterations`, when using the
+If you would like to use a different clustering algorithm for each of your datasets, you can pass a
+vector of strings to the `method` argument. For example, by setting
+`method = c("kmeans", "hclust", "pam")` the clusters in the first dataset will be determined using
+k-means clustering, in the second one hierarchical clustering, and so on.
+
+## Inside `coca()`
+
+To build the consensus clustering matrix, the default clustering algorithm is k-means, as
+implemented in the `stats` package. The default maximum number of iterations is 1000. If you would
+like to increase it, you can use the `maxIterKM` argument of the `coca()` function. Alternatively,
+one can select to use hierarchical clustering; this can be achieved by setting `ccClMethod = "hc"`.
+The distance used with hierarchical clustering can be selected via the `ccDistHC` argument of the
+`coca()` function.
+
+To find the final clustering based on the consensus matrix, hierarchical clustering is used. The 
+agglomeration method used in this step can be chosen via the `hclustMethod` of the `coca()`
+function. The available options are the same as in the `hclust()` function of the `stats` R package.
+
+# Warning and error messages
+
+If you get one or more error messages saying `did not converge in 1000 iterations` when using the
 `coca` function, it means that you are using the k-means clustering algorithm and that it did not
 converge within the maximum number of iterations (the default is 1000). If you would like to change
 the maximum number of iterations or use a different clustering algorithm, please see the previous

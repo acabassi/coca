@@ -43,7 +43,7 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 ### COCA
 
 # Use COCA to find global clustering
-coca <- coca(moc, K = 6, hclustMethod = "average")
+coca <- coca::coca(moc, K = 6)
 
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
