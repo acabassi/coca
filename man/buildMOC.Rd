@@ -25,88 +25,95 @@ buildMOC(
 
 \item{M}{Number of datasets.}
 
-\item{K}{Vector containing the number of clusters in each dataset. If given an integer
-instead of a vector it is assumed that each dataset has the same number of clusters.
-If NULL, it is assumed that the true cluster numbers are not known, therefore they will be
-estimated using the silhouette method.}
+\item{K}{Vector containing the number of clusters in each dataset. If given
+an integer instead of a vector it is assumed that each dataset has the same
+number of clusters. If NULL, it is assumed that the true cluster numbers are
+not known, therefore they will be estimated using the silhouette method.}
 
-\item{maxK}{Vector of maximum cluster numbers to be considered for each dataset
-if K is NULL. If given an integer instead of a vector it is assumed that for each dataset
-the same maximum number of clusters must be considered. Default is 10.}
+\item{maxK}{Vector of maximum cluster numbers to be considered for each
+dataset if K is NULL. If given an integer instead of a vector it is assumed
+that for each dataset the same maximum number of clusters must be considered.
+Default is 10.}
 
-\item{methods}{Vector of strings containing the names of the clustering methods to be
-used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
-If the vector is of length one, the same clustering method is applied to all the datasets.}
+\item{methods}{Vector of strings containing the names of the clustering
+methods to be used to cluster the observations in each dataset. Each can be
+'kmeans', 'hclust', or 'pam'. If the vector is of length one, the same
+clustering method is applied to all the datasets.}
 
-\item{distances}{Distances to be used in the clustering step for each dataset. At the moment
-there is only the option to choose "cor" for 1-correlation. Otherwise the default distance
-for each method is used.}
+\item{distances}{Distances to be used in the clustering step for each
+dataset. At the moment there is only the option to choose 'cor' for
+1-correlation. Otherwise the default distance for each method is used.}
 
-\item{fill}{Boolean. If TRUE, if there are any missing observations in one or more datasets,
-the corresponding cluster labels will be estimated through generalised linear models on the
-basis of the available labels.}
+\item{fill}{Boolean. If TRUE, if there are any missing observations in one or
+more datasets, the corresponding cluster labels will be estimated through
+generalised linear models on the basis of the available labels.}
 
-\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the performance of the
-predictive model used to estimate the corresponding missing label is computer.}
+\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the
+performance of the predictive model used to estimate the corresponding
+missing label is computer.}
 
-\item{fullData}{Boolean. If TRUE, the full data matrices are used to estimate the missing
-cluster labels (instead of just using the cluster labels of the corresponding datasets).}
+\item{fullData}{Boolean. If TRUE, the full data matrices are used to estimate
+the missing cluster labels (instead of just using the cluster labels of the
+corresponding datasets).}
 
-\item{savePNG}{Boolean. If TRUE, plots of the silhouette for each datasets are saved as
-png files.}
+\item{savePNG}{Boolean. If TRUE, plots of the silhouette for each datasets
+are saved as png files.}
 
-\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose best number
-of clusters. Default is FALSE.}
+\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose
+best number of clusters. Default is FALSE.}
 
-\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best number
-of clusters. Default is FALSE.}
+\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best
+number of clusters. Default is FALSE.}
 
-\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to choose best number
-of clusters. Default is FALSE.}
+\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to
+choose best number of clusters. Default is FALSE.}
 }
 \value{
 The output is a list containing:
 * The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
-where element `(n,k)` contains a 1 if observation n belongs to the corresponding cluster,
-0 otherwise.
+where element `(n,k)` contains a 1 if observation n belongs to the
+corresponding cluster, 0 otherwise.
 * A vector called `datasetIndicator` of length `sum(K)` in which
 each element is the number of the dataset to which the cluster belongs.
-* `number_nas`, the total number of NAs in the matrix of clusters. (If the MOC has been
-filled with imputed values, `number_nas` indicated the number of NAs in the original MOC.)
-* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is in compact form,
-i.e. each column corresponds to a dataset, each row represents an observation,
- and its values indicate the cluster labels.
-* `K`, vector of cluster numbers in each dataset. If these are provided as input,
-this is the same as the input (expanded to a vector if the input is an integer). If the
-cluster numbers are not provided as input, this vector contains the cluster numbers
-chosen via silhouette for each dataset.
+* `number_nas`, the total number of NAs in the matrix of clusters. (If the
+MOC has been filled with imputed values, `number_nas` indicated the number of
+NAs in the original MOC.)
+* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is
+in compact form, i.e. each column corresponds to a dataset, each row
+represents an observation, and its values indicate the cluster labels.
+* `K`, vector of cluster numbers in each dataset. If these are provided as
+input, this is the same as the input (expanded to a vector if the input is an
+integer). If the cluster numbers are not provided as input, this vector
+contains the cluster numbers chosen via silhouette for each dataset.
 }
 \description{
-This function creates a matrix of clusters starting from a list of heterogeneous datasets.
+This function creates a matrix of clusters starting from a list of
+heterogeneous datasets.
 }
 \examples{
 ## Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
-package = "coca"), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
-package = "coca"), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
-package = "coca"), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
+package = 'coca'), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
+package = 'coca'), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
+package = 'coca'), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
 
 ## Extract matrix of clusters
 matrixOfClusters <- outputBuildMOC$moc
 
 }
 \references{
-The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
-breast tumours. Nature, 487(7407), pp.61–70.
+The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
+of human breast tumours. Nature, 487(7407), pp.61–70.
 
-Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation
-of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.
+Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the
+interpretation and validation of cluster analysis. Journal of computational
+and applied mathematics, 20, pp.53-65.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

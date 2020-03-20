@@ -9,7 +9,7 @@ data[[3]] <- as.matrix(read.csv(system.file("extdata",
                       "dataset3.csv", package = "coca"), row.names = 1))
 
 ### Build matrix of clusters
-outputBuildMOC <- coca::buildMOC(data, M = 3, K = 6, distances = "cor")
+outputBuildMOC <- coca::buildMOC(data, M = 3, K = 5, distances = "cor")
 
 ### Extract matrix of clusters and dataset indicator vector
 moc <- outputBuildMOC$moc
@@ -25,7 +25,7 @@ annotations <- data.frame(true_labels = as.factor(true_labels))
 ### Plot matrix of clusters
 coca::plotMOC(moc, datasetIndicator, annotations = annotations)
 
-## ----plot_moc_with_names, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE----
+## ----plotmoc_wnames, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE----
 
 ### Prepare annotations
 true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
@@ -33,7 +33,7 @@ true_labels <- as.matrix(read.csv(system.file("extdata", "cluster_labels.csv",
 annotations <- data.frame(true_labels = as.factor(true_labels))
 
 ### Set dataset names
-datasetNames <- c(rep("A", 6), rep("B", 6), rep("C", 6))
+datasetNames <- c(rep("A", 5), rep("B", 5), rep("C", 5))
 
 ### Plot matrix of clusters
 coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
@@ -43,7 +43,7 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 ### COCA
 
 # Use COCA to find global clustering
-coca <- coca::coca(moc, K = 6)
+coca <- coca::coca(moc, K = 5)
 
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)
@@ -57,7 +57,7 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 ## ----coca_unknownK, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE----
 
 # Use COCA to find global clustering and chooose the number of clusters
-coca <- coca(moc, maxK = 10, hclustMethod = "average")
+coca <- coca::coca(moc, maxK = 10, hclustMethod = "average")
 
 # Compare clustering to the true labels
 ari <- mclust::adjustedRandIndex(true_labels, coca$clusterLabels)

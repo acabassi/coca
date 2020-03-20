@@ -4,53 +4,48 @@
 \alias{fillMOC}
 \title{Fill Matrix-Of-Clusters}
 \usage{
-fillMOC(
-  clLabels,
-  computeAccuracy = FALSE,
-  verbose = FALSE,
-  fullData = FALSE,
-  data = NULL
-)
+fillMOC(clLabels, computeAccuracy = FALSE, verbose = FALSE, data = NULL)
 }
 \arguments{
-\item{clLabels}{N X M matrix containing cluster labels. Element (n,m) contains the cluster
-label for element data point n in cluster m.}
+\item{clLabels}{N X M matrix containing cluster labels. Element (n,m)
+contains the cluster label for element data point n in cluster m.}
 
-\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the performance of the
-predictive model used to estimate the corresponding missing label is computer.}
+\item{computeAccuracy}{Boolean. If TRUE, for each missing element, the
+performance of the predictive model used to estimate the corresponding
+missing label is computer.}
 
-\item{verbose}{Boolean. If TRUE, for each NA, the size of the matrix used to estimate its
-values is printed to screen}
+\item{verbose}{Boolean. If TRUE, for each NA, the size of the matrix used to
+estimate its values is printed to screen}
 
-\item{fullData}{Boolean. If TRUE, the full data matrices are used to estimate the missing
-cluster labels (instead of just using the cluster labels of the corresponding datasets).}
-
-\item{data}{List of M datasets to be used for the label imputation if fullData is TRUE.}
+\item{data}{List of M datasets to be used for the label imputation if
+fullData is TRUE.}
 }
 \value{
-The output is the same matrix of clusters, where NAs have been replaced by their
-estimates, where possible. If `computeAccuracy` is TRUE, then also an object called `accuracy`
-is returned, where each element corresponds to the predictive accuracy of the predictive
-model used to estimate the corresponding label in the cluster label matrix. In order to
-compare the predictive accuracy of the imputation algorithm, `accuracy_random` is also
-returned.
+The output is the same matrix of clusters, where NAs have been
+replaced by their estimates, where possible. If `computeAccuracy` is TRUE,
+then also an object called `accuracy` is returned, where each element
+corresponds to the predictive accuracy of the predictive model used to
+estimate the corresponding label in the cluster label matrix. In order to
+compare the predictive accuracy of the imputation algorithm,
+`accuracy_random` is also returned.
 }
 \description{
-This function fills in a matrix of clusters that contains NAs, by estimating the missing
-cluster labels based on the available ones or based on the other datasets.
+This function fills in a matrix of clusters that contains NAs, by estimating
+the missing cluster labels based on the available ones or based on the other
+datasets.
 }
 \examples{
 ## Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
-                       package = "coca"), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
-                       package = "coca"), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
-                       package = "coca"), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
+                       package = 'coca'), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
+                       package = 'coca'), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
+                       package = 'coca'), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
 
 ## Extract matrix of clusters
 clLabels <- outputBuildMOC$clLabels
@@ -62,14 +57,14 @@ clLabels <- outputBuildMOC$clLabels
 # clLabels1 <- outputFillMOC1$fullClLabels
 
 ## Impute missing values using full datasets
-outputFillMOC2 <- fillMOC(clLabels, fullData = TRUE, data = data)
+outputFillMOC2 <- fillMOC(clLabels, data = data)
 
 ## Extract full matrix of cluster labels
 clLabels2 <- outputFillMOC2$fullClLabels
 }
 \references{
-The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast
-tumours. Nature, 487(7407), pp.61–70.
+The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
+of human breast tumours. Nature, 487(7407), pp.61–70.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

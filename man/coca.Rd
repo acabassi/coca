@@ -25,33 +25,39 @@ coca(
 )
 }
 \arguments{
-\item{moc}{N X C data matrix, where C is the total number of clusters considered.}
+\item{moc}{N X C data matrix, where C is the total number of clusters
+considered.}
 
 \item{K}{Number of clusters.}
 
-\item{maxK}{Maximum number of clusters considered for the final clustering if K is not known.
-Default is 6.}
+\item{maxK}{Maximum number of clusters considered for the final clustering if
+K is not known. Default is 6.}
 
 \item{B}{Number of iterations of the Consensus Clustering step.}
 
-\item{pItem}{Proportion of items sampled at each iteration of the Consensus Cluster step.}
+\item{pItem}{Proportion of items sampled at each iteration of the Consensus
+Cluster step.}
 
-\item{hclustMethod}{Agglomeration method to be used by the hclust function for the hierarchical
-clustering step. Can be "single", "complete", "average", etc. For more details please see
-?stats::hclust.}
+\item{hclustMethod}{Agglomeration method to be used by the hclust function to
+perform hierarchical clustering on the consensus matrix. Can be 'single',
+'complete', 'average', etc. For more details please see ?stats::hclust.}
 
-\item{choiceKmethod}{Method used to choose the number of clusters if K is NULL, can be either
-'AUC' (area under the curve, work in progress) or 'silhouette'. Default is 'silhouette'.}
+\item{choiceKmethod}{Method used to choose the number of clusters if K is
+NULL, can be either 'AUC' (area under the curve, work in progress) or
+'silhouette'. Default is 'silhouette'.}
 
-\item{ccClMethod}{Clustering method to be used by the Consensus Clustering algorithm (CC). Can be
-either 'km' for k-means clustering or 'hc' for hiearchical clustering. Default is 'km'.}
+\item{ccClMethod}{Clustering method to be used by the Consensus Clustering
+algorithm (CC). Can be either 'km' for k-means clustering or 'hc' for
+hiearchical clustering. Default is 'km'.}
 
-\item{ccDistHC}{Distance to be used by the hiearchical clustering algorithm inside CC. Can be
-"pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), or any of the
-distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra",
-"binary" or "minkowski"). Default is "euclidean".}
+\item{ccDistHC}{Distance to be used by the hiearchical clustering algorithm
+inside CC. Can be 'pearson' (for 1 - Pearson correlation), 'spearman' (for 1-
+Spearman correlation), or any of the distances provided in stats::dist()
+(i.e. 'euclidean', 'maximum', 'manhattan', 'canberra', 'binary' or
+'minkowski'). Default is 'euclidean'.}
 
-\item{maxIterKM}{Number of iterations for the k-means clustering algorithm. Default is 1000.}
+\item{maxIterKM}{Number of iterations for the k-means clustering algorithm.
+Default is 1000.}
 
 \item{savePNG}{Boolean. Save plots as PNG files. Default is FALSE.}
 
@@ -59,45 +65,46 @@ distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan", "
 
 \item{verbose}{Boolean.}
 
-\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose best number of
-clusters. Default is FALSE.}
+\item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose
+best number of clusters. Default is FALSE.}
 
-\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best number of clusters.
-Default is FALSE.}
+\item{dunns}{Boolean. If TRUE, compute also Dunn's index to choose best
+number of clusters. Default is FALSE.}
 
-\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to choose best number of
-clusters. Default is FALSE.}
+\item{dunn2s}{Boolean. If TRUE, compute also alternative Dunn's index to
+choose best number of clusters. Default is FALSE.}
 
 \item{returnAllMatrices}{Boolean. If TRUE, return all consensus matrices.}
 }
 \value{
-The output is a consensus matrix, that is a symmetric matrix where the element in
-position (i,j) corresponds to the proportion of times that items i and j have been clustered
-together and a vector of cluster labels.
+The output is a consensus matrix, that is a symmetric matrix where
+the element in position (i,j) corresponds to the proportion of times that
+items i and j have been clustered together and a vector of cluster labels.
 }
 \description{
-This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix where each column is a
-clustering of the data, each row corresponds to a data point and the element in position (i,j)
-is equal to 1 if data point i belongs to cluster j, 0 otherwise.
+This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
+where each column is a clustering of the data, each row corresponds to a data
+point and the element in position (i,j) is equal to 1 if data point i belongs
+to cluster j, 0 otherwise.
 }
 \examples{
 ## Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
-package = "coca"), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
-package = "coca"), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
-package = "coca"), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
+package = 'coca'), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
+package = 'coca'), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
+package = 'coca'), row.names = 1))
 
 ## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
+outputBuildMOC <- buildMOC(data, M = 3, K = 5, distances = 'cor')
 
 ## Extract matrix of clusters
 moc <- outputBuildMOC$moc
 
 ## Do Cluster-Of-Clusters Analysis
-outputCOCA <- coca(moc, K = 6)
+outputCOCA <- coca(moc, K = 5)
 
 ## Extract cluster labels
 clusterLabels <- outputCOCA$clusterLabels
@@ -108,8 +115,9 @@ The Cancer Genome Atlas, 2012. Comprehensive molecular
 portraits of human breast tumours. Nature,
 487(7407), pp.61–70.
 
-Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning for integrative
-consensus clustering of genomic datasets. arXiv preprint. arXiv:1904.07701.
+Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning
+for integrative consensus clustering of 'omic datasets. arXiv preprint.
+arXiv:1904.07701.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

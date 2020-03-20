@@ -7,7 +7,8 @@
 computeAUC(consensusMatrix)
 }
 \arguments{
-\item{consensusMatrix}{Consensus matrix, output of the `coca::consensusCluster`
+\item{consensusMatrix}{Consensus matrix, output of the
+`coca::consensusCluster`
 function}
 }
 \value{
@@ -19,9 +20,9 @@ empirical distribution function of a consensus matrix
 as described in Monti et al. (2003), Section 3.3.1.
 }
 \references{
-Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
-a resampling-based method for class discovery and visualization of gene expression microarray
-data. Machine learning, 52(1-2), pp.91-118.
+Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
+clustering: a resampling-based method for class discovery and visualization
+of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

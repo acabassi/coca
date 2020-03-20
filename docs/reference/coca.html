@@ -36,9 +36,10 @@
 
 
 <meta property="og:title" content="Cluster-Of-Clusters Analysis — coca" />
-<meta property="og:description" content="This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix where each column is a
-clustering of the data, each row corresponds to a data point and the element in position (i,j)
-is equal to 1 if data point i belongs to cluster j, 0 otherwise." />
+<meta property="og:description" content="This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
+where each column is a clustering of the data, each row corresponds to a data
+point and the element in position (i,j) is equal to 1 if data point i belongs
+to cluster j, 0 otherwise." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,9 +126,10 @@ is equal to 1 if data point i belongs to cluster j, 0 otherwise." />
     </div>
 
     <div class="ref-description">
-    <p>This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix where each column is a
-clustering of the data, each row corresponds to a data point and the element in position (i,j)
-is equal to 1 if data point i belongs to cluster j, 0 otherwise.</p>
+    <p>This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
+where each column is a clustering of the data, each row corresponds to a data
+point and the element in position (i,j) is equal to 1 if data point i belongs
+to cluster j, 0 otherwise.</p>
     </div>
 
     <pre class="usage"><span class='fu'>coca</span>(
@@ -155,7 +157,8 @@ is equal to 1 if data point i belongs to cluster j, 0 otherwise.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>moc</th>
-      <td><p>N X C data matrix, where C is the total number of clusters considered.</p></td>
+      <td><p>N X C data matrix, where C is the total number of clusters
+considered.</p></td>
     </tr>
     <tr>
       <th>K</th>
@@ -163,8 +166,8 @@ is equal to 1 if data point i belongs to cluster j, 0 otherwise.</p>
     </tr>
     <tr>
       <th>maxK</th>
-      <td><p>Maximum number of clusters considered for the final clustering if K is not known.
-Default is 6.</p></td>
+      <td><p>Maximum number of clusters considered for the final clustering if
+K is not known. Default is 6.</p></td>
     </tr>
     <tr>
       <th>B</th>
@@ -172,34 +175,39 @@ Default is 6.</p></td>
     </tr>
     <tr>
       <th>pItem</th>
-      <td><p>Proportion of items sampled at each iteration of the Consensus Cluster step.</p></td>
+      <td><p>Proportion of items sampled at each iteration of the Consensus
+Cluster step.</p></td>
     </tr>
     <tr>
       <th>hclustMethod</th>
-      <td><p>Agglomeration method to be used by the hclust function for the hierarchical
-clustering step. Can be "single", "complete", "average", etc. For more details please see
-?stats::hclust.</p></td>
+      <td><p>Agglomeration method to be used by the hclust function to
+perform hierarchical clustering on the consensus matrix. Can be 'single',
+'complete', 'average', etc. For more details please see ?stats::hclust.</p></td>
     </tr>
     <tr>
       <th>choiceKmethod</th>
-      <td><p>Method used to choose the number of clusters if K is NULL, can be either
-'AUC' (area under the curve, work in progress) or 'silhouette'. Default is 'silhouette'.</p></td>
+      <td><p>Method used to choose the number of clusters if K is
+NULL, can be either 'AUC' (area under the curve, work in progress) or
+'silhouette'. Default is 'silhouette'.</p></td>
     </tr>
     <tr>
       <th>ccClMethod</th>
-      <td><p>Clustering method to be used by the Consensus Clustering algorithm (CC). Can be
-either 'km' for k-means clustering or 'hc' for hiearchical clustering. Default is 'km'.</p></td>
+      <td><p>Clustering method to be used by the Consensus Clustering
+algorithm (CC). Can be either 'km' for k-means clustering or 'hc' for
+hiearchical clustering. Default is 'km'.</p></td>
     </tr>
     <tr>
       <th>ccDistHC</th>
-      <td><p>Distance to be used by the hiearchical clustering algorithm inside CC. Can be
-"pearson" (for 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), or any of the
-distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra",
-"binary" or "minkowski"). Default is "euclidean".</p></td>
+      <td><p>Distance to be used by the hiearchical clustering algorithm
+inside CC. Can be 'pearson' (for 1 - Pearson correlation), 'spearman' (for 1-
+Spearman correlation), or any of the distances provided in stats::dist()
+(i.e. 'euclidean', 'maximum', 'manhattan', 'canberra', 'binary' or
+'minkowski'). Default is 'euclidean'.</p></td>
     </tr>
     <tr>
       <th>maxIterKM</th>
-      <td><p>Number of iterations for the k-means clustering algorithm. Default is 1000.</p></td>
+      <td><p>Number of iterations for the k-means clustering algorithm.
+Default is 1000.</p></td>
     </tr>
     <tr>
       <th>savePNG</th>
@@ -215,18 +223,18 @@ distances provided in stats::dist() (i.e. "euclidean", "maximum", "manhattan", "
     </tr>
     <tr>
       <th>widestGap</th>
-      <td><p>Boolean. If TRUE, compute also widest gap index to choose best number of
-clusters. Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also widest gap index to choose
+best number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>dunns</th>
-      <td><p>Boolean. If TRUE, compute also Dunn's index to choose best number of clusters.
-Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also Dunn's index to choose best
+number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>dunn2s</th>
-      <td><p>Boolean. If TRUE, compute also alternative Dunn's index to choose best number of
-clusters. Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also alternative Dunn's index to
+choose best number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>returnAllMatrices</th>
@@ -236,35 +244,36 @@ clusters. Default is FALSE.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a consensus matrix, that is a symmetric matrix where the element in
-position (i,j) corresponds to the proportion of times that items i and j have been clustered
-together and a vector of cluster labels.</p>
+    <p>The output is a consensus matrix, that is a symmetric matrix where
+the element in position (i,j) corresponds to the proportion of times that
+items i and j have been clustered together and a vector of cluster labels.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>The Cancer Genome Atlas, 2012. Comprehensive molecular
 portraits of human breast tumours. Nature,
 487(7407), pp.61–70.</p>
-<p>Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning for integrative
-consensus clustering of genomic datasets. arXiv preprint. arXiv:1904.07701.</p>
+<p>Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning
+for integrative consensus clustering of 'omic datasets. arXiv preprint.
+arXiv:1904.07701.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load data</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset2.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset3.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>'cor'</span>)
 
 <span class='co'>## Extract matrix of clusters</span>
 <span class='no'>moc</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span>
 
 <span class='co'>## Do Cluster-Of-Clusters Analysis</span>
-<span class='no'>outputCOCA</span> <span class='kw'>&lt;-</span> <span class='fu'>coca</span>(<span class='no'>moc</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)
+<span class='no'>outputCOCA</span> <span class='kw'>&lt;-</span> <span class='fu'>coca</span>(<span class='no'>moc</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>5</span>)
 
 <span class='co'>## Extract cluster labels</span>
 <span class='no'>clusterLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputCOCA</span>$<span class='no'>clusterLabels</span></div></pre>

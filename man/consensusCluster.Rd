@@ -24,42 +24,44 @@ consensusCluster(
 
 \item{pItem}{Proportion of items sampled at each iteration.}
 
-\item{clMethod}{Clustering algorithm. Can be "hc" for hierarchical clustering, "km"
-for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
-if the data contain at least one covariate that is a factor, the default clustering
-algorithm is "pam".}
+\item{clMethod}{Clustering algorithm. Can be 'hc' for hierarchical
+clustering, 'km' for k-means clustering, or 'pam' for partitioning around
+medoids. Default is 'hc'. However, if the data contain at least one covariate
+that is a factor, the default clustering algorithm is 'pam'.}
 
-\item{dist}{Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
-correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
-stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
-or a matrix containing the distances between the observations.}
+\item{dist}{Distance used for hierarchical clustering. Can be 'pearson' (for
+1 - Pearson correlation), 'spearman' (for 1- Spearman correlation), any of
+the distances provided in stats::dist() (i.e. 'euclidean', 'maximum',
+'manhattan', 'canberra', 'binary' or 'minkowski'), or a matrix containing the
+distances between the observations.}
 
-\item{hcMethod}{Hierarchical clustering method. Default is "average". For more details see
-?hclust.}
+\item{hcMethod}{Hierarchical clustering method. Default is 'average'. For
+more details see ?hclust.}
 
 \item{maxIterKM}{Number of iterations for the k-means clustering algorithm.}
 }
 \value{
-The output is a consensus matrix, that is a symmetric matrix where the element in
-position (i,j) corresponds to the proportion of times that items i and j have been clustered
-together.
+The output is a consensus matrix, that is a symmetric matrix where
+the element in position (i,j) corresponds to the proportion of times that
+items i and j have been clustered together.
 }
 \description{
-This function allows to perform consensus clustering using the k-means clustering algorithm,
-for a fixed number of clusters. We consider the number of clusters K to be fixed.
+This function allows to perform consensus clustering using the k-means
+clustering algorithm, for a fixed number of clusters. We consider the number
+of clusters K to be fixed.
 }
 \examples{
 ## Load one dataset with 300 observations, 2 variables, 6 clusters
-data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv", package = "coca"),
-row.names = 1))
+data <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
+package = 'coca'), row.names = 1))
 
 ## Compute consensus clustering with K=6 clusters
 cm <- consensusCluster(data, K = 6)
 }
 \references{
-Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
-a resampling-based method for class discovery and visualization of gene expression microarray
-data. Machine learning, 52(1-2), pp.91-118.
+Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
+clustering: a resampling-based method for class discovery and visualization
+of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

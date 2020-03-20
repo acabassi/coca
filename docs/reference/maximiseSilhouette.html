@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Choose K that maximises the silhouette from a set of kernel matrices and clusterings — maximiseSilhouette • coca</title>
+<title>Choose K that maximises the silhouette from a set of kernel matrices and
+clusterings — maximiseSilhouette • coca</title>
 
 
 <!-- jquery -->
@@ -35,8 +36,10 @@
 
 
 
-<meta property="og:title" content="Choose K that maximises the silhouette from a set of kernel matrices and clusterings — maximiseSilhouette" />
-<meta property="og:description" content="Choose K that maximises the silhouette from a set of kernel matrices and clusterings" />
+<meta property="og:title" content="Choose K that maximises the silhouette from a set of kernel matrices and
+clusterings — maximiseSilhouette" />
+<meta property="og:description" content="Choose K that maximises the silhouette from a set of kernel matrices and
+clusterings" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,13 +120,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Choose K that maximises the silhouette from a set of kernel matrices and clusterings</h1>
+    <h1>Choose K that maximises the silhouette from a set of kernel matrices and
+clusterings</h1>
     <small class="dont-index">Source: <a href='https://github.com/acabassi/coca/blob/master/R/silhouette.R'><code>R/silhouette.R</code></a></small>
     <div class="hidden name"><code>maximiseSilhouette.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Choose K that maximises the silhouette from a set of kernel matrices and clusterings</p>
+    <p>Choose K that maximises the silhouette from a set of kernel matrices and
+clusterings</p>
     </div>
 
     <pre class="usage"><span class='fu'>maximiseSilhouette</span>(
@@ -147,7 +152,8 @@
     </tr>
     <tr>
       <th>clLabels</th>
-      <td><p>(maxK-1) X N matrix containing the clusterings obtained for different values of K</p></td>
+      <td><p>(maxK-1) X N matrix containing the clusterings obtained for
+different values of K</p></td>
     </tr>
     <tr>
       <th>maxK</th>
@@ -155,7 +161,8 @@
     </tr>
     <tr>
       <th>savePNG</th>
-      <td><p>If TRUE, a plot of the silhouette is saved in the working folder. Defaults to FALSE.</p></td>
+      <td><p>If TRUE, a plot of the silhouette is saved in the working
+folder. Defaults to FALSE.</p></td>
     </tr>
     <tr>
       <th>fileName</th>
@@ -163,70 +170,39 @@
     </tr>
     <tr>
       <th>isDistance</th>
-      <td><p>Boolean. If TRUE, the kernel matrices are interpreted as matrices of distances, otherwise as
-matrices of similarities.</p></td>
+      <td><p>Boolean. If TRUE, the kernel matrices are interpreted as
+matrices of distances, otherwise as matrices of similarities.</p></td>
     </tr>
     <tr>
       <th>widestGap</th>
-      <td><p>Boolean. If TRUE, also computes widest gap index (and plots it if savePNG is TRUE).</p></td>
+      <td><p>Boolean. If TRUE, also computes widest gap index (and plots
+it if savePNG is TRUE).</p></td>
     </tr>
     <tr>
       <th>dunns</th>
-      <td><p>Boolean. If TRUE, also computes Dunn's index: minimum separation / maximum diameter (and plots it if
-savePNG is TRUE).</p></td>
+      <td><p>Boolean. If TRUE, also computes Dunn's index: minimum separation
+/ maximum diameter (and plots it if savePNG is TRUE).</p></td>
     </tr>
     <tr>
       <th>dunn2s</th>
-      <td><p>Boolean. If TRUE, also computes an alternative version of Dunn's index: minimum average dissimilarity
-between two cluster / maximum average within cluster dissimilarity (and plots it if savePNG is TRUE).</p></td>
+      <td><p>Boolean. If TRUE, also computes an alternative version of
+Dunn's index: minimum average dissimilarity between two cluster / maximum
+average within cluster dissimilarity (and plots it if savePNG is TRUE).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a list containing `silh`, a vector of length maxK-1 such that
-silh[i] is the silhouette for K = i+1, and `K`, the lowest number of clusters for which the
-silhouette is maximised.</p>
+    <p>The function returns a list containing `silh`, a vector of length
+maxK-1 such that silh[i] is the silhouette for K = i+1, and `K`, the lowest
+number of clusters for which the silhouette is maximised.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-
-<span class='no'>cm_2cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='consensusCluster.html'>consensusCluster</a></span>(<span class='no'>data</span>, <span class='fl'>2</span>)
-<span class='no'>cm_3cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='consensusCluster.html'>consensusCluster</a></span>(<span class='no'>data</span>, <span class='fl'>3</span>)
-
-<span class='no'>km</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>300</span>, <span class='fl'>2</span>))
-<span class='no'>km</span>[,,<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='kw pkg'>klic</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/klic/man/spectrumShift.html'>spectrumShift</a></span>(<span class='no'>cm_2cl</span>, <span class='kw'>coeff</span> <span class='kw'>=</span> <span class='fl'>1.1</span>)
-<span class='no'>km</span>[,,<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='kw pkg'>klic</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/klic/man/spectrumShift.html'>spectrumShift</a></span>(<span class='no'>cm_3cl</span>, <span class='kw'>coeff</span> <span class='kw'>=</span> <span class='fl'>1.1</span>)
-
-<span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>300</span>))
-
-<span class='co'># Use kernel k-means to divide data into two clusters</span>
-<span class='no'>parameters_kkmeans</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>parameters_kkmeans</span>$<span class='no'>cluster_count</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
-<span class='no'>kkm</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>klic</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/klic/man/kkmeans.html'>kkmeans</a></span>(<span class='no'>km</span>[,,<span class='fl'>1</span>], <span class='no'>parameters_kkmeans</span>) <span class='co'># km[,,1] because 2 is the first number we try</span>
-<span class='no'>clLabels</span>[<span class='fl'>1</span>,] <span class='kw'>&lt;-</span> <span class='no'>kkm</span>$<span class='no'>clustering</span>
-
-<span class='co'># Use kernel k-means to divide data into three clusters</span>
-<span class='no'>parameters_kkmeans</span>$<span class='no'>cluster_count</span> <span class='kw'>&lt;-</span> <span class='fl'>3</span>
-<span class='no'>kkm</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>klic</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/klic/man/kkmeans.html'>kkmeans</a></span>(<span class='no'>km</span>[,,<span class='fl'>2</span>], <span class='no'>parameters_kkmeans</span>) <span class='co'># km[,,2] because 3 is the second number we try</span>
-<span class='no'>clLabels</span>[<span class='fl'>2</span>,] <span class='kw'>&lt;-</span> <span class='no'>kkm</span>$<span class='no'>clustering</span>
-
-<span class='co'># Call maximiseSilhouette function</span>
-<span class='no'>maxSil</span> <span class='kw'>&lt;-</span> <span class='fu'>maximiseSilhouette</span>(<span class='no'>km</span>, <span class='no'>clLabels</span>, <span class='kw'>maxK</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='co'># The output of maximiseSilhouette contains:</span>
-<span class='co'># * the values of the average silhoeutte for each number of clusters</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>maxSil</span>$<span class='no'>silhouette</span>)</div><div class='output co'>#&gt; [1] 0.5535361 0.4861695</div><div class='input'><span class='co'># * the number of clusters that maximises the average silhouette</span>
-<span class='co'># (if more than one value for the number of clusters k maximises the silhouette,</span>
-<span class='co'># all the such values are reported in the output)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>maxSil</span>$<span class='no'>k</span>)</div><div class='output co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>

@@ -10,7 +10,8 @@ stratifiedSamplingForCV(response)
 \item{response}{Vector of categorical responses}
 }
 \value{
-The function returns a vector of labels to assign each observation to a different fold
+The function returns a vector of labels to assign each observation to
+a different fold
 }
 \description{
 This function is used to do stratified subsampling based on the

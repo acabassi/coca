@@ -9,13 +9,17 @@ plotDunns(dunns, chosenK = NULL, fileName)
 \arguments{
 \item{dunns}{Vector of widest gap values for K from 2 to some value maxK.}
 
-\item{chosenK}{Chosen number of clusters. If specified, a vertical line is plotted in
-correspondance of the indicated value. Default is NULL.}
+\item{chosenK}{Chosen number of clusters. If specified, a vertical line is
+plotted in correspondence of the indicated value. Default is NULL.}
 
 \item{fileName}{Name of the png file.}
 }
+\value{
+invisible(0)
+}
 \description{
-Plot Dunn's index (minimum separation / maximum diameter) for different values of K.
+Plot Dunn's index (minimum separation / maximum diameter) for different
+values of K.
 }
 \author{
 Alessandra Cabassi \email{ac2051@cam.ac.uk}

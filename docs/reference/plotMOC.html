@@ -36,8 +36,8 @@
 
 
 <meta property="og:title" content="Plot Matrix-Of-Clusters — plotMOC" />
-<meta property="og:description" content="This function creates a matrix of clusters, starting from a list of heterogeneous
-datasets." />
+<meta property="og:description" content="This function creates a matrix of clusters, starting from a list of
+heterogeneous datasets." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,8 +124,8 @@ datasets." />
     </div>
 
     <div class="ref-description">
-    <p>This function creates a matrix of clusters, starting from a list of heterogeneous
-datasets.</p>
+    <p>This function creates a matrix of clusters, starting from a list of
+heterogeneous datasets.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plotMOC</span>(
@@ -151,19 +151,20 @@ datasets.</p>
     </tr>
     <tr>
       <th>datasetIndicator</th>
-      <td><p>Vector containing integers indicating which rows correspond to
-some clustering of the same dataset.</p></td>
+      <td><p>Vector containing integers indicating which rows
+correspond to some clustering of the same dataset.</p></td>
     </tr>
     <tr>
       <th>datasetNames</th>
-      <td><p>Vector containing the names of the datasets to which each column
-of labels corresponds. If NULL, datasetNames will be the same as datasetIndicator.
-Default is NULL.</p></td>
+      <td><p>Vector containing the names of the datasets to which each
+column of labels corresponds. If NULL, datasetNames will be the same as
+datasetIndicator. Default is NULL.</p></td>
     </tr>
     <tr>
       <th>annotations</th>
-      <td><p>Dataframe containing annotations. Number of rows must be N.
-If the annotations are integers, use `as.factor()` for a better visual result.</p></td>
+      <td><p>Dataframe containing annotations. Number of rows must be
+N. If the annotations are integers, use `as.factor()` for a better visual
+result.</p></td>
     </tr>
     <tr>
       <th>clr</th>
@@ -179,50 +180,55 @@ If the annotations are integers, use `as.factor()` for a better visual result.</
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>File name for the plot if save is TRUE. Default is "moc.png".</p></td>
+      <td><p>File name for the plot if save is TRUE. Default is 'moc.png'.</p></td>
     </tr>
     <tr>
       <th>showObsNames</th>
-      <td><p>Boolean. If TRUE, the plot will also include the column names
-(i.e. name of each observation). Default is FALSE, since there are usually too
-many columns.</p></td>
+      <td><p>Boolean. If TRUE, the plot will also include the column
+names (i.e. name of each observation). Default is FALSE, since there are
+usually too many columns.</p></td>
     </tr>
     <tr>
       <th>showClusterNames</th>
-      <td><p>Boolean. If TRUE, plot cluster names next to corresponding row.
-Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, plot cluster names next to
+corresponding row. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>annotation_colors</th>
-      <td><p>Optional. See annotation_colors in pheatmap::pheatmap.</p></td>
+      <td><p>Optional. See annotation_colors in
+pheatmap::pheatmap.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>invisible(0)</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of
-human breast tumours. Nature, 487(7407), pp.61–70.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
+of human breast tumours. Nature, 487(7407), pp.61–70.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load data</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset2.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset3.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>'cor'</span>)
 
 <span class='co'>## Extract matrix of clusters and dataset indicator vector</span>
 <span class='no'>moc</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span>
 <span class='no'>datasetIndicator</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>datasetIndicator</span>
 
 <span class='co'>## Prepare annotations</span>
-<span class='no'>true_labels</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"cluster_labels.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>true_labels</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'cluster_labels.csv'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>),
+<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 <span class='no'>annotations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>true_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>true_labels</span>))
 
 <span class='co'>## Plot matrix of clusters</span>
@@ -233,6 +239,7 @@ human breast tumours. Nature, 487(7407), pp.61–70.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

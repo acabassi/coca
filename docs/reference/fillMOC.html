@@ -36,8 +36,9 @@
 
 
 <meta property="og:title" content="Fill Matrix-Of-Clusters — fillMOC" />
-<meta property="og:description" content="This function fills in a matrix of clusters that contains NAs, by estimating the missing
-cluster labels based on the available ones or based on the other datasets." />
+<meta property="og:description" content="This function fills in a matrix of clusters that contains NAs, by estimating
+the missing cluster labels based on the available ones or based on the other
+datasets." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,72 +125,65 @@ cluster labels based on the available ones or based on the other datasets." />
     </div>
 
     <div class="ref-description">
-    <p>This function fills in a matrix of clusters that contains NAs, by estimating the missing
-cluster labels based on the available ones or based on the other datasets.</p>
+    <p>This function fills in a matrix of clusters that contains NAs, by estimating
+the missing cluster labels based on the available ones or based on the other
+datasets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fillMOC</span>(
-  <span class='no'>clLabels</span>,
-  <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fullData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>clLabels</th>
-      <td><p>N X M matrix containing cluster labels. Element (n,m) contains the cluster
-label for element data point n in cluster m.</p></td>
+      <td><p>N X M matrix containing cluster labels. Element (n,m)
+contains the cluster label for element data point n in cluster m.</p></td>
     </tr>
     <tr>
       <th>computeAccuracy</th>
-      <td><p>Boolean. If TRUE, for each missing element, the performance of the
-predictive model used to estimate the corresponding missing label is computer.</p></td>
+      <td><p>Boolean. If TRUE, for each missing element, the
+performance of the predictive model used to estimate the corresponding
+missing label is computer.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Boolean. If TRUE, for each NA, the size of the matrix used to estimate its
-values is printed to screen</p></td>
-    </tr>
-    <tr>
-      <th>fullData</th>
-      <td><p>Boolean. If TRUE, the full data matrices are used to estimate the missing
-cluster labels (instead of just using the cluster labels of the corresponding datasets).</p></td>
+      <td><p>Boolean. If TRUE, for each NA, the size of the matrix used to
+estimate its values is printed to screen</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>List of M datasets to be used for the label imputation if fullData is TRUE.</p></td>
+      <td><p>List of M datasets to be used for the label imputation if
+fullData is TRUE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is the same matrix of clusters, where NAs have been replaced by their
-estimates, where possible. If `computeAccuracy` is TRUE, then also an object called `accuracy`
-is returned, where each element corresponds to the predictive accuracy of the predictive
-model used to estimate the corresponding label in the cluster label matrix. In order to
-compare the predictive accuracy of the imputation algorithm, `accuracy_random` is also
-returned.</p>
+    <p>The output is the same matrix of clusters, where NAs have been
+replaced by their estimates, where possible. If `computeAccuracy` is TRUE,
+then also an object called `accuracy` is returned, where each element
+corresponds to the predictive accuracy of the predictive model used to
+estimate the corresponding label in the cluster label matrix. In order to
+compare the predictive accuracy of the imputation algorithm,
+`accuracy_random` is also returned.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human breast
-tumours. Nature, 487(7407), pp.61–70.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
+of human breast tumours. Nature, 487(7407), pp.61–70.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load data</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
-                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
-                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
-                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
+                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset2.csv'</span>,
+                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset3.csv'</span>,
+                       <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildMOC.html'>buildMOC</a></span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>'cor'</span>)
 
 <span class='co'>## Extract matrix of clusters</span>
 <span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>clLabels</span>
@@ -201,7 +195,7 @@ tumours. Nature, 487(7407), pp.61–70.</p>
 <span class='co'># clLabels1 &lt;- outputFillMOC1$fullClLabels</span>
 
 <span class='co'>## Impute missing values using full datasets</span>
-<span class='no'>outputFillMOC2</span> <span class='kw'>&lt;-</span> <span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>fullData</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
+<span class='no'>outputFillMOC2</span> <span class='kw'>&lt;-</span> <span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
 
 <span class='co'>## Extract full matrix of cluster labels</span>
 <span class='no'>clLabels2</span> <span class='kw'>&lt;-</span> <span class='no'>outputFillMOC2</span>$<span class='no'>fullClLabels</span></div></pre>

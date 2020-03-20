@@ -16,7 +16,7 @@ for each value of K is saved as a png file. The file is saved in a
 subdirectory of the working directory, called `delta-auc`. Default is FALSE.}
 
 \item{fileName}{If `savePNG` is TRUE, this is the name of the png file.
-Default is "deltaAUC.png".}
+Default is 'deltaAUC.png'.}
 }
 \value{
 This function returns a list containing `deltaAUC`, a vector of

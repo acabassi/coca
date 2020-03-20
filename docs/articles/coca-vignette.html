@@ -82,7 +82,7 @@
       <h1>Introduction to coca</h1>
                         <h4 class="author">Alessandra Cabassi</h4>
             
-            <h4 class="date">2020-03-19</h4>
+            <h4 class="date">2020-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/acabassi/coca/blob/master/vignettes/coca-vignette.Rmd"><code>vignettes/coca-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>coca-vignette.Rmd</code></div>
@@ -101,7 +101,7 @@
 <h1 class="hasAnchor">
 <a href="#building-the-matrix-of-clusters" class="anchor"></a>Building the matrix of clusters</h1>
 <p>The first step of COCA is the construction of the Matrix-Of-Clusters (MOC). This is a binary matrix of size <em>N x K</em>, where <em>K</em> is the sum of the number of clusters <em>Km</em> in every dataset <em>Xm</em>. Therefore, to each column <em>j</em> of this matrix corresponds a cluster <em>mk</em> in dataset <em>Xm</em>. The <em>(i,j)</em>-th entry of the matrix of clusters is equal to one if data point <em>i</em> belongs to cluster <em>mk</em> in dataset <em>Xm</em>, and is equal to zero otherwise.</p>
-<p>The function that can be used to build a matrix of clusters starting from a list of heterogeneous datasets (referring to the same observations) is <code>buildMOC</code>. In the example below, we assume to have three datasets with the same number of clusters, six. The clustering structure in each of those datasets is found via k-means clustering.</p>
+<p>The function that can be used to build a matrix of clusters starting from a list of heterogeneous datasets (referring to the same observations) is <code>buildMOC</code>. In the example below, we assume to have three datasets with the same number of clusters, five. The clustering structure in each of those datasets is found via k-means clustering.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">### Load data</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">data &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>()</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">data[[<span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,</a>
@@ -112,7 +112,7 @@
 <a class="sourceLine" id="cb1-8" data-line-number="8">                      <span class="st">"dataset3.csv"</span>, <span class="dt">package =</span> <span class="st">"coca"</span>), <span class="dt">row.names =</span> <span class="dv">1</span>))</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">### Build matrix of clusters</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">outputBuildMOC &lt;-<span class="st"> </span>coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/buildMOC.html">buildMOC</a></span>(data, <span class="dt">M =</span> <span class="dv">3</span>, <span class="dt">K =</span> <span class="dv">6</span>, <span class="dt">distances =</span> <span class="st">"cor"</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">outputBuildMOC &lt;-<span class="st"> </span>coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/buildMOC.html">buildMOC</a></span>(data, <span class="dt">M =</span> <span class="dv">3</span>, <span class="dt">K =</span> <span class="dv">5</span>, <span class="dt">distances =</span> <span class="st">"cor"</span>)</a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">### Extract matrix of clusters and dataset indicator vector</span></a>
 <a class="sourceLine" id="cb1-14" data-line-number="14">moc &lt;-<span class="st"> </span>outputBuildMOC<span class="op">$</span>moc</a>
@@ -126,7 +126,7 @@
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">### Plot matrix of clusters</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="../docs/articles/coca-vignette_files/figure-html/plot_moc-1.png" width="700"></p>
+<p><img src="coca-vignette_files/figure-html/plot_moc-1.png" width="700"></p>
 <p>Here the datasets don’t have names, so they have been assigned integer numbers. If available, you can specify cluster names; this will make the row names easier to interpret.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">### Prepare annotations</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">true_labels &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"cluster_labels.csv"</span>,</a>
@@ -134,12 +134,12 @@
 <a class="sourceLine" id="cb3-4" data-line-number="4">annotations &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">true_labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(true_labels))</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">### Set dataset names</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">datasetNames &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"A"</span>, <span class="dv">6</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"B"</span>, <span class="dv">6</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"C"</span>, <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">datasetNames &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"A"</span>, <span class="dv">5</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"B"</span>, <span class="dv">5</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"C"</span>, <span class="dv">5</span>))</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">### Plot matrix of clusters</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">        <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="../docs/articles/coca-vignette_files/figure-html/plot_moc_with_names-1.png" width="700"></p>
+<p><img src="coca-vignette_files/figure-html/plotmoc_wnames-1.png" width="700"></p>
 <p>As you can see, the first part of each row name corresponds to the dataset, the second one to the cluster index. Moreover, each colour in the main matrix corresponds to one dataset (here dataset A is green, dataset B is yellow, and so on).</p>
 </div>
 <div id="cluster-of-clusters-analysis" class="section level1">
@@ -149,12 +149,12 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">### COCA</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Use COCA to find global clustering</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">coca &lt;-<span class="st"> </span>coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/coca.html">coca</a></span>(moc, <span class="dt">K =</span> <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">coca &lt;-<span class="st"> </span>coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/coca.html">coca</a></span>(moc, <span class="dt">K =</span> <span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># Compare clustering to the true labels</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">ari &lt;-<span class="st"> </span>mclust<span class="op">::</span><span class="kw"><a href="https://mclust-org.github.io/mclust/reference/adjustedRandIndex.html">adjustedRandIndex</a></span>(true_labels, coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">ari</a></code></pre></div>
-<pre><code>## [1] 0.8163432</code></pre>
+<pre><code>## [1] 0.3439509</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">### Plot the matrix of clusters with the newly found cluster labels</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">annotations<span class="op">$</span>coca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
@@ -163,25 +163,22 @@
 <p>Here, we have computed the Adjusted Rand Index (ARI) to check how similar the two partitions of the data are. The ARI goes from -1 to 1: values close to 1 indicate very high similarity between the two partitions, values close to 0 indicate that the observed amount of similarities between the two partitions is the expected similarity between two random partitions, while negative values indicate that the two partitions are less similar than what would be expected by chance.</p>
 <p>Again, if the number of clusters is not know a priori, the user can delegate the choice of K to the <code><a href="../reference/coca.html">coca()</a></code> function. There are two methods available here: the silhouette, where the distance between data points <em>i</em> and <em>j</em> is defined as <em>1</em> minus the <em>(i,j)</em>-th kernel entry in the final kernel matrix, and the delta area under the curve, which is the method suggested by Monti et al. (2003). Please note that the properties of the latter have not been assessed yet.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Use COCA to find global clustering and chooose the number of clusters</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">coca &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coca.html">coca</a></span>(moc, <span class="dt">maxK =</span> <span class="dv">10</span>, <span class="dt">hclustMethod =</span> <span class="st">"average"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">coca &lt;-<span class="st"> </span>coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/coca.html">coca</a></span>(moc, <span class="dt">maxK =</span> <span class="dv">10</span>, <span class="dt">hclustMethod =</span> <span class="st">"average"</span>)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># Compare clustering to the true labels</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">ari &lt;-<span class="st"> </span>mclust<span class="op">::</span><span class="kw"><a href="https://mclust-org.github.io/mclust/reference/adjustedRandIndex.html">adjustedRandIndex</a></span>(true_labels, coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">ari</a></code></pre></div>
-<pre><code>## [1] 0.8163432</code></pre>
+<pre><code>## [1] 0.3034641</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">### Plot the matrix of clusters with the newly found cluster labels</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">annotations<span class="op">$</span>coca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">        <span class="dt">annotations =</span> annotations)</a></code></pre></div>
-<p><img src="../docs/articles/coca-vignette_files/figure-html/coca_unknownK-1.png" width="700"></p>
+<p><img src="coca-vignette_files/figure-html/coca_unknownK-1.png" width="700"></p>
 </div>
 <div id="clustering-algorithms" class="section level1">
 <h1 class="hasAnchor">
 <a href="#clustering-algorithms" class="anchor"></a>Clustering algorithms</h1>
-<div id="inside-buildmoc" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inside-buildmoc" class="anchor"></a>Inside <code>buildMOC()</code>
-</h2>
+<p>** Inside <code><a href="../reference/buildMOC.html">buildMOC()</a></code> **</p>
 <p>In the first step, where a different clustering is found in each dataset, inside the <code><a href="../reference/buildMOC.html">buildMOC()</a></code> function, the clustering algorithms available are:</p>
 <ul>
 <li>k-means clustering (<code>method="kmeans"</code>), for which the <code><a href="https://rdrr.io/r/stats/kmeans.html">kmeans()</a></code> function of the <code>stats</code> R package is used (see <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kmeans">this link</a> for the documentation);</li>
@@ -189,19 +186,14 @@
 <li>partitioning around medoids (<code>method="pam"</code>), for which the <code>pam()</code> function of the <code>cluster</code> R package is used (see <a href="https://www.rdocumentation.org/packages/cluster/versions/2.1.0/topics/pam">this link</a> for the documentation).</li>
 </ul>
 <p>If you would like to use a different clustering algorithm for each of your datasets, you can pass a vector of strings to the <code>method</code> argument. For example, by setting <code>method = c("kmeans", "hclust", "pam")</code> the clusters in the first dataset will be determined using k-means clustering, in the second one hierarchical clustering, and so on.</p>
-</div>
-<div id="inside-coca" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inside-coca" class="anchor"></a>Inside <code>coca()</code>
-</h2>
+<p><strong>Inside <code><a href="../reference/coca.html">coca()</a></code></strong></p>
 <p>To build the consensus clustering matrix, the default clustering algorithm is k-means, as implemented in the <code>stats</code> package. The default maximum number of iterations is 1000. If you would like to increase it, you can use the <code>maxIterKM</code> argument of the <code><a href="../reference/coca.html">coca()</a></code> function. Alternatively, one can select to use hierarchical clustering; this can be achieved by setting <code>ccClMethod = "hc"</code>. The distance used with hierarchical clustering can be selected via the <code>ccDistHC</code> argument of the <code><a href="../reference/coca.html">coca()</a></code> function.</p>
 <p>To find the final clustering based on the consensus matrix, hierarchical clustering is used. The agglomeration method used in this step can be chosen via the <code>hclustMethod</code> of the <code><a href="../reference/coca.html">coca()</a></code> function. The available options are the same as in the <code><a href="https://rdrr.io/r/stats/hclust.html">hclust()</a></code> function of the <code>stats</code> R package.</p>
-</div>
 </div>
 <div id="warning-and-error-messages" class="section level1">
 <h1 class="hasAnchor">
 <a href="#warning-and-error-messages" class="anchor"></a>Warning and error messages</h1>
-<p>If you get one or more error messages saying <code>did not converge in 1000 iterations</code> when using the <code>coca</code> function, it means that you are using the k-means clustering algorithm and that it did not converge within the maximum number of iterations (the default is 1000). If you would like to change the maximum number of iterations or use a different clustering algorithm, please see the previous section.</p>
+<p>If you get one or more error messages saying <code>did not converge in 1000 iterations</code> when using the <code><a href="../reference/coca.html">coca()</a></code> function, it means that you are using the k-means clustering algorithm and that it did not converge within the maximum number of iterations (the default is 1000). If you would like to change the maximum number of iterations or use a different clustering algorithm, please see the previous section.</p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
@@ -223,12 +215,7 @@
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#building-the-matrix-of-clusters">Building the matrix of clusters</a></li>
       <li><a href="#cluster-of-clusters-analysis">Cluster-Of-Clusters Analysis</a></li>
-      <li>
-<a href="#clustering-algorithms">Clustering algorithms</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#inside-buildmoc">Inside <code>buildMOC()</code></a></li>
-      <li><a href="#inside-coca">Inside <code>coca()</code></a></li>
-      </ul>
-</li>
+      <li><a href="#clustering-algorithms">Clustering algorithms</a></li>
       <li><a href="#warning-and-error-messages">Warning and error messages</a></li>
       <li><a href="#references">References</a></li>
       </ul>

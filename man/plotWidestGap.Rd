@@ -9,10 +9,13 @@ plotWidestGap(widestGap, chosenK = NULL, fileName)
 \arguments{
 \item{widestGap}{Vector of widest gap values for K from 2 to some value maxK.}
 
-\item{chosenK}{Chosen number of clusters. If specified, a vertical line is plotted in
-correspondance of the indicated value. Default is NULL.}
+\item{chosenK}{Chosen number of clusters. If specified, a vertical line is
+plotted in correspondence of the indicated value. Default is NULL.}
 
 \item{fileName}{Name of the png file.}
+}
+\value{
+invisible(0)
 }
 \description{
 Plot widest gap for different values of K.

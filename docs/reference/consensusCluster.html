@@ -36,8 +36,9 @@
 
 
 <meta property="og:title" content="Consensus clustering — consensusCluster" />
-<meta property="og:description" content="This function allows to perform consensus clustering using the k-means clustering algorithm,
-for a fixed number of clusters. We consider the number of clusters K to be fixed." />
+<meta property="og:description" content="This function allows to perform consensus clustering using the k-means
+clustering algorithm, for a fixed number of clusters. We consider the number
+of clusters K to be fixed." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,8 +125,9 @@ for a fixed number of clusters. We consider the number of clusters K to be fixed
     </div>
 
     <div class="ref-description">
-    <p>This function allows to perform consensus clustering using the k-means clustering algorithm,
-for a fixed number of clusters. We consider the number of clusters K to be fixed.</p>
+    <p>This function allows to perform consensus clustering using the k-means
+clustering algorithm, for a fixed number of clusters. We consider the number
+of clusters K to be fixed.</p>
     </div>
 
     <pre class="usage"><span class='fu'>consensusCluster</span>(
@@ -160,22 +162,23 @@ for a fixed number of clusters. We consider the number of clusters K to be fixed
     </tr>
     <tr>
       <th>clMethod</th>
-      <td><p>Clustering algorithm. Can be "hc" for hierarchical clustering, "km"
-for k-means clustering, or "pam" for partitioning around medoids. Default is "hc". However,
-if the data contain at least one covariate that is a factor, the default clustering
-algorithm is "pam".</p></td>
+      <td><p>Clustering algorithm. Can be 'hc' for hierarchical
+clustering, 'km' for k-means clustering, or 'pam' for partitioning around
+medoids. Default is 'hc'. However, if the data contain at least one covariate
+that is a factor, the default clustering algorithm is 'pam'.</p></td>
     </tr>
     <tr>
       <th>dist</th>
-      <td><p>Distance used for hierarchical clustering. Can be "pearson" (for 1 - Pearson
-correlation), "spearman" (for 1- Spearman correlation), any of the distances provided in
-stats::dist() (i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"),
-or a matrix containing the distances between the observations.</p></td>
+      <td><p>Distance used for hierarchical clustering. Can be 'pearson' (for
+1 - Pearson correlation), 'spearman' (for 1- Spearman correlation), any of
+the distances provided in stats::dist() (i.e. 'euclidean', 'maximum',
+'manhattan', 'canberra', 'binary' or 'minkowski'), or a matrix containing the
+distances between the observations.</p></td>
     </tr>
     <tr>
       <th>hcMethod</th>
-      <td><p>Hierarchical clustering method. Default is "average". For more details see
-?hclust.</p></td>
+      <td><p>Hierarchical clustering method. Default is 'average'. For
+more details see ?hclust.</p></td>
     </tr>
     <tr>
       <th>maxIterKM</th>
@@ -185,19 +188,19 @@ or a matrix containing the distances between the observations.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a consensus matrix, that is a symmetric matrix where the element in
-position (i,j) corresponds to the proportion of times that items i and j have been clustered
-together.</p>
+    <p>The output is a consensus matrix, that is a symmetric matrix where
+the element in position (i,j) corresponds to the proportion of times that
+items i and j have been clustered together.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus clustering:
-a resampling-based method for class discovery and visualization of gene expression microarray
-data. Machine learning, 52(1-2), pp.91-118.</p>
+    <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
+clustering: a resampling-based method for class discovery and visualization
+of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load one dataset with 300 observations, 2 variables, 6 clusters</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>),
-<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Compute consensus clustering with K=6 clusters</span>
 <span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>consensusCluster</span>(<span class='no'>data</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>)</div></pre>

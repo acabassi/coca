@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Build Matrix-Of-Clusters — buildMOC" />
-<meta property="og:description" content="This function creates a matrix of clusters starting from a list of heterogeneous datasets." />
+<meta property="og:description" content="This function creates a matrix of clusters starting from a list of
+heterogeneous datasets." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,7 +124,8 @@
     </div>
 
     <div class="ref-description">
-    <p>This function creates a matrix of clusters starting from a list of heterogeneous datasets.</p>
+    <p>This function creates a matrix of clusters starting from a list of
+heterogeneous datasets.</p>
     </div>
 
     <pre class="usage"><span class='fu'>buildMOC</span>(
@@ -155,64 +157,68 @@
     </tr>
     <tr>
       <th>K</th>
-      <td><p>Vector containing the number of clusters in each dataset. If given an integer
-instead of a vector it is assumed that each dataset has the same number of clusters.
-If NULL, it is assumed that the true cluster numbers are not known, therefore they will be
-estimated using the silhouette method.</p></td>
+      <td><p>Vector containing the number of clusters in each dataset. If given
+an integer instead of a vector it is assumed that each dataset has the same
+number of clusters. If NULL, it is assumed that the true cluster numbers are
+not known, therefore they will be estimated using the silhouette method.</p></td>
     </tr>
     <tr>
       <th>maxK</th>
-      <td><p>Vector of maximum cluster numbers to be considered for each dataset
-if K is NULL. If given an integer instead of a vector it is assumed that for each dataset
-the same maximum number of clusters must be considered. Default is 10.</p></td>
+      <td><p>Vector of maximum cluster numbers to be considered for each
+dataset if K is NULL. If given an integer instead of a vector it is assumed
+that for each dataset the same maximum number of clusters must be considered.
+Default is 10.</p></td>
     </tr>
     <tr>
       <th>methods</th>
-      <td><p>Vector of strings containing the names of the clustering methods to be
-used to cluster the observations in each dataset. Each can be "kmeans", "hclust", or "pam".
-If the vector is of length one, the same clustering method is applied to all the datasets.</p></td>
+      <td><p>Vector of strings containing the names of the clustering
+methods to be used to cluster the observations in each dataset. Each can be
+'kmeans', 'hclust', or 'pam'. If the vector is of length one, the same
+clustering method is applied to all the datasets.</p></td>
     </tr>
     <tr>
       <th>distances</th>
-      <td><p>Distances to be used in the clustering step for each dataset. At the moment
-there is only the option to choose "cor" for 1-correlation. Otherwise the default distance
-for each method is used.</p></td>
+      <td><p>Distances to be used in the clustering step for each
+dataset. At the moment there is only the option to choose 'cor' for
+1-correlation. Otherwise the default distance for each method is used.</p></td>
     </tr>
     <tr>
       <th>fill</th>
-      <td><p>Boolean. If TRUE, if there are any missing observations in one or more datasets,
-the corresponding cluster labels will be estimated through generalised linear models on the
-basis of the available labels.</p></td>
+      <td><p>Boolean. If TRUE, if there are any missing observations in one or
+more datasets, the corresponding cluster labels will be estimated through
+generalised linear models on the basis of the available labels.</p></td>
     </tr>
     <tr>
       <th>computeAccuracy</th>
-      <td><p>Boolean. If TRUE, for each missing element, the performance of the
-predictive model used to estimate the corresponding missing label is computer.</p></td>
+      <td><p>Boolean. If TRUE, for each missing element, the
+performance of the predictive model used to estimate the corresponding
+missing label is computer.</p></td>
     </tr>
     <tr>
       <th>fullData</th>
-      <td><p>Boolean. If TRUE, the full data matrices are used to estimate the missing
-cluster labels (instead of just using the cluster labels of the corresponding datasets).</p></td>
+      <td><p>Boolean. If TRUE, the full data matrices are used to estimate
+the missing cluster labels (instead of just using the cluster labels of the
+corresponding datasets).</p></td>
     </tr>
     <tr>
       <th>savePNG</th>
-      <td><p>Boolean. If TRUE, plots of the silhouette for each datasets are saved as
-png files.</p></td>
+      <td><p>Boolean. If TRUE, plots of the silhouette for each datasets
+are saved as png files.</p></td>
     </tr>
     <tr>
       <th>widestGap</th>
-      <td><p>Boolean. If TRUE, compute also widest gap index to choose best number
-of clusters. Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also widest gap index to choose
+best number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>dunns</th>
-      <td><p>Boolean. If TRUE, compute also Dunn's index to choose best number
-of clusters. Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also Dunn's index to choose best
+number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>dunn2s</th>
-      <td><p>Boolean. If TRUE, compute also alternative Dunn's index to choose best number
-of clusters. Default is FALSE.</p></td>
+      <td><p>Boolean. If TRUE, compute also alternative Dunn's index to
+choose best number of clusters. Default is FALSE.</p></td>
     </tr>
     </table>
 
@@ -220,38 +226,40 @@ of clusters. Default is FALSE.</p></td>
 
     <p>The output is a list containing:
 * The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
-where element `(n,k)` contains a 1 if observation n belongs to the corresponding cluster,
-0 otherwise.
+where element `(n,k)` contains a 1 if observation n belongs to the
+corresponding cluster, 0 otherwise.
 * A vector called `datasetIndicator` of length `sum(K)` in which
 each element is the number of the dataset to which the cluster belongs.
-* `number_nas`, the total number of NAs in the matrix of clusters. (If the MOC has been
-filled with imputed values, `number_nas` indicated the number of NAs in the original MOC.)
-* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is in compact form,
-i.e. each column corresponds to a dataset, each row represents an observation,
- and its values indicate the cluster labels.
-* `K`, vector of cluster numbers in each dataset. If these are provided as input,
-this is the same as the input (expanded to a vector if the input is an integer). If the
-cluster numbers are not provided as input, this vector contains the cluster numbers
-chosen via silhouette for each dataset.</p>
+* `number_nas`, the total number of NAs in the matrix of clusters. (If the
+MOC has been filled with imputed values, `number_nas` indicated the number of
+NAs in the original MOC.)
+* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is
+in compact form, i.e. each column corresponds to a dataset, each row
+represents an observation, and its values indicate the cluster labels.
+* `K`, vector of cluster numbers in each dataset. If these are provided as
+input, this is the same as the input (expanded to a vector if the input is an
+integer). If the cluster numbers are not provided as input, this vector
+contains the cluster numbers chosen via silhouette for each dataset.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits of human
-breast tumours. Nature, 487(7407), pp.61–70.</p>
-<p>Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the interpretation and validation
-of cluster analysis. Journal of computational and applied mathematics, 20, pp.53-65.</p>
+    <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
+of human breast tumours. Nature, 487(7407), pp.61–70.</p>
+<p>Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the
+interpretation and validation of cluster analysis. Journal of computational
+and applied mathematics, 20, pp.53-65.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load data</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset2.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset3.csv'</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>'cor'</span>)
 
 <span class='co'>## Extract matrix of clusters</span>
 <span class='no'>matrixOfClusters</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span></div></pre>
