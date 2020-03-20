@@ -46,5 +46,5 @@ outputExpandMOC <- expandMOC(clLabels)
 clLabels <- outputExpandMOC$clLabels
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

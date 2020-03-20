@@ -53,5 +53,5 @@ Choose K that maximises the silhouette from a set of kernel matrices and
 clusterings
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

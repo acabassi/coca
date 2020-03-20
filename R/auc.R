@@ -8,7 +8,7 @@
 #' `coca::consensusCluster`
 #' function
 #' @return This function returns the area under the curve.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
 #' clustering: a resampling-based method for class discovery and visualization
 #' of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
@@ -35,7 +35,7 @@ computeAUC <- function(consensusMatrix) {
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondance of the indicated value. Default is NULL.
 #' @param fileName name of the png file
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @return invisible(0)
 #'
 plotDeltaAUC <- function(deltaAUC, chosenK = NULL, fileName) {

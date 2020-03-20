@@ -120,5 +120,5 @@ for integrative consensus clustering of 'omic datasets. arXiv preprint.
 arXiv:1904.07701.
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

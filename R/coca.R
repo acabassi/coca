@@ -42,7 +42,7 @@
 #' @return The output is a consensus matrix, that is a symmetric matrix where
 #' the element in position (i,j) corresponds to the proportion of times that
 #' items i and j have been clustered together and a vector of cluster labels.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular
 #' portraits of human breast tumours. Nature,
 #' 487(7407), pp.61–70.

@@ -23,7 +23,7 @@
 #' corresponding row. Default is FALSE.
 #' @param annotation_colors Optional. See annotation_colors in
 #' pheatmap::pheatmap.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.
 #' @examples

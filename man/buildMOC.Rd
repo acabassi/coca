@@ -116,5 +116,5 @@ interpretation and validation of cluster analysis. Journal of computational
 and applied mathematics, 20, pp.53-65.
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

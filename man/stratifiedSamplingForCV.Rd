@@ -18,5 +18,5 @@ This function is used to do stratified subsampling based on the
 number of observations in each group in the response
 }
 \author{
-Alessandra Cabassi  \email{ac2051@cam.ac.uk}
+Alessandra Cabassi  \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

@@ -22,7 +22,7 @@
 #' @return The output is a consensus matrix, that is a symmetric matrix where
 #' the element in position (i,j) corresponds to the proportion of times that
 #' items i and j have been clustered together.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
 #' clustering: a resampling-based method for class discovery and visualization
 #' of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.

@@ -20,7 +20,7 @@
 #' estimate the corresponding label in the cluster label matrix. In order to
 #' compare the predictive accuracy of the imputation algorithm,
 #' `accuracy_random` is also returned.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.
 #' @examples
@@ -262,7 +262,7 @@ fillMOC <-
 #' @param response Vector of categorical responses
 #' @return The function returns a vector of labels to assign each observation to
 #' a different fold
-#' @author Alessandra Cabassi  \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi  \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #'
 stratifiedSamplingForCV <- function(response) {
     fold_labels <- rep(NA, length(response))

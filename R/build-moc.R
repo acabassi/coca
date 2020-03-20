@@ -53,7 +53,7 @@
 #' input, this is the same as the input (expanded to a vector if the input is an
 #' integer). If the cluster numbers are not provided as input, this vector
 #' contains the cluster numbers chosen via silhouette for each dataset.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.
 #' @references Rousseeuw, P.J., 1987. Silhouettes: a graphical aid to the

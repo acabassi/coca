@@ -7,7 +7,7 @@
 #' @return The output is a list containing the matrix of clusters `moc`, a
 #' vector containing the dataset indicator `datasetIndicator` and a vector of
 #' expanded `datasetNames` of length sum(K).
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #'
 #' @examples
 #' ## Load data

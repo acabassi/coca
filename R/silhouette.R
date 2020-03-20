@@ -5,7 +5,7 @@
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @return invisible(0)
 #'
 plotSilhouette <- function(sil, chosenK = NULL, fileName) {
@@ -35,7 +35,7 @@ plotSilhouette <- function(sil, chosenK = NULL, fileName) {
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @return invisible(0)
 #'
 plotWidestGap <- function(widestGap, chosenK = NULL, fileName) {
@@ -66,7 +66,7 @@ plotWidestGap <- function(widestGap, chosenK = NULL, fileName) {
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @return invisible(0)
 #'
 plotDunns <- function(dunns, chosenK = NULL, fileName) {
@@ -98,7 +98,7 @@ plotDunns <- function(dunns, chosenK = NULL, fileName) {
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @return invisible(0)
 #'
 plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
@@ -143,7 +143,7 @@ plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
 #' @return The function returns a list containing `silh`, a vector of length
 #' maxK-1 such that silh[i] is the silhouette for K = i+1, and `K`, the lowest
 #' number of clusters for which the silhouette is maximised.
-#' @author Alessandra Cabassi \email{ac2051@cam.ac.uk}
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #'
 maximiseSilhouette <-
     function(kernelMatrix,

@@ -21,5 +21,5 @@ invisible(0)
 Plot average silhouette for different values of K.
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }

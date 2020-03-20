@@ -64,5 +64,5 @@ clustering: a resampling-based method for class discovery and visualization
 of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
 }
 \author{
-Alessandra Cabassi \email{ac2051@cam.ac.uk}
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }
