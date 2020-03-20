@@ -144,6 +144,7 @@ plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
 #' maxK-1 such that silh[i] is the silhouette for K = i+1, and `K`, the lowest
 #' number of clusters for which the silhouette is maximised.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
+#' @export
 #'
 maximiseSilhouette <-
     function(kernelMatrix,
