@@ -154,7 +154,7 @@
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># Compare clustering to the true labels</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">ari &lt;-<span class="st"> </span>mclust<span class="op">::</span><span class="kw"><a href="https://mclust-org.github.io/mclust/reference/adjustedRandIndex.html">adjustedRandIndex</a></span>(true_labels, coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">ari</a></code></pre></div>
-<pre><code>## [1] 0.3439509</code></pre>
+<pre><code>## [1] 0.3307104</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">### Plot the matrix of clusters with the newly found cluster labels</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">annotations<span class="op">$</span>coca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(coca<span class="op">$</span>clusterLabels)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">coca<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/coca/man/plotMOC.html">plotMOC</a></span>(moc, datasetIndicator, <span class="dt">datasetNames =</span> datasetNames,</a>
@@ -178,7 +178,7 @@
 <div id="clustering-algorithms" class="section level1">
 <h1 class="hasAnchor">
 <a href="#clustering-algorithms" class="anchor"></a>Clustering algorithms</h1>
-<p>** Inside <code><a href="../reference/buildMOC.html">buildMOC()</a></code> **</p>
+<p><strong>Inside <code><a href="../reference/buildMOC.html">buildMOC()</a></code></strong></p>
 <p>In the first step, where a different clustering is found in each dataset, inside the <code><a href="../reference/buildMOC.html">buildMOC()</a></code> function, the clustering algorithms available are:</p>
 <ul>
 <li>k-means clustering (<code>method="kmeans"</code>), for which the <code><a href="https://rdrr.io/r/stats/kmeans.html">kmeans()</a></code> function of the <code>stats</code> R package is used (see <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kmeans">this link</a> for the documentation);</li>

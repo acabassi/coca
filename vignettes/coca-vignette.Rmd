@@ -166,7 +166,7 @@ coca::plotMOC(moc, datasetIndicator, datasetNames = datasetNames,
 
 # Clustering algorithms 
 
-** Inside `buildMOC()` **
+**Inside `buildMOC()`**
 
 In the first step, where a different clustering is found in each dataset, inside
 the `buildMOC()` function, the clustering algorithms available are: 
