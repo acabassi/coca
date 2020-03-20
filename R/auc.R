@@ -79,6 +79,7 @@ plotDeltaAUC <- function(deltaAUC, chosenK = NULL, fileName) {
 #' K = i+1 minus the area under the curve for K = i (for i = 2 this
 #' is simply the area under the curve for K = i), and `K` the lowest
 #' among the values of K that are chosen by the algorithm.
+#' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @examples
 #' ## Assuming that we want to choose among any value of K (number of clusters)
 #' ## between 2 and 10 and that the area under the curve is as follows:

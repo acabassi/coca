@@ -39,3 +39,6 @@ areaUnderTheCurve <- c(0.05, 0.15, 0.4, 0.5, 0.55, 0.56, 0.57, 0.58, 0.59)
 
 K <- chooseKusingAUC(areaUnderTheCurve)$K
 }
+\author{
+Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
+}
