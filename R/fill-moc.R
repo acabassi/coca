@@ -14,49 +14,42 @@
 #' @param data List of M datasets to be used for the label imputation if
 #' fullData is TRUE.
 #' @return The output is the same matrix of clusters, where NAs have been
-#' replaced by their estimates, where possible. If `computeAccuracy` is TRUE,
-#' then also an object called `accuracy` is returned, where each element
+#' replaced by their estimates, where possible. If "computeAccuracy" is TRUE,
+#' then also an object called "accuracy" is returned, where each element
 #' corresponds to the predictive accuracy of the predictive model used to
 #' estimate the corresponding label in the cluster label matrix. In order to
 #' compare the predictive accuracy of the imputation algorithm,
-#' `accuracy_random` is also returned.
+#' "accuracy_random" is also returned.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.
 #' @examples
-#' ## Load data
+#' # Load data
 #' data <- list()
-#' data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-#'                        package = 'coca'), row.names = 1))
-#' data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-#'                        package = 'coca'), row.names = 1))
-#' data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-#'                        package = 'coca'), row.names = 1))
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#'                        package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#'                        package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#'                        package = "coca"), row.names = 1))
 #'
-#' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+#' # Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
-#' ## Extract matrix of clusters
+#' # Extract matrix of clusters
 #' clLabels <- outputBuildMOC$clLabels
 #'
-#' ## Impute missing values
-#' # outputFillMOC1 <- fillMOC(clLabels)
+#' # Impute missing values using full datasets
+#' outputFillMOC <- fillMOC(clLabels, data = data)
 #'
-#' ## Extract full matrix of cluster labels
-#' # clLabels1 <- outputFillMOC1$fullClLabels
-#'
-#' ## Impute missing values using full datasets
-#' outputFillMOC2 <- fillMOC(clLabels, data = data)
-#'
-#' ## Extract full matrix of cluster labels
-#' clLabels2 <- outputFillMOC2$fullClLabels
+#' # Extract full matrix of cluster labels
+#' clLabels2 <- outputFillMOC$fullClLabels
 #' @export
 
-fillMOC <-
-    function(clLabels,
-             computeAccuracy = FALSE,
-             verbose = FALSE,
-             data = NULL) {
+fillMOC <- function(clLabels,
+                    computeAccuracy = FALSE,
+                    verbose = FALSE,
+                    data = NULL) {
 
 
     N <- dim(clLabels)[1]  # Number of data points
@@ -106,13 +99,13 @@ fillMOC <-
                 retain_rows_i <-
                     allRowNames[-which(allRowNames %in% remove_rows_i)]
 
-                conta <- 0
+                counter <- 0
 
                 for (l in seq_len(M)) {
                   if (!is.na(clLabels[[l]][i])) {
-                    conta <- conta + 1
+                    counter <- counter + 1
 
-                    if (conta == 1) {
+                    if (counter == 1) {
                       # Design matrix for estimation
                       Xfit <- data[[l]][retain_rows_i, ]
 
@@ -135,8 +128,6 @@ fillMOC <-
                     }
                   }
                 }
-
-                # print('dim(Xfit)'); print(dim(Xfit))
 
                 Xfit <- Xfit[-which(rownames(Xfit) == label_i), ]
 
@@ -169,7 +160,7 @@ fillMOC <-
                   n_columns[i, j] <- dim(Xfit)[2] - 1
 
                   ### Assess predictive performance through 5-fold CV
-                  ### Divide observations into 5 groups
+                  # Divide observations into 5 groups
                   if (computeAccuracy & length(table(response)) > 1) {
                     folds <- stratifiedSamplingForCV(response)
                     accuracy_l <- rep(NA, 5)
@@ -177,7 +168,6 @@ fillMOC <-
                     misclassRate_l <- rep(NA, 5)
 
                     for (l in seq_len(5)) {
-                      # print(paste('***',l,'***',sep=' '))
 
                       XfitCV <- Xfit[-which(folds == l), ]
                       XpredCV <- Xfit[which(folds == l), ]
@@ -263,6 +253,7 @@ fillMOC <-
 #' @return The function returns a vector of labels to assign each observation to
 #' a different fold
 #' @author Alessandra Cabassi  \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
+#' @keywords internal
 #'
 stratifiedSamplingForCV <- function(response) {
     fold_labels <- rep(NA, length(response))

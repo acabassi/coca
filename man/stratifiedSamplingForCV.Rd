@@ -20,3 +20,4 @@ number of observations in each group in the response
 \author{
 Alessandra Cabassi  \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }
+\keyword{internal}

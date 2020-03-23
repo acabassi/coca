@@ -15,11 +15,18 @@
 #' Default is 10.
 #' @param methods Vector of strings containing the names of the clustering
 #' methods to be used to cluster the observations in each dataset. Each can be
-#' 'kmeans', 'hclust', or 'pam'. If the vector is of length one, the same
-#' clustering method is applied to all the datasets.
+#' 'kmeans' (k-means clustering), 'hclust' (hierarchical clustering), or 'pam'
+#' (partitioning around medoids). If the vector is of length one, the same
+#' clustering method is applied to all the datasets. Default is "hclust".
 #' @param distances Distances to be used in the clustering step for each
-#' dataset. At the moment there is only the option to choose 'cor' for
-#' 1-correlation. Otherwise the default distance for each method is used.
+#' dataset. If only one string is provided, then the same distance is used for
+#' all datasets. If the number of strings provided is the same as the number of
+#' datasets, then each distance will be used for the corresponding dataset.
+#' Default is "euclidean". Please note that not all distances are compatible
+#' with all clustering methods. "euclidean" and "manhattan" work with all
+#' available clustering algorithms. "gower" distance is only available for
+#' partitioning around medoids. In addition, "maximum", "canberra", "binary" or
+#' "minkowski" are available for k-means and hierarchical clustering.
 #' @param fill Boolean. If TRUE, if there are any missing observations in one or
 #' more datasets, the corresponding cluster labels will be estimated through
 #' generalised linear models on the basis of the available labels.
@@ -30,26 +37,29 @@
 #' the missing cluster labels (instead of just using the cluster labels of the
 #' corresponding datasets).
 #' @param savePNG Boolean. If TRUE, plots of the silhouette for each datasets
-#' are saved as png files.
+#' are saved as png files. Default is FALSE.
+#' @param fileName If "savePNG" is TRUE, this is the string containing the name
+#' of the output files. Can be used to specify the folder path too. Default is
+#' "buildMOC". The ".png" extension is automatically added to this string.
 #' @param widestGap Boolean. If TRUE, compute also widest gap index to choose
 #' best number of clusters. Default is FALSE.
 #' @param dunns Boolean. If TRUE, compute also Dunn's index to choose best
 #' number of clusters. Default is FALSE.
 #' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to
 #' choose best number of clusters. Default is FALSE.
-#' @return The output is a list containing:
-#' * The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
-#' where element `(n,k)` contains a 1 if observation n belongs to the
+#' @return This function returns a list containing:
+#' @return - The Matrix-Of-Clusters "moc", a binary matrix of size N x sum(K)
+#' where element (n,k) contains a 1 if observation n belongs to the
 #' corresponding cluster, 0 otherwise.
-#' * A vector called `datasetIndicator` of length `sum(K)` in which
+#' @return - A vector called "datasetIndicator" of length sum(K) in which
 #' each element is the number of the dataset to which the cluster belongs.
-#' * `number_nas`, the total number of NAs in the matrix of clusters. (If the
-#' MOC has been filled with imputed values, `number_nas` indicated the number of
+#' @return - "number_nas", the total number of NAs in the matrix of clusters. (If the
+#' MOC has been filled with imputed values, "number_nas" indicates the number of
 #' NAs in the original MOC.)
-#' * `clLabels`, a matrix that is equivalent to the matrix of clusters, but is
+#' @return - "clLabels", a matrix that is equivalent to the matrix of clusters, but is
 #' in compact form, i.e. each column corresponds to a dataset, each row
 #' represents an observation, and its values indicate the cluster labels.
-#' * `K`, vector of cluster numbers in each dataset. If these are provided as
+#' @return - "K", vector of cluster numbers in each dataset. If these are provided as
 #' input, this is the same as the input (expanded to a vector if the input is an
 #' integer). If the cluster numbers are not provided as input, this vector
 #' contains the cluster numbers chosen via silhouette for each dataset.
@@ -60,19 +70,19 @@
 #' interpretation and validation of cluster analysis. Journal of computational
 #' and applied mathematics, 20, pp.53-65.
 #' @examples
-#' ## Load data
+#' # Load data
 #' data <- list()
-#' data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-#' package = 'coca'), row.names = 1))
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#' package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#' package = "coca"), row.names = 1))
 #'
-#' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+#' # Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
-#' ## Extract matrix of clusters
+#' # Extract matrix of clusters
 #' matrixOfClusters <- outputBuildMOC$moc
 #'
 #' @export
@@ -83,11 +93,12 @@ buildMOC <-
              K = NULL,
              maxK = 10,
              methods = "hclust",
-             distances = NULL,
+             distances = "euclidean",
              fill = FALSE,
              computeAccuracy = FALSE,
              fullData = FALSE,
              savePNG = FALSE,
+             fileName = "buildMOC",
              widestGap = FALSE,
              dunns = FALSE,
              dunn2s = FALSE) {
@@ -187,10 +198,9 @@ buildMOC <-
             } else {
                 stop("Clustering method name not recognised.")
             }
-
             K[i] <- maximiseSilhouette(
-                distanceMatrix, tempClLabels, maxK_i, savePNG,
-                fileName = paste("buildMOC_dataset", i, sep = ""),
+                distanceMatrix, tempClLabels, maxK_i, savePNG = savePNG,
+                fileName = paste(fileName, "_dataset", i, sep = ""),
                 isDistance = TRUE, widestGap = widestGap, dunns = dunns,
                 dunn2s = dunn2s)$K
         }

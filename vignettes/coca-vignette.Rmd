@@ -195,7 +195,7 @@ k-means, as implemented in the `stats` package. The default maximum number of
 iterations is 1000. If you would like to increase it, you can use the
 `maxIterKM` argument of the `coca()` function. Alternatively, one can select to
 use hierarchical clustering; this can be achieved by setting
-`ccClMethod = "hc"`. The distance used with hierarchical clustering can be
+`ccClMethod = "hclust"`. The distance used with hierarchical clustering can be
 selected via the `ccDistHC` argument of the `coca()` function.
 
 To find the final clustering based on the consensus matrix, hierarchical

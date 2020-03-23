@@ -14,12 +14,10 @@ plotted in correspondence of the indicated value. Default is NULL.}
 
 \item{fileName}{Name of the png file.}
 }
-\value{
-invisible(0)
-}
 \description{
 Plot average silhouette for different values of K.
 }
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }
+\keyword{internal}

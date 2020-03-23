@@ -9,9 +9,9 @@ consensusCluster(
   K = 2,
   B = 100,
   pItem = 0.8,
-  clMethod = "hc",
+  clMethod = "hclust",
   dist = "euclidean",
-  hcMethod = "average",
+  hclustMethod = "average",
   maxIterKM = 1000
 )
 }
@@ -24,18 +24,18 @@ consensusCluster(
 
 \item{pItem}{Proportion of items sampled at each iteration.}
 
-\item{clMethod}{Clustering algorithm. Can be 'hc' for hierarchical
-clustering, 'km' for k-means clustering, or 'pam' for partitioning around
-medoids. Default is 'hc'. However, if the data contain at least one covariate
-that is a factor, the default clustering algorithm is 'pam'.}
+\item{clMethod}{Clustering algorithm. Can be "hclust" for hierarchical
+clustering, "kmeans" for k-means clustering, or "pam" for partitioning around
+medoids. Default is "hclust". However, if the data contain at least one
+covariate that is a factor, the default clustering algorithm is "pam".}
 
-\item{dist}{Distance used for hierarchical clustering. Can be 'pearson' (for
-1 - Pearson correlation), 'spearman' (for 1- Spearman correlation), any of
-the distances provided in stats::dist() (i.e. 'euclidean', 'maximum',
-'manhattan', 'canberra', 'binary' or 'minkowski'), or a matrix containing the
+\item{dist}{Distance used for hierarchical clustering. Can be "pearson" (for
+1 - Pearson correlation), "spearman" (for 1- Spearman correlation), any of
+the distances provided in stats::dist() (i.e. "euclidean", "maximum",
+"manhattan", "canberra", "binary" or "minkowski"), or a matrix containing the
 distances between the observations.}
 
-\item{hcMethod}{Hierarchical clustering method. Default is 'average'. For
+\item{hclustMethod}{Hierarchical clustering method. Default is "average". For
 more details see ?hclust.}
 
 \item{maxIterKM}{Number of iterations for the k-means clustering algorithm.}
@@ -51,12 +51,12 @@ clustering algorithm, for a fixed number of clusters. We consider the number
 of clusters K to be fixed.
 }
 \examples{
-## Load one dataset with 300 observations, 2 variables, 6 clusters
-data <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-package = 'coca'), row.names = 1))
+# Load one dataset with 300 observations, 2 variables, 6 clusters
+data <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
 
-## Compute consensus clustering with K=6 clusters
-cm <- consensusCluster(data, K = 6)
+# Compute consensus clustering with K=5 clusters
+cm <- consensusCluster(data, K = 5)
 }
 \references{
 Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus

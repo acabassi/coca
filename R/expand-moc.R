@@ -10,33 +10,34 @@
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #'
 #' @examples
-#' ## Load data
+#' # Load data
 #' data <- list()
-#' data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-#' package = 'coca'), row.names = 1))
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#' package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#' package = "coca"), row.names = 1))
 #'
-#' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+#' # Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 #'
-#' ## Extract matrix of clusters
+#' # Extract matrix of clusters
 #' clLabels <- outputBuildMOC$clLabels
 #'
-#' ## Impute missing values
+#' # Impute missing values
 #' outputFillMOC <- fillMOC(clLabels, data = data)
 #'
-#' ## Replace matrix of cluster labels with new (full) one
+#' # Replace matrix of cluster labels with new (full) one
 #' clLabels <- outputFillMOC$fullClLabels
 #'
-#' ## Expand matrix of cluster labels into matrix of clusters
+#' # Expand matrix of cluster labels into matrix of clusters
 #' outputExpandMOC <- expandMOC(clLabels)
 #' clLabels <- outputExpandMOC$clLabels
 #' @export
 
 expandMOC <- function(clLabels, datasetNames = NULL) {
+
     # Number of data points
     N <- dim(clLabels)[1]
     # Number of datasets
@@ -48,7 +49,7 @@ expandMOC <- function(clLabels, datasetNames = NULL) {
         K[i] <- length(table(clLabels[, i]))
     }
 
-    # If no names are provided for the datasets, assign names '1', '2', '3' and
+    # If no names are provided for the datasets, assign names "1", "2", "3" and
     # so on.
     if (is.null(datasetNames)) {
         datasetNames <- as.character(seq_len(M))
@@ -78,7 +79,7 @@ expandMOC <- function(clLabels, datasetNames = NULL) {
 
     # Check whether all the rows of MOC have been filled
     if (count != dim(moc)[2])
-        warning("moc has not been filled completely!")
+        warning("MOC has not been filled completely!")
 
     output <- list(moc = moc, datasetIndicator = datasetIndicator,
                    datasetNames = datasetNamesMOC)

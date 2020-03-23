@@ -12,7 +12,7 @@ coca(
   pItem = 0.8,
   hclustMethod = "average",
   choiceKmethod = "silhouette",
-  ccClMethod = "km",
+  ccClMethod = "kmeans",
   ccDistHC = "euclidean",
   maxIterKM = 1000,
   savePNG = FALSE,
@@ -39,29 +39,32 @@ K is not known. Default is 6.}
 Cluster step.}
 
 \item{hclustMethod}{Agglomeration method to be used by the hclust function to
-perform hierarchical clustering on the consensus matrix. Can be 'single',
-'complete', 'average', etc. For more details please see ?stats::hclust.}
+perform hierarchical clustering on the consensus matrix. Can be "single",
+"complete", "average", etc. For more details please see ?stats::hclust.}
 
 \item{choiceKmethod}{Method used to choose the number of clusters if K is
-NULL, can be either 'AUC' (area under the curve, work in progress) or
-'silhouette'. Default is 'silhouette'.}
+NULL, can be either "AUC" (area under the curve, work in progress) or
+"silhouette". Default is "silhouette".}
 
 \item{ccClMethod}{Clustering method to be used by the Consensus Clustering
-algorithm (CC). Can be either 'km' for k-means clustering or 'hc' for
-hiearchical clustering. Default is 'km'.}
+algorithm (CC). Can be either "kmeans" for k-means clustering or "hclust" for
+hiearchical clustering. Default is "kmeans".}
 
 \item{ccDistHC}{Distance to be used by the hiearchical clustering algorithm
-inside CC. Can be 'pearson' (for 1 - Pearson correlation), 'spearman' (for 1-
+inside CC. Can be "pearson" (for 1 - Pearson correlation), "spearman" (for 1-
 Spearman correlation), or any of the distances provided in stats::dist()
-(i.e. 'euclidean', 'maximum', 'manhattan', 'canberra', 'binary' or
-'minkowski'). Default is 'euclidean'.}
+(i.e. "euclidean", "maximum", "manhattan", "canberra", "binary" or
+"minkowski"). Default is "euclidean".}
 
 \item{maxIterKM}{Number of iterations for the k-means clustering algorithm.
 Default is 1000.}
 
 \item{savePNG}{Boolean. Save plots as PNG files. Default is FALSE.}
 
-\item{fileName}{File name prefix.}
+\item{fileName}{If `savePNG` is TRUE, this is the string containing (the
+first part of) the name of the output files. Can be used to specify the
+folder path too. Default is "coca". The ".png" extension is automatically
+added to this string.}
 
 \item{verbose}{Boolean.}
 
@@ -77,36 +80,48 @@ choose best number of clusters. Default is FALSE.}
 \item{returnAllMatrices}{Boolean. If TRUE, return all consensus matrices.}
 }
 \value{
-The output is a consensus matrix, that is a symmetric matrix where
-the element in position (i,j) corresponds to the proportion of times that
-items i and j have been clustered together and a vector of cluster labels.
+This function returns a list containing:
+
+- "consensusMatrix", a symmetric matrix where the element in position
+(i,j) corresponds to the proportion of times that items i and j have been
+clustered together and a vector of cluster labels.
+
+- "clusterLabels", the final cluster labels.
+
+- "K", the final number of clusters. If provided by the user, this is
+the same as the input. Otherwise, this is the number of clusters selected via
+the requested method (see argument "choiceKmethod").
+
+- if returnAllMatrices = TRUE, an array called "consensusMatrices" is
+also returned, containing the consensus matrices obtained for each of the
+numbers of clusters considered by the algorithm.
 }
 \description{
-This function allows to do Cluster-Of-Clusters-Analysis on a binary matrix
+This function allows to do Cluster-Of-Clusters Analysis on a binary matrix
 where each column is a clustering of the data, each row corresponds to a data
 point and the element in position (i,j) is equal to 1 if data point i belongs
 to cluster j, 0 otherwise.
 }
 \examples{
-## Load data
+# Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-package = 'coca'), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-package = 'coca'), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-package = 'coca'), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+package = "coca"), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+package = "coca"), row.names = 1))
 
-## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 5, distances = 'cor')
+# Build matrix of clusters
+outputBuildMOC <- buildMOC(data, M = 3, K = 5, distances = "cor")
 
-## Extract matrix of clusters
+# Extract matrix of clusters
 moc <- outputBuildMOC$moc
 
-## Do Cluster-Of-Clusters Analysis
+# Do Cluster-Of-Clusters Analysis
 outputCOCA <- coca(moc, K = 5)
 
-## Extract cluster labels
+# Extract cluster labels
 clusterLabels <- outputCOCA$clusterLabels
 
 }

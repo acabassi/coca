@@ -20,28 +20,28 @@ expanded `datasetNames` of length sum(K).
 Expand matrix of cluster labels into matrix of clusters
 }
 \examples{
-## Load data
+# Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-package = 'coca'), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-package = 'coca'), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-package = 'coca'), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+package = "coca"), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+package = "coca"), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+package = "coca"), row.names = 1))
 
-## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+# Build matrix of clusters
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
-## Extract matrix of clusters
+# Extract matrix of clusters
 clLabels <- outputBuildMOC$clLabels
 
-## Impute missing values
+# Impute missing values
 outputFillMOC <- fillMOC(clLabels, data = data)
 
-## Replace matrix of cluster labels with new (full) one
+# Replace matrix of cluster labels with new (full) one
 clLabels <- outputFillMOC$fullClLabels
 
-## Expand matrix of cluster labels into matrix of clusters
+# Expand matrix of cluster labels into matrix of clusters
 outputExpandMOC <- expandMOC(clLabels)
 clLabels <- outputExpandMOC$clLabels
 }

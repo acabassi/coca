@@ -14,8 +14,10 @@
 #' result.
 #' @param clr Cluster rows. Default is FALSE.
 #' @param clc Cluster columns. Default is FALSE.
-#' @param save Boolean. If TRUE, plot is saved as a png file.
-#' @param fileName File name for the plot if save is TRUE. Default is 'moc.png'.
+#' @param savePNG Boolean. If TRUE, plot is saved as a png file.
+#' @param fileName If `savePNG` is TRUE, this is the string containing the name
+#' of the moc figure. Can be used to specify the folder path too. Default is
+#' "moc". The ".png" extension is automatically added to this string.
 #' @param showObsNames Boolean. If TRUE, the plot will also include the column
 #' names (i.e. name of each observation). Default is FALSE, since there are
 #' usually too many columns.
@@ -27,32 +29,36 @@
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.
 #' @examples
-#' ## Load data
+#' # Load data
 #' data <- list()
-#' data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-#' package = 'coca'), row.names = 1))
-#' data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-#' package = 'coca'), row.names = 1))
+#' data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+#' package = "coca"), row.names = 1))
+#' data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+#' package = "coca"), row.names = 1))
+#' data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+#' package = "coca"), row.names = 1))
 #'
-#' ## Build matrix of clusters
-#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+#' # Create vector of dataset names, in the same order as they appear above
+#' datasetNames <- c("Dataset1", "Dataset2", "Dataset3")
 #'
-#' ## Extract matrix of clusters and dataset indicator vector
+#' # Build matrix of clusters
+#' outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
+#'
+#' # Extract matrix of clusters and dataset indicator vector
 #' moc <- outputBuildMOC$moc
 #' datasetIndicator <- outputBuildMOC$datasetIndicator
 #'
-#' ## Prepare annotations
+#' # Prepare annotations
 #' true_labels <- as.matrix(read.csv(
-#' system.file('extdata', 'cluster_labels.csv', package = 'coca'),
+#' system.file("extdata", "cluster_labels.csv", package = "coca"),
 #' row.names = 1))
 #' annotations <- data.frame(true_labels = as.factor(true_labels))
 #'
-#' ## Plot matrix of clusters
-#' plotMOC(moc, datasetIndicator, annotations = annotations)
-#'
-#' @return invisible(0)
+#' # Plot matrix of clusters
+#' plotMOC(moc,
+#'         datasetIndicator,
+#'         datasetNames = datasetNames,
+#'         annotations = annotations)
 #' @export
 #'
 plotMOC <-
@@ -62,7 +68,7 @@ plotMOC <-
              annotations = NULL,
              clr = FALSE,
              clc = FALSE,
-             save = FALSE,
+             savePNG = FALSE,
              fileName = "moc.png",
              showObsNames = FALSE,
              showClusterNames = FALSE,
@@ -113,8 +119,8 @@ plotMOC <-
                                                        name = "Set3")))
     }
 
-    if (save)
-        grDevices::png(fileName, width = 1000, height = 600)
+    if (savePNG)
+        grDevices::png(paste(fileName,".png"), width = 1000, height = 600)
 
     pheatmap::pheatmap(moc,
                        legend = TRUE,
@@ -133,8 +139,6 @@ plotMOC <-
                        na_col = "seashell2",
                        border_color = NA)
 
-    if (save)
+    if (savePNG)
         grDevices::dev.off()
-
-    invisible(0)
 }

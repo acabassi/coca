@@ -6,15 +6,12 @@
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
-#' @return invisible(0)
+#' @keywords internal
 #'
 plotSilhouette <- function(sil, chosenK = NULL, fileName) {
     maxK <- length(sil) + 1
 
-    if (!dir.exists("silhouette"))
-        dir.create("silhouette", showWarnings = FALSE)
-
-    fileName <- paste("silhouette/", fileName, ".png", sep = "")
+    fileName <- paste(fileName, "_silhouette.png", sep = "")
     grDevices::png(fileName, width = 400, height = 400)
     graphics::plot(2:maxK,
                    sil,
@@ -36,15 +33,12 @@ plotSilhouette <- function(sil, chosenK = NULL, fileName) {
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
-#' @return invisible(0)
+#' @keywords internal
 #'
 plotWidestGap <- function(widestGap, chosenK = NULL, fileName) {
     maxK <- length(widestGap) + 1
 
-    if (!dir.exists("widestGap"))
-        dir.create("widestGap", showWarnings = FALSE)
-
-    fileName <- paste("widestGap/", fileName, ".png", sep = "")
+    fileName <- paste(fileName, "_widestGap.png", sep = "")
     grDevices::png(fileName, width = 400, height = 400)
     graphics::plot(2:maxK,
                    widestGap,
@@ -54,8 +48,6 @@ plotWidestGap <- function(widestGap, chosenK = NULL, fileName) {
     if (!is.null(chosenK))
         graphics::abline(v = chosenK, col = "darkred")
     grDevices::dev.off()
-
-    invisible(0)
 }
 
 #' Plot Dunn's index
@@ -67,15 +59,12 @@ plotWidestGap <- function(widestGap, chosenK = NULL, fileName) {
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
-#' @return invisible(0)
+#' @keywords internal
 #'
 plotDunns <- function(dunns, chosenK = NULL, fileName) {
     maxK <- length(dunns) + 1
 
-    if (!dir.exists("dunns"))
-        dir.create("dunns", showWarnings = FALSE)
-
-    fileName <- paste("dunns/", fileName, ".png", sep = "")
+    fileName <- paste(fileName, "_dunns.png", sep = "")
     grDevices::png(fileName, width = 400, height = 400)
     graphics::plot(2:maxK,
                    dunns,
@@ -86,7 +75,6 @@ plotDunns <- function(dunns, chosenK = NULL, fileName) {
         graphics::abline(v = chosenK, col = "darkred")
     grDevices::dev.off()
 
-    invisible(0)
 }
 
 #' Plot Dunn's alternative index
@@ -99,15 +87,12 @@ plotDunns <- function(dunns, chosenK = NULL, fileName) {
 #' plotted in correspondence of the indicated value. Default is NULL.
 #' @param fileName Name of the png file.
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
-#' @return invisible(0)
+#' @keywords internal
 #'
 plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
     maxK <- length(dunns) + 1
 
-    if (!dir.exists("dunn2s"))
-        dir.create("dunn2s", showWarnings = FALSE)
-
-    fileName <- paste("dunn2s/", fileName, ".png", sep = "")
+    fileName <- paste(fileName, "_dunn2s.png", sep = "")
     grDevices::png(fileName, width = 400, height = 400)
     graphics::plot(2:maxK,
                    dunns,
@@ -193,7 +178,7 @@ maximiseSilhouette <-
     }
 
     K <- which.max(sil)[1] + 1
-    # The '+1' is there because the silhouette is stored in a vector where
+    # The "+1" is there because the silhouette is stored in a vector where
     # element i corresponds to number of clusters equal to i+1
     if (savePNG) {
         plotSilhouette(sil, K, fileName)

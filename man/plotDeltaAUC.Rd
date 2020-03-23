@@ -4,7 +4,7 @@
 \alias{plotDeltaAUC}
 \title{Plot area under the curve}
 \usage{
-plotDeltaAUC(deltaAUC, chosenK = NULL, fileName)
+plotDeltaAUC(deltaAUC, chosenK = NULL, fileName = "deltaAUC.png")
 }
 \arguments{
 \item{deltaAUC}{Vector of the difference between the area under the curve
@@ -26,3 +26,4 @@ Plot area under the curve for different values of K
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 }
+\keyword{internal}

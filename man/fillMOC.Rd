@@ -22,12 +22,12 @@ fullData is TRUE.}
 }
 \value{
 The output is the same matrix of clusters, where NAs have been
-replaced by their estimates, where possible. If `computeAccuracy` is TRUE,
-then also an object called `accuracy` is returned, where each element
+replaced by their estimates, where possible. If "computeAccuracy" is TRUE,
+then also an object called "accuracy" is returned, where each element
 corresponds to the predictive accuracy of the predictive model used to
 estimate the corresponding label in the cluster label matrix. In order to
 compare the predictive accuracy of the imputation algorithm,
-`accuracy_random` is also returned.
+"accuracy_random" is also returned.
 }
 \description{
 This function fills in a matrix of clusters that contains NAs, by estimating
@@ -35,32 +35,26 @@ the missing cluster labels based on the available ones or based on the other
 datasets.
 }
 \examples{
-## Load data
+# Load data
 data <- list()
-data[[1]] <- as.matrix(read.csv(system.file('extdata', 'dataset1.csv',
-                       package = 'coca'), row.names = 1))
-data[[2]] <- as.matrix(read.csv(system.file('extdata', 'dataset2.csv',
-                       package = 'coca'), row.names = 1))
-data[[3]] <- as.matrix(read.csv(system.file('extdata', 'dataset3.csv',
-                       package = 'coca'), row.names = 1))
+data[[1]] <- as.matrix(read.csv(system.file("extdata", "dataset1.csv",
+                       package = "coca"), row.names = 1))
+data[[2]] <- as.matrix(read.csv(system.file("extdata", "dataset2.csv",
+                       package = "coca"), row.names = 1))
+data[[3]] <- as.matrix(read.csv(system.file("extdata", "dataset3.csv",
+                       package = "coca"), row.names = 1))
 
-## Build matrix of clusters
-outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = 'cor')
+# Build matrix of clusters
+outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 
-## Extract matrix of clusters
+# Extract matrix of clusters
 clLabels <- outputBuildMOC$clLabels
 
-## Impute missing values
-# outputFillMOC1 <- fillMOC(clLabels)
+# Impute missing values using full datasets
+outputFillMOC <- fillMOC(clLabels, data = data)
 
-## Extract full matrix of cluster labels
-# clLabels1 <- outputFillMOC1$fullClLabels
-
-## Impute missing values using full datasets
-outputFillMOC2 <- fillMOC(clLabels, data = data)
-
-## Extract full matrix of cluster labels
-clLabels2 <- outputFillMOC2$fullClLabels
+# Extract full matrix of cluster labels
+clLabels2 <- outputFillMOC$fullClLabels
 }
 \references{
 The Cancer Genome Atlas, 2012. Comprehensive molecular portraits

@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -53,6 +53,16 @@ heterogeneous datasets." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128138627-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-128138627-4');
+</script>
+
 
   </head>
 
@@ -77,25 +87,25 @@ heterogeneous datasets." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../articles/index.html">
+    <span class="fa fa-play-circle"></span>
      
+    Vignettes
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+  <a href="../reference/index.html">
+    <span class="fa fa-pencil"></span>
      
-    <span class="caret"></span>
+    Documentation
   </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/coca-vignette.html">Introduction to coca</a>
-    </li>
-  </ul>
+</li>
+<li>
+  <a href="https://github.com/acabassi/klic">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -134,11 +144,12 @@ heterogeneous datasets.</p>
   <span class='kw'>K</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>maxK</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>methods</span> <span class='kw'>=</span> <span class='st'>"hclust"</span>,
-  <span class='kw'>distances</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>,
   <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>fullData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>savePNG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fileName</span> <span class='kw'>=</span> <span class='st'>"buildMOC"</span>,
   <span class='kw'>widestGap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dunns</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dunn2s</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
@@ -173,14 +184,21 @@ Default is 10.</p></td>
       <th>methods</th>
       <td><p>Vector of strings containing the names of the clustering
 methods to be used to cluster the observations in each dataset. Each can be
-'kmeans', 'hclust', or 'pam'. If the vector is of length one, the same
-clustering method is applied to all the datasets.</p></td>
+'kmeans' (k-means clustering), 'hclust' (hierarchical clustering), or 'pam'
+(partitioning around medoids). If the vector is of length one, the same
+clustering method is applied to all the datasets. Default is "hclust".</p></td>
     </tr>
     <tr>
       <th>distances</th>
       <td><p>Distances to be used in the clustering step for each
-dataset. At the moment there is only the option to choose 'cor' for
-1-correlation. Otherwise the default distance for each method is used.</p></td>
+dataset. If only one string is provided, then the same distance is used for
+all datasets. If the number of strings provided is the same as the number of
+datasets, then each distance will be used for the corresponding dataset.
+Default is "euclidean". Please note that not all distances are compatible
+with all clustering methods. "euclidean" and "manhattan" work with all
+available clustering algorithms. "gower" distance is only available for
+partitioning around medoids. In addition, "maximum", "canberra", "binary" or
+"minkowski" are available for k-means and hierarchical clustering.</p></td>
     </tr>
     <tr>
       <th>fill</th>
@@ -203,7 +221,13 @@ corresponding datasets).</p></td>
     <tr>
       <th>savePNG</th>
       <td><p>Boolean. If TRUE, plots of the silhouette for each datasets
-are saved as png files.</p></td>
+are saved as png files. Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>fileName</th>
+      <td><p>If "savePNG" is TRUE, this is the string containing the name
+of the output files. Can be used to specify the folder path too. Default is
+"buildMOC". The ".png" extension is automatically added to this string.</p></td>
     </tr>
     <tr>
       <th>widestGap</th>
@@ -224,19 +248,19 @@ choose best number of clusters. Default is FALSE.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a list containing:
-* The Matrix-Of-Clusters `moc`, a binary matrix of size `N x sum(K)`
-where element `(n,k)` contains a 1 if observation n belongs to the
-corresponding cluster, 0 otherwise.
-* A vector called `datasetIndicator` of length `sum(K)` in which
-each element is the number of the dataset to which the cluster belongs.
-* `number_nas`, the total number of NAs in the matrix of clusters. (If the
-MOC has been filled with imputed values, `number_nas` indicated the number of
-NAs in the original MOC.)
-* `clLabels`, a matrix that is equivalent to the matrix of clusters, but is
+    <p>This function returns a list containing:</p>
+<p>- The Matrix-Of-Clusters "moc", a binary matrix of size N x sum(K)
+where element (n,k) contains a 1 if observation n belongs to the
+corresponding cluster, 0 otherwise.</p>
+<p>- A vector called "datasetIndicator" of length sum(K) in which
+each element is the number of the dataset to which the cluster belongs.</p>
+<p>- "number_nas", the total number of NAs in the matrix of clusters. (If the
+MOC has been filled with imputed values, "number_nas" indicates the number of
+NAs in the original MOC.)</p>
+<p>- "clLabels", a matrix that is equivalent to the matrix of clusters, but is
 in compact form, i.e. each column corresponds to a dataset, each row
-represents an observation, and its values indicate the cluster labels.
-* `K`, vector of cluster numbers in each dataset. If these are provided as
+represents an observation, and its values indicate the cluster labels.</p>
+<p>- "K", vector of cluster numbers in each dataset. If these are provided as
 input, this is the same as the input (expanded to a vector if the input is an
 integer). If the cluster numbers are not provided as input, this vector
 contains the cluster numbers chosen via silhouette for each dataset.</p>
@@ -249,19 +273,19 @@ interpretation and validation of cluster analysis. Journal of computational
 and applied mathematics, 20, pp.53-65.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Load data</span>
+    <pre class="examples"><div class='input'><span class='co'># Load data</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset1.csv'</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset2.csv'</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
-<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'dataset3.csv'</span>,
-<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'coca'</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset1.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset2.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"dataset3.csv"</span>,
+<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"coca"</span>), <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
-<span class='co'>## Build matrix of clusters</span>
-<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>'cor'</span>)
+<span class='co'># Build matrix of clusters</span>
+<span class='no'>outputBuildMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>buildMOC</span>(<span class='no'>data</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>K</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>distances</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)
 
-<span class='co'>## Extract matrix of clusters</span>
+<span class='co'># Extract matrix of clusters</span>
 <span class='no'>matrixOfClusters</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>moc</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -281,7 +305,7 @@ and applied mathematics, 20, pp.53-65.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alessandra Cabassi.</p>
+  <p>Developed by <a href='https://alessandracabassi.wordpress.com'>Alessandra Cabassi</a>.</p>
 </div>
 
 <div class="pkgdown">
