@@ -38,7 +38,8 @@
 <meta property="og:title" content="Fill Matrix-Of-Clusters — fillMOC" />
 <meta property="og:description" content="This function fills in a matrix of clusters that contains NAs, by estimating
 the missing cluster labels based on the available ones or based on the other
-datasets." />
+datasets. The predictive accuracy of this method can also be estimated via
+cross-validation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -81,7 +82,7 @@ datasets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -137,10 +138,11 @@ datasets." />
     <div class="ref-description">
     <p>This function fills in a matrix of clusters that contains NAs, by estimating
 the missing cluster labels based on the available ones or based on the other
-datasets.</p>
+datasets. The predictive accuracy of this method can also be estimated via
+cross-validation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='no'>data</span>, <span class='kw'>computeAccuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,32 +153,42 @@ datasets.</p>
 contains the cluster label for element data point n in cluster m.</p></td>
     </tr>
     <tr>
+      <th>data</th>
+      <td><p>List of M datasets to be used for the label imputation.</p></td>
+    </tr>
+    <tr>
       <th>computeAccuracy</th>
       <td><p>Boolean. If TRUE, for each missing element, the
 performance of the predictive model used to estimate the corresponding
-missing label is computer.</p></td>
+missing label is computer. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Boolean. If TRUE, for each NA, the size of the matrix used to
-estimate its values is printed to screen</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>List of M datasets to be used for the label imputation if
-fullData is TRUE.</p></td>
+estimate its values is printed to screen. Default is FALSE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is the same matrix of clusters, where NAs have been
-replaced by their estimates, where possible. If "computeAccuracy" is TRUE,
-then also an object called "accuracy" is returned, where each element
+    <p>The output is a list containing:</p>
+<dt>fullClLabels</dt><dd><p>the same matrix of clusters as the input matrix
+<code>clLabels</code>, where NAs have been replaced by their estimates, where
+possible.</p></dd>
+<dt>nRows</dt><dd><p>matrix where the item in position <code>(i,j)</code> indicates the
+number of observations used in the predictive model used to estimate  the
+corresponding missing label in the <code>fullClLabels</code> matrix.</p></dd>
+<dt>nColumns</dt><dd><p>number of covariates used in the predictive model used to
+estimate each missing label.</p></dd>
+<dt>accuracy</dt><dd><p>a matrix where each element
 corresponds to the predictive accuracy of the predictive model used to
-estimate the corresponding label in the cluster label matrix. In order to
-compare the predictive accuracy of the imputation algorithm,
-"accuracy_random" is also returned.</p>
+estimate the corresponding label in the cluster label matrix. This is only
+returned if the argument <code>computeAccuracy</code> is set to <code>TRUE</code>.</p></dd>
+<dt>accuracy_random</dt><dd><p>This is computed in the same way as <code>accuracy</code>,
+but with the labels randomly shuffled. This can be used in order to compare
+the predictive accuracy of the imputation algorithm and is returned only if
+the argument <code>computeAccuracy</code> is set to <code>TRUE</code>.</p></dd>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
@@ -199,7 +211,7 @@ of human breast tumours. Nature, 487(7407), pp.61–70.</p>
 <span class='no'>clLabels</span> <span class='kw'>&lt;-</span> <span class='no'>outputBuildMOC</span>$<span class='no'>clLabels</span>
 
 <span class='co'># Impute missing values using full datasets</span>
-<span class='no'>outputFillMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>)
+<span class='no'>outputFillMOC</span> <span class='kw'>&lt;-</span> <span class='fu'>fillMOC</span>(<span class='no'>clLabels</span>, <span class='no'>data</span>)
 
 <span class='co'># Extract full matrix of cluster labels</span>
 <span class='no'>clLabels2</span> <span class='kw'>&lt;-</span> <span class='no'>outputFillMOC</span>$<span class='no'>fullClLabels</span></div></pre>

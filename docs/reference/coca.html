@@ -82,7 +82,7 @@ to cluster j, 0 otherwise." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -225,7 +225,7 @@ Default is 1000.</p></td>
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>If `savePNG` is TRUE, this is the string containing (the
+      <td><p>If <code>savePNG</code> is TRUE, this is the string containing (the
 first part of) the name of the output files. Can be used to specify the
 folder path too. Default is "coca". The ".png" extension is automatically
 added to this string.</p></td>
@@ -251,23 +251,25 @@ choose best number of clusters. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>returnAllMatrices</th>
-      <td><p>Boolean. If TRUE, return all consensus matrices.</p></td>
+      <td><p>Boolean. If TRUE, return consensus matrices for all
+considered values of K. Default is FALSE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>This function returns a list containing:</p>
-<p>- "consensusMatrix", a symmetric matrix where the element in position
+<dt>consensusMatrix</dt><dd><p>a symmetric matrix where the element in position
 (i,j) corresponds to the proportion of times that items i and j have been
-clustered together and a vector of cluster labels.</p>
-<p>- "clusterLabels", the final cluster labels.</p>
-<p>- "K", the final number of clusters. If provided by the user, this is
+clustered together and a vector of cluster labels.</p></dd>
+<dt>clusterLabels</dt><dd><p>the final cluster labels.</p></dd>
+<dt>K</dt><dd><p>the final number of clusters. If provided by the user, this is
 the same as the input. Otherwise, this is the number of clusters selected via
-the requested method (see argument "choiceKmethod").</p>
-<p>- if returnAllMatrices = TRUE, an array called "consensusMatrices" is
+the requested method (see argument "choiceKmethod").</p></dd>
+<dt>consensusMatrices</dt><dd><p>if returnAllMatrices = TRUE, this array
 also returned, containing the consensus matrices obtained for each of the
-numbers of clusters considered by the algorithm.</p>
+numbers of clusters considered by the algorithm.</p></dd>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>The Cancer Genome Atlas, 2012. Comprehensive molecular

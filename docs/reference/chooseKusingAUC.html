@@ -83,7 +83,7 @@ Section 3.3.1." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@ subdirectory of the working directory, called "delta-auc". Default is FALSE.</p>
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>If "savePNG" is TRUE, this is the name of the png file.
+      <td><p>If <code>savePNG</code> is TRUE, this is the name of the png file.
 Can be used to specify the folder path too. Default is "deltaAUC". The ".png"
 extension is automatically added to this string.</p></td>
     </tr>
@@ -171,11 +171,13 @@ extension is automatically added to this string.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>This function returns a list containing "deltaAUC", a vector of
+    <p>This function returns a list containing:</p>
+<dt>deltaAUC</dt><dd><p>a vector of
 length maxK-1 where element i is  the area under the curve for
 K = i+1 minus the area under the curve for K = i (for i = 2 this
-is simply the area under the curve for K = i), and "K" the lowest
-among the values of K that are chosen by the algorithm.</p>
+is simply the area under the curve for K = i)</p></dd>
+<dt>K</dt><dd><p>the lowest among the values of K that are chosen by the algorithm.</p></dd>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus

@@ -82,7 +82,7 @@ clusterings" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@ clusterings</p>
     <tr>
       <th>clLabels</th>
       <td><p>(maxK-1) X N matrix containing the clusterings obtained for
-different values of K</p></td>
+different values of K.</p></td>
     </tr>
     <tr>
       <th>maxK</th>
@@ -176,7 +176,7 @@ folder. Defaults to FALSE.</p></td>
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>If savePNG is TRUE, this is the name of the png file.</p></td>
+      <td><p>If <code>savePNG</code> is TRUE, this is the name of the png file.</p></td>
     </tr>
     <tr>
       <th>isDistance</th>
@@ -186,26 +186,30 @@ matrices of distances, otherwise as matrices of similarities.</p></td>
     <tr>
       <th>widestGap</th>
       <td><p>Boolean. If TRUE, also computes widest gap index (and plots
-it if savePNG is TRUE).</p></td>
+it if <code>savePNG</code> is TRUE).</p></td>
     </tr>
     <tr>
       <th>dunns</th>
       <td><p>Boolean. If TRUE, also computes Dunn's index: minimum separation
-/ maximum diameter (and plots it if savePNG is TRUE).</p></td>
+/ maximum diameter (and plots it if <code>savePNG</code> is TRUE).</p></td>
     </tr>
     <tr>
       <th>dunn2s</th>
-      <td><p>Boolean. If TRUE, also computes an alternative version of
-Dunn's index: minimum average dissimilarity between two cluster / maximum
-average within cluster dissimilarity (and plots it if savePNG is TRUE).</p></td>
+      <td><p>Boolean. If <code>TRUE</code>, also computes an alternative version
+of Dunn's index: minimum average dissimilarity between two cluster / maximum
+average within cluster dissimilarity (and plots it if <code>savePNG</code> is
+<code>TRUE</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a list containing `silh`, a vector of length
-maxK-1 such that silh[i] is the silhouette for K = i+1, and `K`, the lowest
-number of clusters for which the silhouette is maximised.</p>
+    <p>The function returns a list containing:</p>
+<dt>silh</dt><dd><p>a vector of length <code>maxK-1</code> such that <code>silh[i]</code> is the
+silhouette for <code>K = i+1</code></p></dd>
+<dt>K</dt><dd><p>the lowest number of clusters for which the silhouette is
+maximised.</p></dd>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

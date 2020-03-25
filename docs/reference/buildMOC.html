@@ -80,7 +80,7 @@ heterogeneous datasets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -184,7 +184,7 @@ Default is 10.</p></td>
       <th>methods</th>
       <td><p>Vector of strings containing the names of the clustering
 methods to be used to cluster the observations in each dataset. Each can be
-'kmeans' (k-means clustering), 'hclust' (hierarchical clustering), or 'pam'
+"kmeans" (k-means clustering), "hclust" (hierarchical clustering), or "pam"
 (partitioning around medoids). If the vector is of length one, the same
 clustering method is applied to all the datasets. Default is "hclust".</p></td>
     </tr>
@@ -225,9 +225,9 @@ are saved as png files. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>fileName</th>
-      <td><p>If "savePNG" is TRUE, this is the string containing the name
-of the output files. Can be used to specify the folder path too. Default is
-"buildMOC". The ".png" extension is automatically added to this string.</p></td>
+      <td><p>If <code>savePNG</code> is TRUE, this is the string containing the
+name of the output files. Can be used to specify the folder path too. Default
+is "buildMOC". The ".png" extension is automatically added to this string.</p></td>
     </tr>
     <tr>
       <th>widestGap</th>
@@ -249,21 +249,22 @@ choose best number of clusters. Default is FALSE.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>This function returns a list containing:</p>
-<p>- The Matrix-Of-Clusters "moc", a binary matrix of size N x sum(K)
+<dt>moc</dt><dd><p>the Matrix-Of-Clusters, a binary matrix of size N x sum(K)
 where element (n,k) contains a 1 if observation n belongs to the
-corresponding cluster, 0 otherwise.</p>
-<p>- A vector called "datasetIndicator" of length sum(K) in which
-each element is the number of the dataset to which the cluster belongs.</p>
-<p>- "number_nas", the total number of NAs in the matrix of clusters. (If the
-MOC has been filled with imputed values, "number_nas" indicates the number of
-NAs in the original MOC.)</p>
-<p>- "clLabels", a matrix that is equivalent to the matrix of clusters, but is
+corresponding cluster, 0 otherwise.</p></dd>
+<dt>datasetIndicator</dt><dd><p>a vector of length sum(K) in which
+each element is the number of the dataset to which the cluster belongs.</p></dd>
+<dt>number_nas</dt><dd><p>the total number of NAs in the matrix of clusters. (If the
+MOC has been filled with imputed values, <code>number_nas</code> indicates the
+number of NAs in the original MOC.)</p></dd>
+<dt>clLabels</dt><dd><p>a matrix that is equivalent to the matrix of clusters, but is
 in compact form, i.e. each column corresponds to a dataset, each row
-represents an observation, and its values indicate the cluster labels.</p>
-<p>- "K", vector of cluster numbers in each dataset. If these are provided as
+represents an observation, and its values indicate the cluster labels.</p></dd>
+<dt>K</dt><dd><p>vector of cluster numbers in each dataset. If these are provided as
 input, this is the same as the input (expanded to a vector if the input is an
 integer). If the cluster numbers are not provided as input, this vector
-contains the cluster numbers chosen via silhouette for each dataset.</p>
+contains the cluster numbers chosen via silhouette for each dataset.</p></dd>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
