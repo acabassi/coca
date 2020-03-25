@@ -17,11 +17,8 @@ plotted in correspondance of the indicated value. Default is NULL.}
 
 \item{fileName}{name of the png file}
 }
-\value{
-invisible(0)
-}
 \description{
-Plot area under the curve for different values of K
+Plot area under the curve for different values of K.
 }
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}

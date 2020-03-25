@@ -38,7 +38,7 @@ Default is 10.}
 
 \item{methods}{Vector of strings containing the names of the clustering
 methods to be used to cluster the observations in each dataset. Each can be
-'kmeans' (k-means clustering), 'hclust' (hierarchical clustering), or 'pam'
+"kmeans" (k-means clustering), "hclust" (hierarchical clustering), or "pam"
 (partitioning around medoids). If the vector is of length one, the same
 clustering method is applied to all the datasets. Default is "hclust".}
 
@@ -67,9 +67,9 @@ corresponding datasets).}
 \item{savePNG}{Boolean. If TRUE, plots of the silhouette for each datasets
 are saved as png files. Default is FALSE.}
 
-\item{fileName}{If "savePNG" is TRUE, this is the string containing the name
-of the output files. Can be used to specify the folder path too. Default is
-"buildMOC". The ".png" extension is automatically added to this string.}
+\item{fileName}{If \code{savePNG} is TRUE, this is the string containing the
+name of the output files. Can be used to specify the folder path too. Default
+is "buildMOC". The ".png" extension is automatically added to this string.}
 
 \item{widestGap}{Boolean. If TRUE, compute also widest gap index to choose
 best number of clusters. Default is FALSE.}
@@ -82,26 +82,21 @@ choose best number of clusters. Default is FALSE.}
 }
 \value{
 This function returns a list containing:
-
-- The Matrix-Of-Clusters "moc", a binary matrix of size N x sum(K)
+\item{moc}{the Matrix-Of-Clusters, a binary matrix of size N x sum(K)
 where element (n,k) contains a 1 if observation n belongs to the
-corresponding cluster, 0 otherwise.
-
-- A vector called "datasetIndicator" of length sum(K) in which
-each element is the number of the dataset to which the cluster belongs.
-
-- "number_nas", the total number of NAs in the matrix of clusters. (If the
-MOC has been filled with imputed values, "number_nas" indicates the number of
-NAs in the original MOC.)
-
-- "clLabels", a matrix that is equivalent to the matrix of clusters, but is
+corresponding cluster, 0 otherwise.}
+\item{datasetIndicator}{a vector of length sum(K) in which
+each element is the number of the dataset to which the cluster belongs.}
+\item{number_nas}{the total number of NAs in the matrix of clusters. (If the
+MOC has been filled with imputed values, \code{number_nas} indicates the
+number of NAs in the original MOC.)}
+\item{clLabels}{a matrix that is equivalent to the matrix of clusters, but is
 in compact form, i.e. each column corresponds to a dataset, each row
-represents an observation, and its values indicate the cluster labels.
-
-- "K", vector of cluster numbers in each dataset. If these are provided as
+represents an observation, and its values indicate the cluster labels.}
+\item{K}{vector of cluster numbers in each dataset. If these are provided as
 input, this is the same as the input (expanded to a vector if the input is an
 integer). If the cluster numbers are not provided as input, this vector
-contains the cluster numbers chosen via silhouette for each dataset.
+contains the cluster numbers chosen via silhouette for each dataset.}
 }
 \description{
 This function creates a matrix of clusters starting from a list of

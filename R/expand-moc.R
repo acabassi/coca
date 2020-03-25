@@ -3,10 +3,11 @@
 #' Expand matrix of cluster labels into matrix of clusters
 #'
 #' @param clLabels Matrix of cluster labels of size N x M.
-#' @param datasetNames Vector of cluster names of length M. Default is null.
-#' @return The output is a list containing the matrix of clusters `moc`, a
-#' vector containing the dataset indicator `datasetIndicator` and a vector of
-#' expanded `datasetNames` of length sum(K).
+#' @param datasetNames Vector of cluster names of length M. Default is NULL.
+#' @return The output is a list containing:
+#' \item{moc}{the matrix of clusters.}
+#' \item{datasetIndicator}{a vector containing the dataset indicator.}
+#' \item{datasetNames}{an expanded vector of dataset names for the moc.}
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #'
 #' @examples

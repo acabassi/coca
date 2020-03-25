@@ -36,7 +36,7 @@ the distances provided in stats::dist() (i.e. "euclidean", "maximum",
 distances between the observations.}
 
 \item{hclustMethod}{Hierarchical clustering method. Default is "average". For
-more details see ?hclust.}
+more details see \code{?hclust}.}
 
 \item{maxIterKM}{Number of iterations for the k-means clustering algorithm.}
 }

@@ -31,7 +31,7 @@
 #' Default is 1000.
 #' @param verbose Boolean.
 #' @param savePNG Boolean. Save plots as PNG files. Default is FALSE.
-#' @param fileName If `savePNG` is TRUE, this is the string containing (the
+#' @param fileName If \code{savePNG} is TRUE, this is the string containing (the
 #' first part of) the name of the output files. Can be used to specify the
 #' folder path too. Default is "coca". The ".png" extension is automatically
 #' added to this string.
@@ -41,18 +41,19 @@
 #' number of clusters. Default is FALSE.
 #' @param dunn2s Boolean. If TRUE, compute also alternative Dunn's index to
 #' choose best number of clusters. Default is FALSE.
-#' @param returnAllMatrices Boolean. If TRUE, return all consensus matrices.
+#' @param returnAllMatrices Boolean. If TRUE, return consensus matrices for all
+#' considered values of K. Default is FALSE.
 #' @return This function returns a list containing:
-#' @return - "consensusMatrix", a symmetric matrix where the element in position
+#' \item{consensusMatrix}{a symmetric matrix where the element in position
 #' (i,j) corresponds to the proportion of times that items i and j have been
-#' clustered together and a vector of cluster labels.
-#' @return - "clusterLabels", the final cluster labels.
-#' @return - "K", the final number of clusters. If provided by the user, this is
+#' clustered together and a vector of cluster labels.}
+#' \item{clusterLabels}{the final cluster labels.}
+#' \item{K}{the final number of clusters. If provided by the user, this is
 #' the same as the input. Otherwise, this is the number of clusters selected via
-#' the requested method (see argument "choiceKmethod").
-#' @return - if returnAllMatrices = TRUE, an array called "consensusMatrices" is
+#' the requested method (see argument "choiceKmethod").}
+#' \item{consensusMatrices}{if returnAllMatrices = TRUE, this array
 #' also returned, containing the consensus matrices obtained for each of the
-#' numbers of clusters considered by the algorithm.
+#' numbers of clusters considered by the algorithm.}
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular
 #' portraits of human breast tumours. Nature,

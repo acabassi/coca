@@ -15,16 +15,17 @@ consensus matrices obtained with K varying from 2 to maxK.}
 for each value of K is saved as a png file. The file is saved in a
 subdirectory of the working directory, called "delta-auc". Default is FALSE.}
 
-\item{fileName}{If "savePNG" is TRUE, this is the name of the png file.
+\item{fileName}{If \code{savePNG} is TRUE, this is the name of the png file.
 Can be used to specify the folder path too. Default is "deltaAUC". The ".png"
 extension is automatically added to this string.}
 }
 \value{
-This function returns a list containing "deltaAUC", a vector of
+This function returns a list containing:
+\item{deltaAUC}{a vector of
 length maxK-1 where element i is  the area under the curve for
 K = i+1 minus the area under the curve for K = i (for i = 2 this
-is simply the area under the curve for K = i), and "K" the lowest
-among the values of K that are chosen by the algorithm.
+is simply the area under the curve for K = i)}
+\item{K}{the lowest among the values of K that are chosen by the algorithm.}
 }
 \description{
 This function allows to choose the number of clusters in a dataset

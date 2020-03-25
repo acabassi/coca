@@ -4,35 +4,45 @@
 \alias{fillMOC}
 \title{Fill Matrix-Of-Clusters}
 \usage{
-fillMOC(clLabels, computeAccuracy = FALSE, verbose = FALSE, data = NULL)
+fillMOC(clLabels, data, computeAccuracy = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{clLabels}{N X M matrix containing cluster labels. Element (n,m)
 contains the cluster label for element data point n in cluster m.}
 
+\item{data}{List of M datasets to be used for the label imputation.}
+
 \item{computeAccuracy}{Boolean. If TRUE, for each missing element, the
 performance of the predictive model used to estimate the corresponding
-missing label is computer.}
+missing label is computer. Default is FALSE.}
 
 \item{verbose}{Boolean. If TRUE, for each NA, the size of the matrix used to
-estimate its values is printed to screen}
-
-\item{data}{List of M datasets to be used for the label imputation if
-fullData is TRUE.}
+estimate its values is printed to screen. Default is FALSE.}
 }
 \value{
-The output is the same matrix of clusters, where NAs have been
-replaced by their estimates, where possible. If "computeAccuracy" is TRUE,
-then also an object called "accuracy" is returned, where each element
+The output is a list containing:
+\item{fullClLabels}{the same matrix of clusters as the input matrix
+\code{clLabels}, where NAs have been replaced by their estimates, where
+possible.}
+\item{nRows}{matrix where the item in position \code{(i,j)} indicates the
+number of observations used in the predictive model used to estimate  the
+corresponding missing label in the \code{fullClLabels} matrix.}
+\item{nColumns}{number of covariates used in the predictive model used to
+estimate each missing label.}
+\item{accuracy}{a matrix where each element
 corresponds to the predictive accuracy of the predictive model used to
-estimate the corresponding label in the cluster label matrix. In order to
-compare the predictive accuracy of the imputation algorithm,
-"accuracy_random" is also returned.
+estimate the corresponding label in the cluster label matrix. This is only
+returned if the argument \code{computeAccuracy} is set to \code{TRUE}.}
+\item{accuracy_random}{This is computed in the same way as \code{accuracy},
+but with the labels randomly shuffled. This can be used in order to compare
+the predictive accuracy of the imputation algorithm and is returned only if
+the argument \code{computeAccuracy} is set to \code{TRUE}.}
 }
 \description{
 This function fills in a matrix of clusters that contains NAs, by estimating
 the missing cluster labels based on the available ones or based on the other
-datasets.
+datasets. The predictive accuracy of this method can also be estimated via
+cross-validation.
 }
 \examples{
 # Load data
@@ -51,7 +61,7 @@ outputBuildMOC <- buildMOC(data, M = 3, K = 6, distances = "cor")
 clLabels <- outputBuildMOC$clLabels
 
 # Impute missing values using full datasets
-outputFillMOC <- fillMOC(clLabels, data = data)
+outputFillMOC <- fillMOC(clLabels, data)
 
 # Extract full matrix of cluster labels
 clLabels2 <- outputFillMOC$fullClLabels

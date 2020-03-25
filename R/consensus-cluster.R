@@ -12,7 +12,7 @@
 #' medoids. Default is "hclust". However, if the data contain at least one
 #' covariate that is a factor, the default clustering algorithm is "pam".
 #' @param hclustMethod Hierarchical clustering method. Default is "average". For
-#' more details see ?hclust.
+#' more details see \code{?hclust}.
 #' @param maxIterKM Number of iterations for the k-means clustering algorithm.
 #' @param dist Distance used for hierarchical clustering. Can be "pearson" (for
 #' 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), any of

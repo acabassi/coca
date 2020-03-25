@@ -1,8 +1,8 @@
 #' Compute Area Under the Curve (AUC)
 #'
-#' This function allows to compute the area under the curve of the
-#' empirical distribution function of a consensus matrix
-#' as described in Monti et al. (2003), Section 3.3.1.
+#' This function allows to compute the area under the curve of the empirical
+#' distribution function of a consensus matrix as described in Monti et al.
+#' (2003), Section 3.3.1.
 #'
 #' @param consensusMatrix Consensus matrix, output of the
 #' "coca::consensusCluster" function.
@@ -24,7 +24,7 @@ computeAUC <- function(consensusMatrix) {
 
 #' Plot area under the curve
 #'
-#' Plot area under the curve for different values of K
+#' Plot area under the curve for different values of K.
 #' @param deltaAUC Vector of the difference between the area under the curve
 #' between each value K of the number of clusters and K-1. For the smallest
 #' value considered (usually two) this is simply the area under the curve for
@@ -32,7 +32,6 @@ computeAUC <- function(consensusMatrix) {
 #' @param chosenK Chosen number of clusters. If specified, a vertical line is
 #' plotted in correspondance of the indicated value. Default is NULL.
 #' @param fileName name of the png file
-#' @return invisible(0)
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @keywords internal
 #'
@@ -42,9 +41,6 @@ plotDeltaAUC <-
              fileName = "deltaAUC.png") {
 
     maxK <- length(deltaAUC) + 1
-
-    if (!dir.exists("delta-auc"))
-        dir.create("delta-auc", showWarnings = FALSE)
 
     fileName <- paste(fileName, ".png", sep = "")
     grDevices::png(fileName, width = 400, height = 400)
@@ -57,7 +53,6 @@ plotDeltaAUC <-
         graphics::abline(v = chosenK)
     grDevices::dev.off()
 
-    invisible(0)
 }
 
 #' Choose number of clusters based on AUC
@@ -74,14 +69,15 @@ plotDeltaAUC <-
 #' @param savePNG Boolean. If TRUE, a plot of the area under the curve
 #' for each value of K is saved as a png file. The file is saved in a
 #' subdirectory of the working directory, called "delta-auc". Default is FALSE.
-#' @param fileName If "savePNG" is TRUE, this is the name of the png file.
+#' @param fileName If \code{savePNG} is TRUE, this is the name of the png file.
 #' Can be used to specify the folder path too. Default is "deltaAUC". The ".png"
 #' extension is automatically added to this string.
-#' @return This function returns a list containing "deltaAUC", a vector of
+#' @return This function returns a list containing:
+#' \item{deltaAUC}{a vector of
 #' length maxK-1 where element i is  the area under the curve for
 #' K = i+1 minus the area under the curve for K = i (for i = 2 this
-#' is simply the area under the curve for K = i), and "K" the lowest
-#' among the values of K that are chosen by the algorithm.
+#' is simply the area under the curve for K = i)}
+#' \item{K}{the lowest among the values of K that are chosen by the algorithm.}
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @examples
 #' # Assuming that we want to choose among any value of K (number of clusters)

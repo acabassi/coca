@@ -10,14 +10,14 @@
 #' column of labels corresponds. If NULL, datasetNames will be the same as
 #' datasetIndicator. Default is NULL.
 #' @param annotations Dataframe containing annotations. Number of rows must be
-#' N. If the annotations are integers, use `as.factor()` for a better visual
-#' result.
+#' N. If the annotations are integers, use \code{as.factor()} for a better
+#' visual result.
 #' @param clr Cluster rows. Default is FALSE.
 #' @param clc Cluster columns. Default is FALSE.
 #' @param savePNG Boolean. If TRUE, plot is saved as a png file.
-#' @param fileName If `savePNG` is TRUE, this is the string containing the name
-#' of the moc figure. Can be used to specify the folder path too. Default is
-#' "moc". The ".png" extension is automatically added to this string.
+#' @param fileName If \code{savePNG} is TRUE, this is the string containing the
+#' name of the moc figure. Can be used to specify the folder path too. Default
+#' is "moc". The ".png" extension is automatically added to this string.
 #' @param showObsNames Boolean. If TRUE, the plot will also include the column
 #' names (i.e. name of each observation). Default is FALSE, since there are
 #' usually too many columns.

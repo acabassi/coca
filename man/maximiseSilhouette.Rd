@@ -21,32 +21,35 @@ maximiseSilhouette(
 \item{kernelMatrix}{N X N X (maxK-1) array of kernel matrices.}
 
 \item{clLabels}{(maxK-1) X N matrix containing the clusterings obtained for
-different values of K}
+different values of K.}
 
 \item{maxK}{Maximum number of clusters considered.}
 
 \item{savePNG}{If TRUE, a plot of the silhouette is saved in the working
 folder. Defaults to FALSE.}
 
-\item{fileName}{If savePNG is TRUE, this is the name of the png file.}
+\item{fileName}{If \code{savePNG} is TRUE, this is the name of the png file.}
 
 \item{isDistance}{Boolean. If TRUE, the kernel matrices are interpreted as
 matrices of distances, otherwise as matrices of similarities.}
 
 \item{widestGap}{Boolean. If TRUE, also computes widest gap index (and plots
-it if savePNG is TRUE).}
+it if \code{savePNG} is TRUE).}
 
 \item{dunns}{Boolean. If TRUE, also computes Dunn's index: minimum separation
-/ maximum diameter (and plots it if savePNG is TRUE).}
+/ maximum diameter (and plots it if \code{savePNG} is TRUE).}
 
-\item{dunn2s}{Boolean. If TRUE, also computes an alternative version of
-Dunn's index: minimum average dissimilarity between two cluster / maximum
-average within cluster dissimilarity (and plots it if savePNG is TRUE).}
+\item{dunn2s}{Boolean. If \code{TRUE}, also computes an alternative version
+of Dunn's index: minimum average dissimilarity between two cluster / maximum
+average within cluster dissimilarity (and plots it if \code{savePNG} is
+\code{TRUE}).}
 }
 \value{
-The function returns a list containing `silh`, a vector of length
-maxK-1 such that silh[i] is the silhouette for K = i+1, and `K`, the lowest
-number of clusters for which the silhouette is maximised.
+The function returns a list containing:
+\item{silh}{a vector of length \code{maxK-1} such that \code{silh[i]} is the
+silhouette for \code{K = i+1}}
+\item{K}{the lowest number of clusters for which the silhouette is
+maximised.}
 }
 \description{
 Choose K that maximises the silhouette from a set of kernel matrices and

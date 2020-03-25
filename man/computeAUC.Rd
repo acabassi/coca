@@ -14,9 +14,9 @@ computeAUC(consensusMatrix)
 This function returns the area under the curve.
 }
 \description{
-This function allows to compute the area under the curve of the
-empirical distribution function of a consensus matrix
-as described in Monti et al. (2003), Section 3.3.1.
+This function allows to compute the area under the curve of the empirical
+distribution function of a consensus matrix as described in Monti et al.
+(2003), Section 3.3.1.
 }
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}

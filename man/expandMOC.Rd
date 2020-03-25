@@ -9,12 +9,13 @@ expandMOC(clLabels, datasetNames = NULL)
 \arguments{
 \item{clLabels}{Matrix of cluster labels of size N x M.}
 
-\item{datasetNames}{Vector of cluster names of length M. Default is null.}
+\item{datasetNames}{Vector of cluster names of length M. Default is NULL.}
 }
 \value{
-The output is a list containing the matrix of clusters `moc`, a
-vector containing the dataset indicator `datasetIndicator` and a vector of
-expanded `datasetNames` of length sum(K).
+The output is a list containing:
+\item{moc}{the matrix of clusters.}
+\item{datasetIndicator}{a vector containing the dataset indicator.}
+\item{datasetNames}{an expanded vector of dataset names for the moc.}
 }
 \description{
 Expand matrix of cluster labels into matrix of clusters
