@@ -38,8 +38,9 @@ clusterings — maximiseSilhouette • coca</title>
 
 <meta property="og:title" content="Choose K that maximises the silhouette from a set of kernel matrices and
 clusterings — maximiseSilhouette" />
-<meta property="og:description" content="Choose K that maximises the silhouette from a set of kernel matrices and
-clusterings" />
+<meta property="og:description" content="Choose the number of clusters K that maximises the silhouette, starting from
+a set of kernel matrices each corresponding to a different choice of K and
+the corresponding clusterings of the data for each of those values of K." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -137,8 +138,9 @@ clusterings</h1>
     </div>
 
     <div class="ref-description">
-    <p>Choose K that maximises the silhouette from a set of kernel matrices and
-clusterings</p>
+    <p>Choose the number of clusters K that maximises the silhouette, starting from
+a set of kernel matrices each corresponding to a different choice of K and
+the corresponding clusterings of the data for each of those values of K.</p>
     </div>
 
     <pre class="usage"><span class='fu'>maximiseSilhouette</span>(
@@ -195,10 +197,10 @@ it if <code>savePNG</code> is TRUE).</p></td>
     </tr>
     <tr>
       <th>dunn2s</th>
-      <td><p>Boolean. If <code>TRUE</code>, also computes an alternative version
+      <td><p>Boolean. If TRUE, also computes an alternative version
 of Dunn's index: minimum average dissimilarity between two cluster / maximum
 average within cluster dissimilarity (and plots it if <code>savePNG</code> is
-<code>TRUE</code>).</p></td>
+TRUE).</p></td>
     </tr>
     </table>
 

@@ -109,6 +109,10 @@ plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
 #' Choose K that maximises the silhouette from a set of kernel matrices and
 #' clusterings
 #'
+#' Choose the number of clusters K that maximises the silhouette, starting from
+#' a set of kernel matrices each corresponding to a different choice of K and
+#' the corresponding clusterings of the data for each of those values of K.
+#'
 #' @param kernelMatrix N X N X (maxK-1) array of kernel matrices.
 #' @param clLabels (maxK-1) X N matrix containing the clusterings obtained for
 #' different values of K.
@@ -122,10 +126,10 @@ plotDunn2s <- function(dunns, chosenK = NULL, fileName) {
 #' it if \code{savePNG} is TRUE).
 #' @param dunns Boolean. If TRUE, also computes Dunn's index: minimum separation
 #' / maximum diameter (and plots it if \code{savePNG} is TRUE).
-#' @param dunn2s Boolean. If \code{TRUE}, also computes an alternative version
+#' @param dunn2s Boolean. If TRUE, also computes an alternative version
 #' of Dunn's index: minimum average dissimilarity between two cluster / maximum
 #' average within cluster dissimilarity (and plots it if \code{savePNG} is
-#' \code{TRUE}).
+#' TRUE).
 #' @return The function returns a list containing:
 #' \item{silh}{a vector of length \code{maxK-1} such that \code{silh[i]} is the
 #' silhouette for \code{K = i+1}}

@@ -17,19 +17,20 @@
 #' \item{fullClLabels}{the same matrix of clusters as the input matrix
 #' \code{clLabels}, where NAs have been replaced by their estimates, where
 #' possible.}
-#' \item{nRows}{matrix where the item in position \code{(i,j)} indicates the
+#' \item{nRows}{matrix where the item in position (i,j) indicates the
 #' number of observations used in the predictive model used to estimate  the
 #' corresponding missing label in the \code{fullClLabels} matrix.}
-#' \item{nColumns}{number of covariates used in the predictive model used to
-#' estimate each missing label.}
+#' \item{nColumns}{matrix where the item in position (i,j) indicates the
+#' number of covariates used in the predictive model used to
+#' estimate the corresponding missing label in the \code{fullClLabels} matrix.}
 #' \item{accuracy}{a matrix where each element
 #' corresponds to the predictive accuracy of the predictive model used to
 #' estimate the corresponding label in the cluster label matrix. This is only
-#' returned if the argument \code{computeAccuracy} is set to \code{TRUE}.}
+#' returned if the argument \code{computeAccuracy} is set to TRUE.}
 #' \item{accuracy_random}{This is computed in the same way as \code{accuracy},
-#' but with the labels randomly shuffled. This can be used in order to compare
+#' but with the labels randomly shuffled. This can be used in order to assess
 #' the predictive accuracy of the imputation algorithm and is returned only if
-#' the argument \code{computeAccuracy} is set to \code{TRUE}.}
+#' the argument \code{computeAccuracy} is set to TRUE.}
 #' @author Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
 #' @references The Cancer Genome Atlas, 2012. Comprehensive molecular portraits
 #' of human breast tumours. Nature, 487(7407), pp.61–70.

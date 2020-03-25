@@ -39,10 +39,10 @@ it if \code{savePNG} is TRUE).}
 \item{dunns}{Boolean. If TRUE, also computes Dunn's index: minimum separation
 / maximum diameter (and plots it if \code{savePNG} is TRUE).}
 
-\item{dunn2s}{Boolean. If \code{TRUE}, also computes an alternative version
+\item{dunn2s}{Boolean. If TRUE, also computes an alternative version
 of Dunn's index: minimum average dissimilarity between two cluster / maximum
 average within cluster dissimilarity (and plots it if \code{savePNG} is
-\code{TRUE}).}
+TRUE).}
 }
 \value{
 The function returns a list containing:
@@ -52,8 +52,9 @@ silhouette for \code{K = i+1}}
 maximised.}
 }
 \description{
-Choose K that maximises the silhouette from a set of kernel matrices and
-clusterings
+Choose the number of clusters K that maximises the silhouette, starting from
+a set of kernel matrices each corresponding to a different choice of K and
+the corresponding clusterings of the data for each of those values of K.
 }
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
