@@ -9,7 +9,7 @@ You can install the latest released version of `coca` from [CRAN](https://cran.r
 ```R
 install.packages("coca")
 ```
-or the development version from [Github](https://github.com/) with
+or the development version from [GitHub](https://github.com/) with
 ```R
 library(devtools)
 install_github("acabassi/coca")
