@@ -5,3 +5,4 @@
 ^_pkgdown\.yaml$
 ^_config\.yml$
 ^vignettes/.*_cache
+^\.travis\.yml$
