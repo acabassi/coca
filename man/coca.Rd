@@ -88,7 +88,7 @@ clustered together and a vector of cluster labels.}
 \item{clusterLabels}{the final cluster labels.}
 \item{K}{the final number of clusters. If provided by the user, this is
 the same as the input. Otherwise, this is the number of clusters selected via
-the requested method (see argument "choiceKmethod").}
+the requested method (see argument \code{choiceKmethod}).}
 \item{consensusMatrices}{if returnAllMatrices = TRUE, this array
 also returned, containing the consensus matrices obtained for each of the
 numbers of clusters considered by the algorithm.}
@@ -124,8 +124,7 @@ clusterLabels <- outputCOCA$clusterLabels
 }
 \references{
 The Cancer Genome Atlas, 2012. Comprehensive molecular
-portraits of human breast tumours. Nature,
-487(7407), pp.61–70.
+portraits of human breast tumours. Nature, 487(7407), pp.61–70.
 
 Cabassi, A. and Kirk, P. D. W. (2019). Multiple kernel learning
 for integrative consensus clustering of 'omic datasets. arXiv preprint.

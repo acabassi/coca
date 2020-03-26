@@ -1,4 +1,4 @@
-n_elements_per_cluster <- 50
+n_elements_per_cluster <- 25
 n_clusters <- 5
 
 true_labels <- c(rep(1, n_elements_per_cluster),
