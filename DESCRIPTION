@@ -10,7 +10,7 @@ URL: http://github.com/acabassi/coca
 BugReports: http://github.com/acabassi/coca/issues
 Encoding: UTF-8
 LazyData: true
-Imports: stats, Matrix, cluster, RColorBrewer, caret, nnet, pheatmap, glmnet, fpc
-Suggests: knitr, mclust, rmarkdown, sparcl
+Imports: caret, cluster, fpc, glmnet, Matrix, nnet, pheatmap, RColorBrewer, sparcl, stats
+Suggests: knitr, mclust, rmarkdown
 RoxygenNote: 7.1.0
 VignetteBuilder: knitr
