@@ -135,8 +135,8 @@ consensusCluster <-
                 cl <- stats::cutree(hClustering, K)
             } else {
                 stop("Clustering algorithm name not recognised. Please choose
-                either `kmeans` for k-means clustering or `hclust` for
-                hierarchical clustering.")
+                     one of `kmeans`, `hclust`, `pam`, `sparse-kmeans`,
+                     `sparse-hclust`.")
             }
 
             # Update matrix containing counts of number of times each pair has
