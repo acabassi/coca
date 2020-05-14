@@ -114,7 +114,7 @@ consensusCluster <-
             } else if (clMethod == "kmeans" & !is.null(data)) {
               # Apply k-means to the subsample and extract cluster labels
                 cl <- stats::kmeans(
-                  data[items, ], K, iter.max = maxIterKM)$cluster
+                  data[items, ], K, iter.max = maxIterKM, nstart = 20)$cluster
             } else if (clMethod == "sparse-kmeans" & !is.null(data)) {
               if(is.null(sparseKmeansPenalty))
                 sparseKmeansPenalty = sqrt(P)
