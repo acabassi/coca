@@ -48,6 +48,7 @@ consensusCluster <-
            clMethod = "hclust",
            dist = "euclidean",
            hclustMethod = "average",
+           sparseKmeansPenalty = NULL,
            maxIterKM = 1000) {
 
     containsFactors <- 0
@@ -110,10 +111,13 @@ consensusCluster <-
               # Apply k-means to the subsample and extract cluster labels
                 cl <- stats::kmeans(
                   data[items, ], K, iter.max = maxIterKM)$cluster
-            } else if (clMethod == "sparse-kmeans") {
+            } else if (clMethod == "sparse-kmeans" & !is.null(data)) {
+              if(is.null(sparseKmeansPenalty))
+                sparseKmeansPenalty = sqrt(P)
+              cat("sparseKmeansPenalty", sparseKmeansPenalty, "\n")
               # Apply sparse k-means to the subsample and extract cluster labels
               cl <- sparcl::KMeansSparseCluster(
-                data[items,], K, wbounds = 10)[[1]]$Cs
+                data[items,], K, wbounds = sparseKmeansPenalty)[[1]]$Cs
             } else if (clMethod == "hclust" | clMethod == "sparse-hclust") {
                 if (dist == "pearson" | dist == "spearman") {
                   pearsonCor <- stats::cor(t(data[items, ]), method = dist)
