@@ -15,6 +15,10 @@
 #' algorithm is "pam".
 #' @param hclustMethod Hierarchical clustering method. Default is "average". For
 #' more details see \code{?hclust}.
+#' @param sparseKmeansPenalty If the selected clustering method is
+#' "sparse-kmeans", this is the value of the parameter "wbounds" of the
+#' "KMeansSparseCluster" function. The default value is the square root of the
+#' number of variables.
 #' @param maxIterKM Number of iterations for the k-means clustering algorithm.
 #' @param dist Distance used for hierarchical clustering. Can be "pearson" (for
 #' 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), any of

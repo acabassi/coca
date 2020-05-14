@@ -12,6 +12,7 @@ consensusCluster(
   clMethod = "hclust",
   dist = "euclidean",
   hclustMethod = "average",
+  sparseKmeansPenalty = NULL,
   maxIterKM = 1000
 )
 }
@@ -25,9 +26,11 @@ consensusCluster(
 \item{pItem}{Proportion of items sampled at each iteration.}
 
 \item{clMethod}{Clustering algorithm. Can be "hclust" for hierarchical
-clustering, "kmeans" for k-means clustering, or "pam" for partitioning around
-medoids. Default is "hclust". However, if the data contain at least one
-covariate that is a factor, the default clustering algorithm is "pam".}
+clustering, "kmeans" for k-means clustering, "pam" for partitioning around
+medoids, "sparse-kmeans" for sparse k-means clustering or "sparse-hclust"
+for sparse hierarchical clustering. Default is "hclust". However, if the data
+contain at least one covariate that is a factor, the default clustering
+algorithm is "pam".}
 
 \item{dist}{Distance used for hierarchical clustering. Can be "pearson" (for
 1 - Pearson correlation), "spearman" (for 1- Spearman correlation), any of
@@ -37,6 +40,11 @@ distances between the observations.}
 
 \item{hclustMethod}{Hierarchical clustering method. Default is "average". For
 more details see \code{?hclust}.}
+
+\item{sparseKmeansPenalty}{If the selected clustering method is
+"sparse-kmeans", this is the value of the parameter "wbounds" of the
+"KMeansSparseCluster" function. The default value is the square root of the
+number of variables.}
 
 \item{maxIterKM}{Number of iterations for the k-means clustering algorithm.}
 }
@@ -62,6 +70,10 @@ cm <- consensusCluster(data, K = 5)
 Monti, S., Tamayo, P., Mesirov, J. and Golub, T., 2003. Consensus
 clustering: a resampling-based method for class discovery and visualization
 of gene expression microarray data. Machine learning, 52(1-2), pp.91-118.
+
+Witten, D.M. and Tibshirani, R., 2010. A framework for feature
+selection in clustering. Journal of the American Statistical Association,
+105(490), pp.713-726.
 }
 \author{
 Alessandra Cabassi \email{alessandra.cabassi@mrc-bsu.cam.ac.uk}
