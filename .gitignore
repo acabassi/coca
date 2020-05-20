@@ -41,3 +41,4 @@ rsconnect/
 
 # Vignette cache
 vignettes/coca-vignette_cache/*
+.DS_Store
