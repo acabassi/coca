@@ -1,8 +1,8 @@
 citEntry(entry="Article",
 author = personList(as.person("Alessandra Cabassi"), as.person("Paul DW Kirk")),
 title = "Multiple kernel learning for integrative consensus clustering of genomic datasets.",
-year = "2019",
-url = "https://arxiv.org/abs/1904.07701",
-journal = "arXiv",
-textVersion="Cabassi, A. and Kirk, P.D., 2019. Multiple kernel learning for integrative consensus clustering of genomic datasets. arXiv preprint arXiv:1904.07701."
+year = "2020",
+url = "https://doi.org/10.1093/bioinformatics/btaa593",
+journal = "Bioinformatics",
+textVersion="Cabassi, A. and Kirk, P. D. W., 2020. Multiple kernel learning for integrative consensus clustering of genomic datasets. Bioinformatics, btaa593."
 )
