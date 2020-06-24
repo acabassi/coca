@@ -3,7 +3,7 @@ Title: Cluster-of-Clusters Analysis
 Version: 1.1.0
 Authors@R: c(person(given = "Alessandra", family = "Cabassi", email = "alessandra.cabassi@mrc-bsu.cam.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1605-652X")), person(given = "Paul DW", family = "Kirk", email = "paul.kirk@mrc-bsu.cam.ac.uk", role = c("ths"), comment = c(ORCID = "0000-0002-5931-7489")))
 Author: Alessandra Cabassi [aut, cre] (<https://orcid.org/0000-0003-1605-652X>), Paul DW Kirk [ths] (<https://orcid.org/0000-0002-5931-7489>)
-Description: Contains the R functions needed to perform Cluster-Of-Clusters Analysis (COCA)  and Consensus Clustering (CC). For further details please see Cabassi and Kirk (2019) <arXiv:1904.07701>.
+Description: Contains the R functions needed to perform Cluster-Of-Clusters Analysis (COCA)  and Consensus Clustering (CC). For further details please see Cabassi and Kirk (2020) <doi:10.1093/bioinformatics/btaa593>.
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 URL: http://github.com/acabassi/coca
